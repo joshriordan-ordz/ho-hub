@@ -757,6 +757,53 @@
     .dimensions-list .milestone-section:last-child {
       border-bottom: none;
     }
+  /* ── Mobile ── */
+  @media (max-width: 640px) {
+    header {
+      flex-wrap: wrap;
+      height: auto;
+      padding: 12px 16px;
+      gap: 8px;
+    }
+    nav {
+      order: 3;
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 2px;
+      scrollbar-width: none;
+    }
+    nav::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      font-size: 0.78em;
+      padding: 6px 12px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .header-badge { display: none; }
+    #noise-btn { order: 2; margin-left: auto; font-size: 0.72em; padding: 5px 12px; }
+
+    .tab-panel { padding: 16px; }
+
+    .section-heading { font-size: 1.1em; }
+
+    .section-title { min-width: 0; flex: 1; }
+    .section-progress { flex: 2; gap: 8px; }
+    .progress-count { font-size: 0.72em; white-space: nowrap; }
+    .progress-track { max-width: none; }
+
+    .section-rows { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .milestone-inner { min-width: 480px; }
+    .milestone-inner td, .milestone-inner th { padding: 8px 10px; font-size: 0.8em; }
+
+    .now-hero { grid-template-columns: 1fr; }
+
+    .stat-row { gap: 10px; }
+    .stat-card { padding: 12px 16px; }
+    .stat-card .value { font-size: 1.5em; }
+
+    .product-grid { grid-template-columns: 1fr; }
+  }
   </style>
 </head>
 <body>
