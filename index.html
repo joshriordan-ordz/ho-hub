@@ -1370,17 +1370,23 @@
   .stl-leg-item { display: flex; align-items: center; gap: 6px; }
   .stl-leg-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
-  /* slide 3 risks */
-  .slide-risks-list { display: flex; flex-direction: column; gap: 10px; flex: 1; margin: 12px 0; }
-  .slide-risk-row { display: flex; gap: 14px; align-items: flex-start; }
-  .slide-risk-badge {
-    flex-shrink: 0; padding: 4px 10px; border-radius: 5px;
-    font-size: 0.68em; font-weight: 800; letter-spacing: 0.05em; margin-top: 2px;
+  /* slide risks table */
+  table.srt {
+    width: 100%; border-collapse: collapse; flex: 1;
+    margin: 14px 0; font-size: 0.78em;
   }
-  .slide-risk-content { flex: 1; }
-  .slide-risk-desc { font-size: 0.82em; font-weight: 600; margin-bottom: 4px; }
-  .slide-risk-meta { display: flex; gap: 12px; font-size: 0.68em; flex-wrap: wrap; }
-  .slide-risk-cat { color: rgba(250,250,250,0.4); }
+  table.srt th {
+    background: rgba(240,80,248,0.12); color: rgba(250,250,250,0.55);
+    font-size: 0.72em; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 10px 12px; text-align: left; border-bottom: 1px solid rgba(240,80,248,0.25);
+  }
+  table.srt td {
+    padding: 11px 12px; vertical-align: top;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 0.82em; line-height: 1.5; color: rgba(250,250,250,0.85);
+  }
+  table.srt tbody tr:last-child td { border-bottom: none; }
+  table.srt tbody tr:hover td { background: rgba(255,255,255,0.03); }
 
   @media print {
     body > * { display: none !important; }
@@ -3686,21 +3692,24 @@
 
     const risks = [];
     section.querySelectorAll('.risk-tbl tbody tr').forEach((row, i) => {
-      if (i >= 5) return;
+      if (i >= 6) return;
       const c = row.querySelectorAll('td');
       if (c.length >= 6) risks.push({
-        desc: c[0].textContent.trim(), cat: c[1].textContent.trim(),
-        lik:  c[2].textContent.trim(), impact: c[3].textContent.trim(),
-        owner: c[4].textContent.trim(), status: c[6]?.textContent.trim() || ''
+        desc:       c[0].textContent.trim(),
+        cat:        c[1].textContent.trim(),
+        lik:        c[2].textContent.trim(),
+        impact:     c[3].textContent.trim(),
+        owner:      c[4].textContent.trim(),
+        mitigation: c[5].textContent.trim(),
+        status:     c[6]?.textContent.trim() || ''
       });
     });
 
     const today    = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
     const subtitle = [cdl, golive, region, isPilot ? '🧪 NAm Pilot' : ''].filter(Boolean).join(' · ');
 
-    document.getElementById('slide-modal-title').textContent = client + ' — 3 slides';
+    document.getElementById('slide-modal-title').textContent = client + ' — 2 slides';
     document.getElementById('slide-container').innerHTML =
-      buildStatusSlide({ client, health, healthColor, subtitle, outcomes, risks, today }) +
       buildTimelineSlide({ client, timeline, today }) +
       buildRisksSlide({ client, risks, today });
 
@@ -3786,7 +3795,7 @@
     }).join('');
 
     return `
-      <div class="slide-label">Slide 2 of 3 — 6-Week Delivery Timeline</div>
+      <div class="slide-label">Slide 1 of 2 — 6-Week Delivery Timeline</div>
       <div class="slide">
         <div class="slide-header">
           <span class="slide-brand">🐙 Kraken</span>
@@ -3810,8 +3819,8 @@
   }
 
   function buildRisksSlide({ client, risks, today }) {
-    const risksHtml = risks.length === 0
-      ? '<div class="slide-empty">No risks currently logged for this migration.</div>'
+    const bodyHtml = risks.length === 0
+      ? `<tr><td colspan="4" style="text-align:center; color:rgba(250,250,250,0.35); padding:24px">No risks currently logged</td></tr>`
       : risks.map(r => {
           const isHigh = r.lik === 'H' && r.impact === 'H';
           const isLow  = r.lik === 'L' && r.impact === 'L';
@@ -3819,21 +3828,20 @@
           const rc     = rating === 'HIGH' ? '#f87171' : rating === 'MED' ? '#fb923c' : '#34CD71';
           const sc     = r.status === 'Open' ? '#fb923c' : r.status === 'Closed' ? '#34CD71' : '#7ED4F9';
           return `
-            <div class="slide-risk-row">
-              <div class="slide-risk-badge" style="background:${rc}18; color:${rc}; border:1px solid ${rc}40">${rating}</div>
-              <div class="slide-risk-content">
-                <div class="slide-risk-desc">${r.desc}</div>
-                <div class="slide-risk-meta">
-                  <span class="slide-risk-cat">${r.cat}</span>
-                  <span style="color:rgba(250,250,250,0.45)">Owner: ${r.owner}</span>
-                  <span style="color:${sc}">${r.status}</span>
-                </div>
-              </div>
-            </div>`;
+            <tr>
+              <td style="font-weight:600">${r.desc}</td>
+              <td style="text-align:center">
+                <span style="display:inline-block; padding:3px 10px; border-radius:4px;
+                  background:${rc}18; color:${rc}; border:1px solid ${rc}40;
+                  font-size:0.72em; font-weight:800; letter-spacing:0.04em">${rating}</span>
+              </td>
+              <td style="color:rgba(250,250,250,0.8)">${r.mitigation || '—'}</td>
+              <td style="text-align:center; color:${sc}; font-size:0.78em; font-weight:600">${r.status}</td>
+            </tr>`;
         }).join('');
 
     return `
-      <div class="slide-label">Slide 3 of 3 — Key Risks &amp; Issues</div>
+      <div class="slide-label">Slide 2 of 2 — Key Risks &amp; Issues</div>
       <div class="slide">
         <div class="slide-header">
           <span class="slide-brand">🐙 Kraken</span>
@@ -3842,7 +3850,17 @@
         <div class="slide-title-row">
           <h1 class="slide-h1">${client} — Key Risks &amp; Issues</h1>
         </div>
-        <div class="slide-risks-list">${risksHtml}</div>
+        <table class="srt">
+          <thead>
+            <tr>
+              <th style="width:30%">Observed</th>
+              <th style="width:10%">Impact</th>
+              <th style="width:48%">Mitigation</th>
+              <th style="width:12%">Status</th>
+            </tr>
+          </thead>
+          <tbody>${bodyHtml}</tbody>
+        </table>
         <div class="slide-footer">Outcome-focused delivery · Global H&amp;O · Prepared with Kraken H&amp;O Hub</div>
       </div>`;
   }
