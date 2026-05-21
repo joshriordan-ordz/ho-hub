@@ -1329,6 +1329,59 @@
   }
   .slide-label { font-size: 0.62em; color: rgba(250,250,250,0.3); text-align: center; margin-top: -16px; padding-bottom: 4px; }
 
+  /* slide 1 narrative */
+  .slide-narrative {
+    font-size: 0.82em; line-height: 1.6; color: rgba(250,250,250,0.75);
+    background: rgba(255,255,255,0.04); border-left: 3px solid #F050F8;
+    border-radius: 0 6px 6px 0; padding: 10px 14px; margin: 8px 0 14px;
+  }
+
+  /* slide 2 timeline grid */
+  .stl-grid {
+    display: grid;
+    grid-template-columns: 110px repeat(6, 1fr);
+    gap: 1px; background: rgba(255,255,255,0.07);
+    border-radius: 6px; overflow: hidden; flex: 1; margin: 12px 0;
+  }
+  .stl-corner { background: rgba(255,255,255,0.04); padding: 8px 10px; }
+  .stl-hdr {
+    background: rgba(255,255,255,0.06); padding: 8px 6px;
+    font-size: 0.68em; font-weight: 700; color: rgba(250,250,250,0.6);
+    text-align: center; letter-spacing: 0.03em;
+  }
+  .stl-row-label {
+    background: rgba(255,255,255,0.04); padding: 10px 10px;
+    font-size: 0.72em; font-weight: 700; color: rgba(250,250,250,0.7);
+    display: flex; align-items: center;
+  }
+  .stl-cell {
+    background: #100030; padding: 6px 5px;
+    display: flex; align-items: center; justify-content: center; min-height: 42px;
+  }
+  .stl-chip {
+    padding: 3px 8px; border-radius: 4px; font-size: 0.65em;
+    font-weight: 600; line-height: 1.4; text-align: center;
+    max-width: 100%; word-break: break-word;
+  }
+  .stl-legend {
+    display: flex; gap: 18px; margin-top: 4px;
+    font-size: 0.68em; color: rgba(250,250,250,0.5);
+  }
+  .stl-leg-item { display: flex; align-items: center; gap: 6px; }
+  .stl-leg-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  /* slide 3 risks */
+  .slide-risks-list { display: flex; flex-direction: column; gap: 10px; flex: 1; margin: 12px 0; }
+  .slide-risk-row { display: flex; gap: 14px; align-items: flex-start; }
+  .slide-risk-badge {
+    flex-shrink: 0; padding: 4px 10px; border-radius: 5px;
+    font-size: 0.68em; font-weight: 800; letter-spacing: 0.05em; margin-top: 2px;
+  }
+  .slide-risk-content { flex: 1; }
+  .slide-risk-desc { font-size: 0.82em; font-weight: 600; margin-bottom: 4px; }
+  .slide-risk-meta { display: flex; gap: 12px; font-size: 0.68em; flex-wrap: wrap; }
+  .slide-risk-cat { color: rgba(250,250,250,0.4); }
+
   @media print {
     body > * { display: none !important; }
     #slide-modal {
@@ -3609,19 +3662,31 @@
       outcomes.push({ title, statement, total: items.length, done, inProg, atRisk });
     });
 
-    const outlookItems = [];
-    section.querySelectorAll('.outlook-task').forEach(t => {
-      const text = t.textContent.trim();
-      if (text) outlookItems.push({
-        text,
-        isAtRisk:  t.classList.contains('ot-at-risk'),
-        isOnTrack: t.classList.contains('ot-on-track')
+    // Scrape 6-week timeline as structured rows (label + 6 week cells)
+    const timeline = { headers: [], rows: [] };
+    const grid = section.querySelector('.outlook-grid');
+    if (grid) {
+      timeline.headers = Array.from(grid.querySelectorAll('.outlook-header-cell')).slice(1).map(h => h.textContent.trim());
+      grid.querySelectorAll('.outlook-label').forEach(label => {
+        const cells = [];
+        let next = label.nextElementSibling;
+        while (next && next.classList.contains('outlook-cell')) {
+          const task = next.querySelector('.outlook-task');
+          cells.push(task ? {
+            text:   task.textContent.trim(),
+            status: task.classList.contains('ot-on-track') ? 'on-track'
+                  : task.classList.contains('ot-at-risk')  ? 'at-risk'
+                  : 'upcoming'
+          } : null);
+          next = next.nextElementSibling;
+        }
+        timeline.rows.push({ name: label.textContent.trim(), cells });
       });
-    });
+    }
 
     const risks = [];
     section.querySelectorAll('.risk-tbl tbody tr').forEach((row, i) => {
-      if (i >= 4) return;
+      if (i >= 5) return;
       const c = row.querySelectorAll('td');
       if (c.length >= 6) risks.push({
         desc: c[0].textContent.trim(), cat: c[1].textContent.trim(),
@@ -3630,19 +3695,42 @@
       });
     });
 
-    const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    const today    = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
     const subtitle = [cdl, golive, region, isPilot ? '🧪 NAm Pilot' : ''].filter(Boolean).join(' · ');
 
-    document.getElementById('slide-modal-title').textContent = client + ' — 2 slides';
+    document.getElementById('slide-modal-title').textContent = client + ' — 3 slides';
     document.getElementById('slide-container').innerHTML =
-      buildStatusSlide({ client, health, healthColor, subtitle, outcomes, today }) +
-      buildOutlookSlide({ client, outlookItems, risks, today });
+      buildStatusSlide({ client, health, healthColor, subtitle, outcomes, risks, today }) +
+      buildTimelineSlide({ client, timeline, today }) +
+      buildRisksSlide({ client, risks, today });
 
     document.getElementById('slide-modal').classList.remove('hidden');
     document.body.style.overflow = 'hidden';
   }
 
-  function buildStatusSlide({ client, health, healthColor, subtitle, outcomes, today }) {
+  function buildStatusSlide({ client, health, healthColor, subtitle, outcomes, risks, today }) {
+    // Auto-generate executive narrative from data
+    const doneCount   = outcomes.reduce((a, o) => a + o.done, 0);
+    const totalCount  = outcomes.reduce((a, o) => a + o.total, 0);
+    const atRiskAreas = outcomes.filter(o => o.atRisk > 0).length;
+    const openRisks   = risks.filter(r => r.status === 'Open').length;
+    const highRisks   = risks.filter(r => r.lik === 'H' || r.impact === 'H').length;
+
+    let narrative = '';
+    if (health === 'On Track')    narrative = `The ${client} migration is progressing well across all four outcome areas.`;
+    else if (health === 'At Risk')  narrative = `The ${client} migration is facing delivery pressures that require SteerCo awareness and support.`;
+    else if (health === 'Blocked')  narrative = `The ${client} migration has blockers in place that require immediate SteerCo decision to unblock delivery.`;
+    else                            narrative = `The ${client} migration programme is now underway with foundational activity in progress.`;
+
+    if (totalCount > 0) {
+      narrative += ` ${doneCount} of ${totalCount} milestones are complete`;
+      if (atRiskAreas > 0) narrative += `, with ${atRiskAreas} outcome area${atRiskAreas > 1 ? 's' : ''} carrying items at risk`;
+      narrative += '.';
+    }
+    if (openRisks > 0) {
+      narrative += ` ${openRisks} risk${openRisks > 1 ? 's' : ''} are currently open${highRisks > 0 ? `, of which ${highRisks} are rated High impact` : ''} — mitigation plans are in place.`;
+    }
+
     const cards = outcomes.map(o => {
       const col   = OUTCOME_COLORS[o.title] || '#D1D2D3';
       const pct   = o.total ? Math.round(o.done / o.total * 100) : 0;
@@ -3659,8 +3747,9 @@
           <div class="slide-outcome-counts">${parts.join(' · ')}</div>
         </div>`;
     }).join('');
+
     return `
-      <div class="slide-label">Slide 1 of 2 — Migration Status</div>
+      <div class="slide-label">Slide 1 of 3 — Executive Status</div>
       <div class="slide">
         <div class="slide-header">
           <span class="slide-brand">🐙 Kraken</span>
@@ -3671,56 +3760,89 @@
           <span class="slide-health-badge" style="color:${healthColor}; border-color:${healthColor}50; background:${healthColor}18;">● ${health}</span>
         </div>
         <div class="slide-subtitle">${subtitle}</div>
+        <div class="slide-narrative">${narrative}</div>
         <div class="slide-outcome-grid">${cards}</div>
         <div class="slide-footer">Outcome-focused delivery · Global H&amp;O · Prepared with Kraken H&amp;O Hub</div>
       </div>`;
   }
 
-  function buildOutlookSlide({ client, outlookItems, risks, today }) {
-    const outlookHtml = outlookItems.length === 0
-      ? '<div class="slide-empty">No active deliverables in 6-week window</div>'
-      : outlookItems.slice(0, 9).map(i => {
-          const col = i.isAtRisk ? '#fb923c' : i.isOnTrack ? '#34CD71' : 'rgba(255,255,255,0.18)';
-          const icon = i.isAtRisk ? '⚠' : i.isOnTrack ? '✓' : '○';
-          return `<div class="slide-outlook-item" style="border-left-color:${col}">
-            <span style="color:${col}; flex-shrink:0">${icon}</span><span>${i.text}</span></div>`;
-        }).join('');
+  function buildTimelineSlide({ client, timeline, today }) {
+    const STATUS_COLOR = { 'on-track': '#34CD71', 'at-risk': '#fb923c', 'upcoming': 'rgba(250,250,250,0.45)' };
+    const STATUS_BG    = { 'on-track': 'rgba(52,205,113,0.15)', 'at-risk': 'rgba(251,146,60,0.15)', 'upcoming': 'rgba(255,255,255,0.05)' };
 
-    const risksHtml = risks.length === 0
-      ? '<div class="slide-empty">No risks logged</div>'
-      : risks.map(r => {
-          const lc = r.lik    === 'H' ? '#f87171' : r.lik    === 'M' ? '#fb923c' : '#34CD71';
-          const ic = r.impact === 'H' ? '#f87171' : r.impact === 'M' ? '#fb923c' : '#34CD71';
-          const sc = r.status === 'Open' ? '#fb923c' : '#34CD71';
-          return `<div class="slide-risk-item">
-            <div class="slide-risk-desc">${r.desc}</div>
-            <div class="slide-risk-meta">
-              <span class="slide-risk-cat">${r.cat}</span>
-              <span style="color:${lc}">L: ${r.lik}</span>
-              <span style="color:${ic}">I: ${r.impact}</span>
-              <span style="color:rgba(250,250,250,0.45)">${r.owner}</span>
-              <span style="color:${sc}">${r.status}</span>
-            </div></div>`;
-        }).join('');
+    const defaultHdrs = ['W1','W2','W3','W4','W5','W6'];
+    const headers = (timeline.headers.length ? timeline.headers : defaultHdrs)
+      .map(h => `<div class="stl-hdr">${h}</div>`).join('');
+
+    const rows = timeline.rows.map(row => {
+      const cells = Array.from({ length: 6 }, (_, i) => {
+        const cell = row.cells[i];
+        if (!cell) return '<div class="stl-cell"></div>';
+        const col = STATUS_COLOR[cell.status] || '#D1D2D3';
+        const bg  = STATUS_BG[cell.status]    || 'rgba(255,255,255,0.05)';
+        return `<div class="stl-cell"><span class="stl-chip" style="color:${col}; background:${bg}">${cell.text}</span></div>`;
+      }).join('');
+      return `<div class="stl-row-label">${row.name}</div>${cells}`;
+    }).join('');
 
     return `
-      <div class="slide-label">Slide 2 of 2 — Outlook &amp; Risks</div>
+      <div class="slide-label">Slide 2 of 3 — 6-Week Delivery Timeline</div>
       <div class="slide">
         <div class="slide-header">
           <span class="slide-brand">🐙 Kraken</span>
           <span class="slide-date">${today}</span>
         </div>
-        <h1 class="slide-h1" style="margin-bottom:16px">${client} — 6-Week Outlook &amp; Key Risks</h1>
-        <div class="slide-two-col">
-          <div>
-            <div class="slide-col-title">6-Week Outlook</div>
-            ${outlookHtml}
-          </div>
-          <div>
-            <div class="slide-col-title">Key Risks</div>
-            ${risksHtml}
-          </div>
+        <div class="slide-title-row">
+          <h1 class="slide-h1">${client} — 6-Week Delivery Plan</h1>
         </div>
+        <div class="stl-grid">
+          <div class="stl-corner"></div>
+          ${headers}
+          ${rows}
+        </div>
+        <div class="stl-legend">
+          <span class="stl-leg-item"><span class="stl-leg-dot" style="background:#34CD71"></span>On Track</span>
+          <span class="stl-leg-item"><span class="stl-leg-dot" style="background:#fb923c"></span>At Risk</span>
+          <span class="stl-leg-item"><span class="stl-leg-dot" style="background:rgba(255,255,255,0.3)"></span>Upcoming</span>
+        </div>
+        <div class="slide-footer">Outcome-focused delivery · Global H&amp;O · Prepared with Kraken H&amp;O Hub</div>
+      </div>`;
+  }
+
+  function buildRisksSlide({ client, risks, today }) {
+    const risksHtml = risks.length === 0
+      ? '<div class="slide-empty">No risks currently logged for this migration.</div>'
+      : risks.map(r => {
+          const isHigh = r.lik === 'H' && r.impact === 'H';
+          const isLow  = r.lik === 'L' && r.impact === 'L';
+          const rating = isHigh ? 'HIGH' : isLow ? 'LOW' : 'MED';
+          const rc     = rating === 'HIGH' ? '#f87171' : rating === 'MED' ? '#fb923c' : '#34CD71';
+          const sc     = r.status === 'Open' ? '#fb923c' : r.status === 'Closed' ? '#34CD71' : '#7ED4F9';
+          return `
+            <div class="slide-risk-row">
+              <div class="slide-risk-badge" style="background:${rc}18; color:${rc}; border:1px solid ${rc}40">${rating}</div>
+              <div class="slide-risk-content">
+                <div class="slide-risk-desc">${r.desc}</div>
+                <div class="slide-risk-meta">
+                  <span class="slide-risk-cat">${r.cat}</span>
+                  <span style="color:rgba(250,250,250,0.45)">Owner: ${r.owner}</span>
+                  <span style="color:${sc}">${r.status}</span>
+                </div>
+              </div>
+            </div>`;
+        }).join('');
+
+    return `
+      <div class="slide-label">Slide 3 of 3 — Key Risks &amp; Issues</div>
+      <div class="slide">
+        <div class="slide-header">
+          <span class="slide-brand">🐙 Kraken</span>
+          <span class="slide-date">${today}</span>
+        </div>
+        <div class="slide-title-row">
+          <h1 class="slide-h1">${client} — Key Risks &amp; Issues</h1>
+        </div>
+        <div class="slide-risks-list">${risksHtml}</div>
         <div class="slide-footer">Outcome-focused delivery · Global H&amp;O · Prepared with Kraken H&amp;O Hub</div>
       </div>`;
   }
