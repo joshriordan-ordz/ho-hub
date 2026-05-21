@@ -818,7 +818,7 @@
     <button class="tab-btn" onclick="showTab('products', this)">Human and Org Products</button>
     <button class="tab-btn" onclick="showTab('migrations', this)">Human and Org Migration Status</button>
   </nav>
-  <button id="noise-btn" class="noise-btn" onclick="toggleNoise()">Kill the Noise</button>
+  <button id="noise-btn" class="noise-btn quiet" onclick="toggleNoise()">Unleash the Chaos</button>
   <a class="board-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854" target="_blank">
     HO Leadership Board ↗
   </a>
@@ -829,7 +829,7 @@
   <!-- ══════════════════════════════════
        TAB 1: TRANSFORMATION
   ══════════════════════════════════ -->
-  <div id="tab-transformation" class="tab-panel active">
+  <div id="tab-transformation" class="tab-panel active noise-killed">
 
     <div class="section-heading">HOT Transformation Progress Status</div>
     <p class="section-sub">A dose of our own potent medicine — status of the Human &amp; Org transformation across all six dimensions.</p>
@@ -936,7 +936,7 @@
           </div>
           <span class="section-chevron" id="chev-north-star">▼</span>
         </div>
-        <div class="section-rows" id="rows-north-star">
+        <div class="section-rows hidden" id="rows-north-star">
           <table class="milestone-inner">
             <thead><tr>
               <th>Deliverable</th>
@@ -997,7 +997,7 @@
           </div>
           <span class="section-chevron" id="chev-structure">▼</span>
         </div>
-        <div class="section-rows" id="rows-structure">
+        <div class="section-rows hidden" id="rows-structure">
           <table class="milestone-inner">
             <thead><tr>
               <th>Deliverable</th>
@@ -1050,7 +1050,7 @@
           </div>
           <span class="section-chevron" id="chev-wow">▼</span>
         </div>
-        <div class="section-rows" id="rows-wow">
+        <div class="section-rows hidden" id="rows-wow">
           <table class="milestone-inner">
             <thead><tr>
               <th>Deliverable</th>
@@ -1092,7 +1092,7 @@
           </div>
           <span class="section-chevron" id="chev-people">▼</span>
         </div>
-        <div class="section-rows" id="rows-people">
+        <div class="section-rows hidden" id="rows-people">
           <table class="milestone-inner">
             <thead><tr>
               <th>Deliverable</th>
@@ -1148,7 +1148,7 @@
           </div>
           <span class="section-chevron" id="chev-tech">▼</span>
         </div>
-        <div class="section-rows" id="rows-tech">
+        <div class="section-rows hidden" id="rows-tech">
           <table class="milestone-inner">
             <thead><tr>
               <th>Deliverable</th>
@@ -1190,7 +1190,7 @@
           </div>
           <span class="section-chevron" id="chev-best">▼</span>
         </div>
-        <div class="section-rows" id="rows-best">
+        <div class="section-rows hidden" id="rows-best">
           <table class="milestone-inner">
             <thead><tr>
               <th>Deliverable</th>
@@ -1837,7 +1837,7 @@
     const killing = !tab.classList.contains('noise-killed');
 
     tab.classList.toggle('noise-killed', killing);
-    btn.textContent = killing ? 'Show Everything' : 'Kill the Noise';
+    btn.textContent = killing ? 'Unleash the Chaos' : 'Kill the Noise';
     btn.classList.toggle('quiet', killing);
 
     SECTION_IDS.forEach(id => {
