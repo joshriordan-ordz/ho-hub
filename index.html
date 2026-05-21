@@ -878,6 +878,32 @@
   }
 
   /* ── Migration Reporting ── */
+  .mig-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .mig-filter-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: 0.8em;
+    font-weight: 500;
+    padding: 6px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: color 0.15s, background 0.15s, border-color 0.15s;
+    letter-spacing: 0.01em;
+  }
+  .mig-filter-btn:hover { background: var(--surface-hover); color: var(--text); }
+  .mig-filter-btn.active {
+    background: var(--indigo-dim);
+    border-color: var(--indigo-border);
+    color: var(--indigo-light);
+  }
+
   .mig-section {
     margin-bottom: 8px;
     border: 1px solid var(--border);
@@ -2161,10 +2187,18 @@
       </div>
     </div>
 
+    <div class="mig-filters" id="mig-filters">
+      <button class="mig-filter-btn active" onclick="filterMigs('all', this)">All regions</button>
+      <button class="mig-filter-btn" onclick="filterMigs('nam', this)">North America</button>
+      <button class="mig-filter-btn" onclick="filterMigs('n-europe', this)">N Europe</button>
+      <button class="mig-filter-btn" onclick="filterMigs('uki', this)">UK &amp; Ireland</button>
+      <button class="mig-filter-btn" onclick="filterMigs('s-europe', this)">S Europe</button>
+    </div>
+
     <!-- ══════════════════════
          1. PGE (NAm) — pilot
     ══════════════════════ -->
-    <div class="mig-section">
+    <div class="mig-section" data-region="nam">
       <div class="mig-header" onclick="toggleMig('pge')">
         <span class="mig-client">PGE</span>
         <span class="pilot-badge">🧪 NAm Pilot</span>
@@ -2291,7 +2325,7 @@
     <!-- ══════════════════════
          2. National Grid (NAm) — pilot
     ══════════════════════ -->
-    <div class="mig-section">
+    <div class="mig-section" data-region="nam">
       <div class="mig-header" onclick="toggleMig('natgrid')">
         <span class="mig-client">National Grid</span>
         <span class="pilot-badge">🧪 NAm Pilot</span>
@@ -2415,7 +2449,7 @@
     <!-- ══════════════════════
          3. Norlys (N Europe)
     ══════════════════════ -->
-    <div class="mig-section">
+    <div class="mig-section" data-region="n-europe">
       <div class="mig-header" onclick="toggleMig('norlys')">
         <span class="mig-client">Norlys</span>
         <div class="mig-meta">
@@ -2536,7 +2570,7 @@
     <!-- ══════════════════════
          4. VBD (N Europe)
     ══════════════════════ -->
-    <div class="mig-section">
+    <div class="mig-section" data-region="n-europe">
       <div class="mig-header" onclick="toggleMig('vbd')">
         <span class="mig-client">VBD</span>
         <div class="mig-meta">
@@ -2656,7 +2690,7 @@
     <!-- ══════════════════════
          5. EWI (UK)
     ══════════════════════ -->
-    <div class="mig-section">
+    <div class="mig-section" data-region="uki">
       <div class="mig-header" onclick="toggleMig('ewi')">
         <span class="mig-client">EWI</span>
         <div class="mig-meta">
@@ -2776,7 +2810,7 @@
     <!-- ══════════════════════
          6. Electric Ireland (UKI)
     ══════════════════════ -->
-    <div class="mig-section">
+    <div class="mig-section" data-region="uki">
       <div class="mig-header" onclick="toggleMig('ei')">
         <span class="mig-client">Electric Ireland</span>
         <div class="mig-meta">
@@ -2898,7 +2932,7 @@
     <!-- ══════════════════════
          7. TotalEnergies ES (S Europe)
     ══════════════════════ -->
-    <div class="mig-section">
+    <div class="mig-section" data-region="s-europe">
       <div class="mig-header" onclick="toggleMig('te')">
         <span class="mig-client">TotalEnergies ES</span>
         <div class="mig-meta">
@@ -3018,7 +3052,7 @@
     <!-- ══════════════════════
          8. Plenitude France (S Europe)
     ══════════════════════ -->
-    <div class="mig-section">
+    <div class="mig-section" data-region="s-europe">
       <div class="mig-header" onclick="toggleMig('plfr')">
         <span class="mig-client">Plenitude France</span>
         <div class="mig-meta">
@@ -3119,7 +3153,7 @@
     <!-- ══════════════════════
          9. Plenitude Iberia (S Europe)
     ══════════════════════ -->
-    <div class="mig-section">
+    <div class="mig-section" data-region="s-europe">
       <div class="mig-header" onclick="toggleMig('plit')">
         <span class="mig-client">Plenitude Iberia</span>
         <div class="mig-meta">
@@ -3220,7 +3254,7 @@
     <!-- ══════════════════════
          10. MAINGAU (N Europe)
     ══════════════════════ -->
-    <div class="mig-section">
+    <div class="mig-section" data-region="n-europe">
       <div class="mig-header" onclick="toggleMig('meg')">
         <span class="mig-client">MAINGAU</span>
         <div class="mig-meta">
@@ -3381,6 +3415,15 @@
     const chev  = document.getElementById('chev-' + id);
     rows.classList.toggle('hidden');
     chev.classList.toggle('rotated');
+  }
+
+  function filterMigs(region, btn) {
+    document.querySelectorAll('.mig-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.mig-section').forEach(s => {
+      const match = region === 'all' || s.dataset.region === region;
+      s.style.display = match ? '' : 'none';
+    });
   }
 
   function toggleMig(id) {
