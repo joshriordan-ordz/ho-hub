@@ -1388,6 +1388,144 @@
   table.srt tbody tr:last-child td { border-bottom: none; }
   table.srt tbody tr:hover td { background: rgba(255,255,255,0.03); }
 
+  /* ── Development Tool ── */
+  .dev-hero { margin-bottom: 24px; }
+  .dev-hero h2 { font-size: 1.4em; font-weight: 700; margin: 0 0 4px; }
+  .dev-hero p  { color: var(--text-muted); font-size: 0.85em; margin: 0; }
+
+  .dev-select-bar {
+    display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 20px; margin-bottom: 24px;
+  }
+  .dev-select-group { display: flex; flex-direction: column; gap: 5px; }
+  .dev-select-group label { font-size: 0.7em; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .dev-person-select {
+    background: var(--dark-3); border: 1px solid var(--border);
+    color: var(--text); border-radius: 7px; padding: 7px 12px;
+    font-family: inherit; font-size: 0.85em; min-width: 220px; cursor: pointer;
+  }
+  .dev-person-select:focus { outline: none; border-color: var(--indigo-border); }
+  .dev-role-toggle { display: flex; gap: 0; border-radius: 7px; overflow: hidden; border: 1px solid var(--border); }
+  .dev-role-btn {
+    background: transparent; color: var(--text-muted); border: none;
+    padding: 7px 16px; font-family: inherit; font-size: 0.82em; font-weight: 600;
+    cursor: pointer; transition: background 0.15s, color 0.15s;
+  }
+  .dev-role-btn:not(:last-child) { border-right: 1px solid var(--border); }
+  .dev-role-btn.active { background: var(--indigo-dim); color: var(--indigo-light); }
+  .dev-role-btn:hover:not(.active) { background: var(--surface-hover); color: var(--text); }
+  .dev-save-btn {
+    background: var(--indigo-dim); border: 1px solid var(--indigo-border);
+    color: var(--indigo-light); border-radius: 7px; padding: 7px 18px;
+    font-family: inherit; font-size: 0.82em; font-weight: 700; cursor: pointer;
+    transition: background 0.15s;
+  }
+  .dev-save-btn:hover { background: rgba(126,212,249,0.22); }
+  .dev-compare-btn {
+    background: var(--magenta-dim); border: 1px solid rgba(52,205,113,0.3);
+    color: var(--magenta); border-radius: 7px; padding: 7px 18px;
+    font-family: inherit; font-size: 0.82em; font-weight: 700; cursor: pointer;
+    transition: background 0.15s; display: none;
+  }
+  .dev-compare-btn.visible { display: inline-block; }
+  .dev-compare-btn:hover { background: rgba(52,205,113,0.25); }
+  .dev-person-info { font-size: 0.78em; color: var(--text-muted); margin-left: 4px; align-self: flex-end; padding-bottom: 8px; }
+
+  .dev-group { margin-bottom: 28px; }
+  .dev-group-title {
+    font-size: 0.7em; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--indigo-light); border-bottom: 1px solid var(--indigo-border);
+    padding-bottom: 8px; margin-bottom: 12px;
+  }
+  .dev-cap-row {
+    display: grid; grid-template-columns: 240px 1fr;
+    gap: 12px; padding: 10px 0;
+    border-bottom: 1px solid var(--border); align-items: start;
+  }
+  .dev-cap-row:last-child { border-bottom: none; }
+  .dev-cap-name { padding-top: 2px; }
+  .dev-cap-title { font-size: 0.85em; font-weight: 700; margin-bottom: 3px; }
+  .dev-cap-def   { font-size: 0.72em; color: var(--text-muted); line-height: 1.45; }
+  .dev-levels    { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .dev-level-btn {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 7px; padding: 8px 10px; text-align: left; cursor: pointer;
+    transition: background 0.15s, border-color 0.15s; position: relative;
+  }
+  .dev-level-btn:hover { background: var(--surface-hover); }
+  .dev-level-btn.selected {
+    background: var(--indigo-dim); border-color: var(--indigo-border);
+  }
+  .dev-level-num {
+    display: block; font-size: 0.7em; font-weight: 800; color: var(--indigo-light);
+    letter-spacing: 0.05em; margin-bottom: 4px;
+  }
+  .dev-level-btn.selected .dev-level-num { color: var(--indigo-light); }
+  .dev-level-desc { font-size: 0.68em; color: var(--text-muted); line-height: 1.4; display: block; }
+  .dev-level-btn.selected .dev-level-desc { color: rgba(250,250,250,0.75); }
+
+  /* compare mode */
+  .dev-compare-row {
+    display: grid; grid-template-columns: 240px 1fr;
+    gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); align-items: center;
+  }
+  .dev-compare-row:last-child { border-bottom: none; }
+  .dev-compare-bars { display: flex; flex-direction: column; gap: 4px; }
+  .dev-compare-bar-row { display: flex; align-items: center; gap: 8px; font-size: 0.7em; }
+  .dev-compare-label { width: 55px; color: var(--text-muted); font-weight: 600; }
+  .dev-compare-track {
+    flex: 1; height: 10px; background: rgba(255,255,255,0.06);
+    border-radius: 5px; overflow: hidden;
+  }
+  .dev-compare-fill { height: 100%; border-radius: 5px; transition: width 0.4s; }
+  .dev-compare-val { width: 28px; text-align: right; font-weight: 700; }
+  .dev-gap-badge {
+    font-size: 0.68em; font-weight: 700; padding: 2px 8px; border-radius: 4px;
+    background: rgba(251,146,60,0.15); color: #fb923c; border: 1px solid rgba(251,146,60,0.3);
+  }
+  .dev-gap-aligned {
+    font-size: 0.68em; font-weight: 600; color: rgba(250,250,250,0.3);
+  }
+
+  /* saved badge */
+  .dev-saved-toast {
+    position: fixed; bottom: 28px; right: 28px; z-index: 3000;
+    background: var(--dark-3); border: 1px solid var(--indigo-border);
+    color: var(--indigo-light); padding: 10px 20px; border-radius: 8px;
+    font-size: 0.82em; font-weight: 600; opacity: 0; transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .dev-saved-toast.show { opacity: 1; }
+
+  /* team heatmap */
+  .dev-overview-title {
+    font-size: 0.85em; font-weight: 700; margin: 32px 0 12px;
+    color: var(--text-muted); display: flex; align-items: center; gap: 10px;
+  }
+  .dev-heatmap-wrap { overflow-x: auto; }
+  .dev-heatmap {
+    display: grid; min-width: 700px;
+    border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+  }
+  .dev-hm-header, .dev-hm-name, .dev-hm-cell {
+    padding: 6px 8px; font-size: 0.68em;
+    border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  }
+  .dev-hm-header { background: rgba(255,255,255,0.04); font-weight: 700; color: var(--text-muted); text-align: center; }
+  .dev-hm-name   { background: rgba(255,255,255,0.03); font-weight: 600; white-space: nowrap; }
+  .dev-hm-cell   { text-align: center; font-weight: 700; font-size: 0.75em; }
+  .dev-hm-l1 { background: rgba(248,113,113,0.25); color: #f87171; }
+  .dev-hm-l2 { background: rgba(251,146,60,0.25);  color: #fb923c; }
+  .dev-hm-l3 { background: rgba(126,212,249,0.2);  color: #7ED4F9; }
+  .dev-hm-l4 { background: rgba(52,205,113,0.25);  color: #34CD71; }
+  .dev-hm-empty { color: rgba(255,255,255,0.15); }
+
+  @media (max-width: 700px) {
+    .dev-cap-row { grid-template-columns: 1fr; }
+    .dev-levels  { grid-template-columns: 1fr 1fr; }
+  }
+
   @media print {
     body > * { display: none !important; }
     #slide-modal {
@@ -1415,6 +1553,7 @@
     <button class="tab-btn active" onclick="showTab('transformation', this)">HOT Transformation Progress Status</button>
     <button class="tab-btn" onclick="showTab('products', this)">Human and Org Products</button>
     <button class="tab-btn" onclick="showTab('migrations', this)">Human and Org Migration Status</button>
+    <button class="tab-btn" onclick="showTab('development', this)">Development Tool</button>
   </nav>
   <button id="noise-btn" class="noise-btn quiet" onclick="toggleNoise()">Unleash the Chaos</button>
   <a class="board-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854" target="_blank">
@@ -3558,6 +3697,39 @@
 
   </div>
 
+  <!-- ── Development Tool Tab ── -->
+  <div id="tab-development" class="tab-panel">
+    <div class="dev-hero">
+      <h2>Development Tool</h2>
+      <p>Assess capability levels against the H&amp;O Development Matrix · Ratings are saved in your browser</p>
+    </div>
+
+    <div class="dev-select-bar">
+      <div class="dev-select-group">
+        <label>Assessing</label>
+        <select class="dev-person-select" id="dev-person-select" onchange="devSelectPerson(this.value)">
+          <option value="">— Select a person —</option>
+        </select>
+      </div>
+      <div class="dev-select-group">
+        <label>You are</label>
+        <div class="dev-role-toggle">
+          <button class="dev-role-btn active" id="dev-role-self" onclick="devSetRole('self')">Self</button>
+          <button class="dev-role-btn" id="dev-role-leader" onclick="devSetRole('leader')">Leader / Assessor</button>
+        </div>
+      </div>
+      <div class="dev-select-group" style="flex-direction:row; align-items:flex-end; gap:8px">
+        <button class="dev-save-btn" onclick="devSave()">Save</button>
+        <button class="dev-compare-btn" id="dev-compare-btn" onclick="devToggleCompare()">Compare</button>
+      </div>
+      <div class="dev-person-info" id="dev-person-info"></div>
+    </div>
+
+    <div id="dev-assessment"></div>
+    <div id="dev-overview"></div>
+    <div class="dev-saved-toast" id="dev-toast">Assessment saved</div>
+  </div>
+
 </main>
 
 <!-- ── Slide Generator Modal ── -->
@@ -3891,7 +4063,319 @@
       chev.parentElement.insertBefore(btn, chev);
     });
     updateWine();
+    devInit();
   });
+
+  // ── Development Tool ──────────────────────────────────────────────
+
+  const DEV_PEOPLE = [
+    {name:'Josh Brookes',role:'GPL',practice:'Operating Model',region:'UK&I'},
+    {name:'Katherine Lamb',role:'GPL',practice:'Innovation',region:'UK&I'},
+    {name:'Paul Loran',role:'GPL',practice:'Innovation',region:'UK&I'},
+    {name:'Emily Noakes',role:'GPL',practice:'Culture',region:'UK&I'},
+    {name:'Lisa Hardie',role:'OD Lead',practice:'Telco',region:'UK&I'},
+    {name:'Sam Winter',role:'OD Lead',practice:'Org Design',region:'UK&I'},
+    {name:'Natasha Wallace',role:'HD Lead',practice:'Human Design',region:'UK&I'},
+    {name:'Josh Popham',role:'SCDL',practice:'Innovation',region:'UK&I'},
+    {name:'Terilee Ward',role:'SCDL',practice:'Operating Model',region:'UK&I'},
+    {name:'Katarzyna Sotek',role:'SCDL',practice:'Operating Model',region:'UK&I'},
+    {name:'Klarissa Patel',role:'CDL',practice:'Culture',region:'UK&I'},
+    {name:'Kelly Rankine',role:'CDL',practice:'Learning',region:'UK&I'},
+    {name:'Siga Krubally',role:'CDL',practice:'Learning',region:'UK&I'},
+    {name:'Liam Mabbott',role:'SCDL',practice:'Culture',region:'UK&I'},
+    {name:'Jess Brewer',role:'SCDL',practice:'Innovation',region:'UK&I'},
+    {name:'Sotiris Karoulla',role:'CDL',practice:'Learning',region:'UK&I'},
+    {name:'Emily Snow',role:'CDL',practice:'Operating Model',region:'UK&I'},
+    {name:'Hannah Williams',role:'CDL',practice:'Telco',region:'UK&I'},
+    {name:'Sev Summers',role:'CDL',practice:'Telco',region:'UK&I'},
+    {name:'Harry Cooke',role:'CDL',practice:'Water',region:'UK&I'},
+    {name:'Harry Worrall',role:'CDL',practice:'Telco',region:'UK&I'},
+    {name:'Shreya Prasad',role:'CDL',practice:'Telco',region:'UK&I'},
+    {name:'Ellie Grigorjevs-Walsh',role:'CDL',practice:'Telco',region:'UK&I'},
+    {name:'Roxanne Rath',role:'HD Lead',practice:'Human Design',region:'N Europe'},
+    {name:'Alex Taylor',role:'SCDL',practice:'Culture',region:'N Europe'},
+    {name:'Alexej Jablonski',role:'SCDL',practice:'LDP',region:'N Europe'},
+    {name:'Diederick Theunissen',role:'SCDL',practice:'Operating Model',region:'N Europe'},
+    {name:'Erlend Styve',role:'SCDL',practice:'Operating Model',region:'N Europe'},
+    {name:'Sandra Nielsen',role:'SCDL',practice:'Culture',region:'N Europe'},
+    {name:'Amy Barnes',role:'SCDL',practice:'LDP',region:'N Europe'},
+    {name:'Sanne Foekens',role:'CDL',practice:'LDP',region:'N Europe'},
+    {name:'Sanne Jongeling',role:'CDL',practice:'Learning',region:'N Europe'},
+    {name:'David Springhetti',role:'SCDL',practice:'Operating Model',region:'N Europe'},
+    {name:'Mirjam Brandhuber',role:'CDL',practice:'Culture',region:'N Europe'},
+    {name:'Karoline Czychon',role:'CDL',practice:'Operating Model',region:'N Europe'},
+    {name:'Anna Šútorová',role:'SCDL',practice:'Operating Model',region:'N Europe'},
+    {name:'Alex Holden',role:'CDL',practice:'Learning',region:'N Europe'},
+    {name:'Karin Yardy',role:'OD Lead',practice:'Org Design',region:'S Europe'},
+    {name:'Valeria Winkworth',role:'HD Lead',practice:'Human Design',region:'S Europe'},
+    {name:'Claudia Díaz',role:'SCDL',practice:'Culture',region:'S Europe'},
+    {name:'Jose Saidler',role:'CDL',practice:'Learning',region:'S Europe'},
+    {name:"Mardochée N'goran",role:'CDL',practice:'Learning',region:'S Europe'},
+    {name:'Ferdinand Baulez',role:'CDL',practice:'Operating Model',region:'S Europe'},
+    {name:'Melissa Jensen Labiano',role:'CDL',practice:'Learning',region:'S Europe'},
+    {name:'Eloïse Stonehouse',role:'CDL',practice:'LDP',region:'S Europe'},
+    {name:'Shoaib Nasir',role:'OD Lead',practice:'Org Design',region:'ME'},
+    {name:'Brooke Owen',role:'SCDL',practice:'Operating Model',region:'ME'},
+    {name:'Robert Dietz',role:'OD&HD Lead',practice:'Human Design',region:'USA'},
+    {name:'Matt Hard',role:'SCDL',practice:'',region:'USA'},
+    {name:'Kristina Francisco',role:'OD Lead',practice:'Org Design',region:'USA'},
+    {name:'Ross Crosby',role:'HD Lead',practice:'Human Design',region:'USA'},
+    {name:'Safiyah Iqbal',role:'SCDL',practice:'LDP',region:'USA'},
+    {name:'Emily Messer',role:'CDL',practice:'Culture',region:'USA'},
+    {name:'Shayleen Joseph',role:'CDL',practice:'Operating Model',region:'USA'},
+    {name:'Samuel Malloy',role:'CDL',practice:'',region:'USA'},
+    {name:'Amy Mason',role:'SCDL',practice:'Learning',region:'USA'},
+    {name:'Keijan Martin',role:'CDL',practice:'',region:'USA'},
+    {name:'Nicola Harrison',role:'OD&HD Lead',practice:'Human Design',region:'Aus/NZ'},
+    {name:'Jordan Forshaw',role:'SCDL',practice:'Operating Model',region:'Aus/NZ'},
+    {name:'James Childs',role:'CDL',practice:'',region:'Aus/NZ'},
+    {name:'Hiroko Otsubo',role:'OD&HD Lead',practice:'Human Design',region:'Japan'},
+    {name:'Daisaku Nishinaka',role:'CDL',practice:'Culture',region:'Japan'},
+    {name:'Takahiro Sawai',role:'CDL',practice:'',region:'Japan'},
+    {name:'Natsuki Oyama',role:'CDL',practice:'',region:'Japan'},
+    {name:'Hiroaki Kidoguchi',role:'CDL',practice:'',region:'Japan'},
+    {name:'Issei Matsumiya',role:'CDL',practice:'',region:'Japan'},
+    {name:'Toshihito Kakizaki',role:'SCDL',practice:'',region:'Japan'},
+    {name:'Marika Sato',role:'CDL',practice:'',region:'Japan'},
+    {name:'Ippei Kito',role:'CDL',practice:'',region:'Japan'},
+    {name:'Yoshiko Saito',role:'CDL',practice:'',region:'Japan'},
+  ];
+
+  const DEV_MATRIX = [
+    { group: 'Knowledge', caps: [
+      { name: 'Culture & Behaviour', def: 'Understands how behaviour, culture and leadership shape performance, adoption and transformation outcomes.', levels: ['Recognises expected behaviours and explains how they affect team performance and adoption.','Identifies behaviour or culture gaps within a team or function and links them to performance outcomes.','Explains behaviour and culture patterns across teams and influences leaders on what needs to shift.','Sets the standard for how organisations diagnose and shape culture to drive high performance, innovation and transformation.'] },
+      { name: 'System Thinking & Org Design', def: 'Understands how people, process, technology, roles and decision making connect across an organisation.', levels: ['Explains how their work connects to team performance, customer outcomes and ways of working.','Explains how teams, processes and systems connect and where breakdowns occur.','Maps end-to-end systems and identifies where organisational design changes will have the biggest impact.','Redefines how organisations understand and optimise people, process and technology systems at scale.'] },
+      { name: 'Kraken Platform / Domain Understanding', def: 'Understands Kraken as a technology platform and how it enables better customer, operational and organisational outcomes.', levels: ['Demonstrates understanding of Kraken, the customer context and the domain they are working in.','Explains how Kraken capabilities can support client outcomes and ways of working.','Advises clients on what is possible with Kraken and how platform choices affect behaviours, processes and outcomes.','Shapes best practice for how Kraken is used as a platform for enterprise transformation.'] },
+      { name: 'Client Context & Business Model', def: 'Understands the client\'s business model and how transformation work connects to commercial value and business outcomes.', levels: ['Explains the client context and connects their work to client needs.','Uses client context to challenge low-value requests and focus work on meaningful outcomes.','Connects transformation work to business case, value drivers and commercial priorities.','Advises executive teams on how business context should shape transformation, operating model and capability decisions.'] },
+    ]},
+    { group: 'Get Stuff Done', caps: [
+      { name: 'Client Value & Prioritisation', def: 'Focuses effort on the highest-value work and ensures time and resources are directed toward measurable outcomes.', levels: ['Works on agreed priorities and flags work that does not clearly link to outcomes.','Prioritises work based on client value and makes trade-offs across delivery, coaching and change activity.','Aligns stakeholders around high-impact priorities based on business value and outcome delivery.','Defines prioritisation models that maximise business value and ensure outcomes are realised.'] },
+      { name: 'Delivery Ownership & Management', def: 'Ensures complex work is delivered reliably across teams, maintaining ownership of outcomes and coordination across Human, Org and Tech.', levels: ['Delivers assigned work on time, tracks dependencies and raises risks early.','Owns delivery across a team or function, coordinating across teams and managing dependencies.','Leads delivery across multiple teams or domains, coordinating across Human, Org and Tech and resolving blockers.','Designs integrated delivery systems across Human, Org and Tech that operate reliably at scale.'] },
+      { name: 'Resilience to Challenges', def: 'Stays effective through ambiguity, setbacks, changing priorities and difficult client or stakeholder situations.', levels: ['Stays calm and productive when priorities change or challenges arise.','Handles difficult conversations and changing requirements with composure and a focus on outcomes.','Navigates ambiguity, conflict and cross-functional friction to keep transformation work moving.','Builds resilient delivery approaches and teams that can adapt under pressure without losing pace or quality.'] },
+      { name: 'Problem Solving & Outcome Definition', def: 'Uses structured thinking to define the right problems, test assumptions and focus work on measurable outcomes.', levels: ['Breaks problems down clearly and links their work to an outcome.','Defines outcomes, success measures and simple hypotheses to test what will improve performance.','Reframes complex problems across behaviour, process and systems, aligning stakeholders on root causes and next steps.','Shapes executive thinking on which problems matter most and ensures outcomes are owned through to measurable business impact.'] },
+    ]},
+    { group: 'Impact', caps: [
+      { name: 'Behaviour & Culture Design', def: 'Shapes behaviours and environments that enable high performance, ownership, experimentation and effective decision making.', levels: ['Reinforces expected behaviours like ownership, accountability, use of data and openness to learning.','Designs rituals, coaching and feedback loops that shift behaviour and encourage learning from failure.','Builds high-trust, autonomous environments where experimentation, ownership and decision making are consistently demonstrated.','Shapes organisation-wide behaviour models where experimentation, challenge and continuous improvement are safe, expected and embedded.'] },
+      { name: 'Data Decision Making Enablement', def: 'Enables clients and teams to use data confidently to make better decisions and improve performance.', levels: ['Tracks basic metrics and raises issues clearly.','Defines useful metrics and helps teams use data in regular decision making.','Connects behaviour, capability and performance data to business outcomes and changes how teams make decisions.','Defines measurement and decision-making systems used across organisations to drive performance at scale.'] },
+      { name: 'Migration Derisking', def: 'Identifies and reduces people, adoption, capability and operating risks that could affect migration or transformation success.', levels: ['Identifies risks or blockers and raises them early.','Tracks risks across a team or function and puts mitigations in place.','Anticipates adoption, capability and operating risks across teams and designs interventions to reduce them.','Sets the standard for derisking complex migrations and transformation programmes across organisations.'] },
+      { name: 'Innovation & Experimentation', def: 'Helps clients identify growth opportunities, improve customer experiences and test new approaches in a structured way.', levels: ['Spots opportunities to improve customer or team experiences and suggests practical ideas.','Supports teams to test new approaches, gather feedback and improve existing solutions.','Facilitates experimentation across teams, turning customer and business needs into measurable innovation outcomes.','Coaches executive teams to build enterprise-wide innovation systems linked to strategy and customer value.'] },
+      { name: 'Operating Model & Ways of Working', def: 'Designs and evolves how organisations operate including roles, decision making, governance, and ways of working.', levels: ['Applies defined ways of working within a team, using agreed rituals, processes, and tools.','Establishes consistent ways of working within an operational area or function, including clear roles, decision making, and cadences.','Designs how multiple teams or functions work together, including roles, ownership, governance, and flow of work across areas.','Defines operating model approaches that shape how entire organisations structure teams, decision making, governance, and delivery at scale.'] },
+    ]},
+    { group: 'AI Adoption', caps: [
+      { name: 'AI Usage & Proficiency', def: 'Uses AI effectively and responsibly to improve quality, speed and consistency of transformation work.', levels: ['Uses AI tools to produce first drafts of comms, learning content, diagnostics, or reusable artefacts and validates outputs before use.','Designs repeatable AI-assisted workflows for delivery tasks such as intake, diagnosis, artefact creation, or reporting, validating outputs across edge cases.','Builds reusable AI workflows, agents or toolkits used across teams or domains, defining how outputs are evaluated and improved.','Acts as an AI thought leader, advising clients and internal teams on AI readiness, adoption and tooling for transformation work.'] },
+      { name: 'Circle of Influence', def: 'Expands AI use from personal productivity to team, practice and organisation-wide adoption.', levels: ['Uses AI for own work and critically reviews all outputs before sharing.','Creates AI workflows used within their immediate team and is accountable for the quality of outputs others rely on.','Builds AI systems and patterns reused across clients, domains or regions and mentors others to adopt AI effectively.','Drives AI adoption across the function, mentors senior colleagues and defines consistent standards for responsible AI use.'] },
+    ]},
+    { group: 'Communication & Leadership', caps: [
+      { name: 'Stakeholder Alignment', def: 'Aligns and influences stakeholders to drive shared goals, shape decisions and enable coordinated progress.', levels: ['Communicates clearly with team members and stakeholders, adapting messages to the audience.','Coordinates across teams to align plans, resolve issues and influence day-to-day decisions.','Influences senior stakeholders, shapes priorities and manages conflicting views to drive agreement on trade-offs.','Shapes executive thinking and influences decisions across organisations, resolving complex trade-offs and driving unified direction.'] },
+      { name: 'Capability Building & Coaching', def: 'Builds capability in individuals and teams so they can perform independently and sustainably.', levels: ['Uses feedback and training to improve their own performance and applies learning quickly.','Delivers coaching or training that improves capability and influences behaviour within a team.','Builds capability across teams through coaching, mentoring and feedback that shifts behaviour and improves performance.','Defines how capability is built at scale across organisations, creating approaches that influence behaviour and become standard practice.'] },
+    ]},
+    { group: 'Mission Tasks', caps: [
+      { name: 'End-to-End Solution Design', def: 'Designs joined-up solutions across Human, Org and Tech that deliver measurable outcomes.', levels: ['Delivers parts of a solution such as training, comms, onboarding or artefacts linked to a defined outcome.','Designs solutions for a team or function combining coaching, rituals, process, tools and training.','Designs joined-up systems across teams that integrate behaviour, process, tooling and data to deliver measurable outcomes.','Creates transformation approaches reused across clients and recognised as best practice for complex behaviour and capability change.'] },
+      { name: 'Insight Generation & Clear Diagnosis', def: 'Generates clear insight and diagnosis during missions so clients understand what is happening, why it matters and what to do next.', levels: ['Spots issues in behaviour, engagement or performance and raises them clearly.','Analyses trends and evidence to identify root causes and opportunities for improvement.','Turns complex data and behavioural signals into clear insight, diagnosis and recommended action.','Defines how insight and diagnosis are used to shape transformation strategy and decision making across organisations.'] },
+    ]},
+  ];
+
+  let devCurrentPerson = '';
+  let devCurrentRole   = 'self'; // 'self' | 'leader'
+  let devCompareMode   = false;
+  let devRatings       = {}; // { capName: level 1-4 }
+
+  function devStorageKey(person, role) {
+    return 'dev_' + person + '_' + role;
+  }
+
+  function devInit() {
+    const sel = document.getElementById('dev-person-select');
+    const regions = [...new Set(DEV_PEOPLE.map(p => p.region))];
+    regions.forEach(region => {
+      const grp = document.createElement('optgroup');
+      grp.label = region;
+      DEV_PEOPLE.filter(p => p.region === region).forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.name;
+        opt.textContent = p.name;
+        grp.appendChild(opt);
+      });
+      sel.appendChild(grp);
+    });
+    devRenderHeatmap();
+  }
+
+  function devSelectPerson(name) {
+    devCurrentPerson = name;
+    devCompareMode   = false;
+    const person = DEV_PEOPLE.find(p => p.name === name);
+    const info   = document.getElementById('dev-person-info');
+    info.textContent = person ? (person.role + (person.practice ? ' · ' + person.practice : '') + ' · ' + person.region) : '';
+    devLoadRatings();
+    devRenderAssessment();
+    devUpdateCompareBtn();
+  }
+
+  function devSetRole(role) {
+    devCurrentRole = role;
+    devCompareMode = false;
+    document.getElementById('dev-role-self').classList.toggle('active', role === 'self');
+    document.getElementById('dev-role-leader').classList.toggle('active', role === 'leader');
+    devLoadRatings();
+    devRenderAssessment();
+    devUpdateCompareBtn();
+  }
+
+  function devLoadRatings() {
+    if (!devCurrentPerson) { devRatings = {}; return; }
+    const stored = localStorage.getItem(devStorageKey(devCurrentPerson, devCurrentRole));
+    devRatings = stored ? JSON.parse(stored) : {};
+  }
+
+  function devSetLevel(capName, level) {
+    if (devRatings[capName] === level) {
+      delete devRatings[capName]; // deselect on re-click
+    } else {
+      devRatings[capName] = level;
+    }
+    // update button states without full re-render
+    const slug = capName.replace(/[^a-z0-9]/gi, '_');
+    for (let l = 1; l <= 4; l++) {
+      const btn = document.getElementById('dlvl_' + slug + '_' + l);
+      if (btn) btn.classList.toggle('selected', devRatings[capName] === l);
+    }
+  }
+
+  function devRenderAssessment() {
+    const el = document.getElementById('dev-assessment');
+    if (!devCurrentPerson) { el.innerHTML = '<p style="color:var(--text-muted); font-size:0.85em; padding:20px 0">Select a person above to begin the assessment.</p>'; return; }
+
+    if (devCompareMode) { devRenderCompare(); return; }
+
+    el.innerHTML = DEV_MATRIX.map(group => `
+      <div class="dev-group">
+        <div class="dev-group-title">${group.group}</div>
+        ${group.caps.map(cap => {
+          const slug = cap.name.replace(/[^a-z0-9]/gi, '_');
+          const cur  = devRatings[cap.name] || 0;
+          const levels = cap.levels.map((desc, i) => {
+            const l = i + 1;
+            return `<button class="dev-level-btn${cur === l ? ' selected' : ''}" id="dlvl_${slug}_${l}" onclick="devSetLevel('${cap.name.replace(/'/g,"\\'")}', ${l})">
+              <span class="dev-level-num">L${l}</span>
+              <span class="dev-level-desc">${desc}</span>
+            </button>`;
+          }).join('');
+          return `<div class="dev-cap-row">
+            <div class="dev-cap-name">
+              <div class="dev-cap-title">${cap.name}</div>
+              <div class="dev-cap-def">${cap.def}</div>
+            </div>
+            <div class="dev-levels">${levels}</div>
+          </div>`;
+        }).join('')}
+      </div>`).join('');
+  }
+
+  function devRenderCompare() {
+    const el = document.getElementById('dev-assessment');
+    const selfKey   = devStorageKey(devCurrentPerson, 'self');
+    const leaderKey = devStorageKey(devCurrentPerson, 'leader');
+    const selfR   = JSON.parse(localStorage.getItem(selfKey)   || '{}');
+    const leaderR = JSON.parse(localStorage.getItem(leaderKey) || '{}');
+
+    el.innerHTML = `<div style="margin-bottom:16px; font-size:0.8em; color:var(--text-muted)">
+      <span style="color:var(--indigo-light); font-weight:700">■</span> Self &nbsp;&nbsp;
+      <span style="color:var(--magenta); font-weight:700">■</span> Leader / Assessor
+    </div>` + DEV_MATRIX.map(group => `
+      <div class="dev-group">
+        <div class="dev-group-title">${group.group}</div>
+        ${group.caps.map(cap => {
+          const sv = selfR[cap.name]   || 0;
+          const lv = leaderR[cap.name] || 0;
+          const gap = Math.abs(sv - lv);
+          const selfPct   = sv ? (sv / 4 * 100) : 0;
+          const leaderPct = lv ? (lv / 4 * 100) : 0;
+          const gapHtml = gap > 0
+            ? `<span class="dev-gap-badge">Gap: ${gap > 0 && lv > sv ? '+' : ''}${lv - sv}</span>`
+            : (sv && lv ? `<span class="dev-gap-aligned">Aligned</span>` : '');
+          return `<div class="dev-compare-row">
+            <div class="dev-cap-name">
+              <div class="dev-cap-title">${cap.name}</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:16px; flex:1">
+              <div class="dev-compare-bars" style="flex:1">
+                <div class="dev-compare-bar-row">
+                  <span class="dev-compare-label">Self</span>
+                  <div class="dev-compare-track"><div class="dev-compare-fill" style="width:${selfPct}%; background:var(--indigo-light)"></div></div>
+                  <span class="dev-compare-val" style="color:var(--indigo-light)">${sv ? 'L'+sv : '—'}</span>
+                </div>
+                <div class="dev-compare-bar-row">
+                  <span class="dev-compare-label">Leader</span>
+                  <div class="dev-compare-track"><div class="dev-compare-fill" style="width:${leaderPct}%; background:var(--magenta)"></div></div>
+                  <span class="dev-compare-val" style="color:var(--magenta)">${lv ? 'L'+lv : '—'}</span>
+                </div>
+              </div>
+              ${gapHtml}
+            </div>
+          </div>`;
+        }).join('')}
+      </div>`).join('');
+  }
+
+  function devSave() {
+    if (!devCurrentPerson) return;
+    localStorage.setItem(devStorageKey(devCurrentPerson, devCurrentRole), JSON.stringify(devRatings));
+    devUpdateCompareBtn();
+    devRenderHeatmap();
+    const toast = document.getElementById('dev-toast');
+    toast.textContent = (devCurrentRole === 'self' ? 'Self' : 'Leader') + ' assessment saved for ' + devCurrentPerson;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }
+
+  function devUpdateCompareBtn() {
+    if (!devCurrentPerson) { document.getElementById('dev-compare-btn').classList.remove('visible'); return; }
+    const hasSelf   = !!localStorage.getItem(devStorageKey(devCurrentPerson, 'self'));
+    const hasLeader = !!localStorage.getItem(devStorageKey(devCurrentPerson, 'leader'));
+    document.getElementById('dev-compare-btn').classList.toggle('visible', hasSelf && hasLeader);
+  }
+
+  function devToggleCompare() {
+    devCompareMode = !devCompareMode;
+    document.getElementById('dev-compare-btn').textContent = devCompareMode ? 'Back to Assessment' : 'Compare';
+    devRenderAssessment();
+  }
+
+  function devRenderHeatmap() {
+    const el = document.getElementById('dev-overview');
+    // Collect all assessed people
+    const assessed = DEV_PEOPLE.filter(p =>
+      localStorage.getItem(devStorageKey(p.name, 'self')) ||
+      localStorage.getItem(devStorageKey(p.name, 'leader'))
+    );
+    if (assessed.length === 0) { el.innerHTML = ''; return; }
+
+    // Flat cap list for column headers (abbreviated)
+    const allCaps = DEV_MATRIX.flatMap(g => g.caps);
+    const colHeaders = allCaps.map(c => `<div class="dev-hm-header" title="${c.name}">${c.name.split(' ').slice(0,2).join(' ')}</div>`).join('');
+    const cols = 1 + allCaps.length;
+
+    const rows = assessed.map(p => {
+      const selfR   = JSON.parse(localStorage.getItem(devStorageKey(p.name, 'self'))   || '{}');
+      const leaderR = JSON.parse(localStorage.getItem(devStorageKey(p.name, 'leader')) || '{}');
+      const cells = allCaps.map(cap => {
+        const v = leaderR[cap.name] || selfR[cap.name] || 0;
+        const cls = v ? `dev-hm-l${v}` : 'dev-hm-empty';
+        return `<div class="dev-hm-cell ${cls}">${v ? 'L'+v : '·'}</div>`;
+      }).join('');
+      return `<div class="dev-hm-name">${p.name}<br><span style="color:rgba(255,255,255,0.3); font-weight:400">${p.role}</span></div>${cells}`;
+    }).join('');
+
+    el.innerHTML = `
+      <div class="dev-overview-title">Team Assessment Overview <span style="font-size:0.8em; font-weight:400">(${assessed.length} assessed)</span></div>
+      <div class="dev-heatmap-wrap">
+        <div class="dev-heatmap" style="grid-template-columns: 160px repeat(${allCaps.length}, 1fr)">
+          <div class="dev-hm-header">Name</div>${colHeaders}
+          ${rows}
+        </div>
+      </div>`;
+  }
 </script>
 </body>
 </html>
