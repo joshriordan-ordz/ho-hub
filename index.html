@@ -713,6 +713,24 @@
       letter-spacing: 0.08em;
     }
 
+    /* Dimension colour themes */
+    .dim-north-star .now-card-front { background: #1e1f3a; border-color: #4a4fba; }
+    .dim-north-star .now-card-front::before { background: repeating-linear-gradient(90deg, #9aa5f9 0px, #6675f6 12px, #6675f6 14px, transparent 14px, transparent 16px); background-size: 16px 100%; }
+    .dim-north-star .now-card-back { border-color: #4a4fba; }
+    .dim-north-star .now-card-dimension, .dim-north-star .now-card-back-label { color: #9aa5f9; }
+
+    .dim-tech .now-card-front { background: #0f2a2a; border-color: #2a7a6a; }
+    .dim-tech .now-card-front::before { background: repeating-linear-gradient(90deg, #5dd3be 0px, #2db8a0 12px, #2db8a0 14px, transparent 14px, transparent 16px); background-size: 16px 100%; }
+    .dim-tech .now-card-back { border-color: #2a7a6a; }
+    .dim-tech .now-card-dimension, .dim-tech .now-card-back-label { color: #5dd3be; }
+    .dim-tech .now-card-back .asana-link { color: #5dd3be; }
+
+    .dim-best .now-card-front { background: #28200a; border-color: #7a5c10; }
+    .dim-best .now-card-front::before { background: repeating-linear-gradient(90deg, #f5c842 0px, #d4a017 12px, #d4a017 14px, transparent 14px, transparent 16px); background-size: 16px 100%; }
+    .dim-best .now-card-back { border-color: #7a5c10; }
+    .dim-best .now-card-dimension, .dim-best .now-card-back-label { color: #f5c842; }
+    .dim-best .now-card-back .asana-link { color: #f5c842; }
+
     .now-card-milestone {
       font-size: 0.92em;
       font-weight: 700;
@@ -902,7 +920,7 @@
     <p class="now-hero-label" id="now-hero-label">In Progress Now</p>
     <div class="now-hero" id="now-hero">
 
-      <div class="now-card" onclick="this.classList.toggle('flipped')">
+      <div class="now-card dim-north-star" onclick="this.classList.toggle('flipped')">
         <div class="now-card-inner">
           <div class="now-card-front">
             <div class="now-card-dimension">🧭 North Star</div>
@@ -921,7 +939,7 @@
         </div>
       </div>
 
-      <div class="now-card" onclick="this.classList.toggle('flipped')">
+      <div class="now-card dim-north-star" onclick="this.classList.toggle('flipped')">
         <div class="now-card-inner">
           <div class="now-card-front">
             <div class="now-card-dimension">🧭 North Star</div>
@@ -940,7 +958,7 @@
         </div>
       </div>
 
-      <div class="now-card" onclick="this.classList.toggle('flipped')">
+      <div class="now-card dim-north-star" onclick="this.classList.toggle('flipped')">
         <div class="now-card-inner">
           <div class="now-card-front">
             <div class="now-card-dimension">🧭 North Star</div>
@@ -959,7 +977,7 @@
         </div>
       </div>
 
-      <div class="now-card" onclick="this.classList.toggle('flipped')">
+      <div class="now-card dim-tech" onclick="this.classList.toggle('flipped')">
         <div class="now-card-inner">
           <div class="now-card-front">
             <div class="now-card-dimension">🤖 Tech &amp; AI</div>
@@ -977,7 +995,7 @@
         </div>
       </div>
 
-      <div class="now-card" onclick="this.classList.toggle('flipped')">
+      <div class="now-card dim-tech" onclick="this.classList.toggle('flipped')">
         <div class="now-card-inner">
           <div class="now-card-front">
             <div class="now-card-dimension">🤖 Tech &amp; AI</div>
@@ -995,7 +1013,7 @@
         </div>
       </div>
 
-      <div class="now-card" onclick="this.classList.toggle('flipped')">
+      <div class="now-card dim-best" onclick="this.classList.toggle('flipped')">
         <div class="now-card-inner">
           <div class="now-card-front">
             <div class="now-card-dimension">⭐ Best Practices</div>
@@ -1014,7 +1032,7 @@
         </div>
       </div>
 
-      <div class="now-card" onclick="this.classList.toggle('flipped')">
+      <div class="now-card dim-best" onclick="this.classList.toggle('flipped')">
         <div class="now-card-inner">
           <div class="now-card-front">
             <div class="now-card-dimension">⭐ Best Practices</div>
