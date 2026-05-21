@@ -1219,6 +1219,130 @@
     .mig-header { gap: 10px; }
     .mig-client { font-size: 0.9em; }
   }
+
+  /* ── Slide Generator ── */
+  .slide-gen-btn {
+    background: var(--indigo-dim);
+    border: 1px solid var(--indigo-border);
+    color: var(--indigo-light);
+    font-family: inherit;
+    font-size: 0.72em;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .slide-gen-btn:hover { background: rgba(126,212,249,0.22); }
+
+  .slide-modal {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 2000;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 24px 48px;
+    gap: 28px;
+  }
+  .slide-modal.hidden { display: none; }
+
+  .slide-modal-toolbar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    width: 960px;
+    max-width: 100%;
+  }
+  .slide-modal-title { flex: 1; color: #FAFAFA; font-size: 0.9em; font-weight: 600; }
+  .slide-toolbar-btn {
+    background: rgba(240,80,248,0.12);
+    border: 1px solid rgba(240,80,248,0.35);
+    color: #F050F8;
+    font-family: inherit; font-size: 0.8em; font-weight: 600;
+    padding: 8px 18px; border-radius: 6px; cursor: pointer;
+    transition: background 0.15s;
+  }
+  .slide-toolbar-btn:hover { background: rgba(240,80,248,0.22); }
+  .slide-toolbar-btn.close-btn {
+    background: var(--surface); border-color: var(--border);
+    color: var(--text-muted);
+  }
+  .slide-toolbar-btn.close-btn:hover { background: var(--surface-hover); color: var(--text); }
+
+  .slide {
+    width: 960px; max-width: 100%;
+    min-height: 540px;
+    background: #100030;
+    color: #FAFAFA;
+    font-family: 'Montserrat', sans-serif;
+    padding: 36px 44px 28px;
+    border-radius: 10px;
+    display: flex; flex-direction: column;
+    border: 1px solid rgba(240,80,248,0.25);
+    box-shadow: 0 0 60px rgba(240,80,248,0.10), 0 4px 40px rgba(0,0,0,0.5);
+    position: relative; overflow: hidden;
+  }
+  .slide::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, #F050F8, #60F0F8);
+  }
+  .slide-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+  .slide-brand { font-size: 0.72em; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #F050F8; }
+  .slide-date { font-size: 0.68em; color: rgba(250,250,250,0.35); }
+  .slide-title-row { display: flex; align-items: center; gap: 14px; margin-bottom: 5px; }
+  .slide-h1 { font-size: 1.45em; font-weight: 700; color: #FAFAFA; }
+  .slide-health-badge {
+    font-size: 0.7em; font-weight: 700;
+    padding: 3px 12px; border-radius: 12px; border: 1px solid;
+    white-space: nowrap;
+  }
+  .slide-subtitle { font-size: 0.74em; color: rgba(250,250,250,0.45); margin-bottom: 18px; }
+  .slide-outcome-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; flex: 1; }
+  .slide-outcome-card { border: 1px solid; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 7px; }
+  .slide-outcome-title { font-size: 0.72em; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+  .slide-outcome-stmt { font-size: 0.63em; color: rgba(250,250,250,0.5); line-height: 1.45; flex: 1; }
+  .slide-bar-track { height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; }
+  .slide-bar-fill { height: 100%; border-radius: 2px; }
+  .slide-outcome-counts { font-size: 0.6em; color: rgba(250,250,250,0.45); }
+  .slide-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; flex: 1; margin-top: 6px; }
+  .slide-col-title { font-size: 0.68em; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #F050F8; margin-bottom: 10px; }
+  .slide-outlook-item {
+    display: flex; gap: 8px; align-items: flex-start;
+    font-size: 0.7em; padding: 5px 0 5px 10px;
+    border-left: 2px solid; margin-bottom: 5px;
+    color: rgba(250,250,250,0.8); line-height: 1.3;
+  }
+  .slide-risk-item { padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .slide-risk-desc { font-size: 0.7em; color: rgba(250,250,250,0.88); margin-bottom: 4px; line-height: 1.35; }
+  .slide-risk-meta { display: flex; gap: 8px; font-size: 0.6em; flex-wrap: wrap; }
+  .slide-risk-cat { background: rgba(255,255,255,0.07); padding: 1px 6px; border-radius: 4px; color: rgba(250,250,250,0.45); }
+  .slide-empty { font-size: 0.7em; color: rgba(250,250,250,0.3); font-style: italic; padding: 8px 0; }
+  .slide-footer {
+    margin-top: auto; padding-top: 14px;
+    font-size: 0.6em; color: rgba(250,250,250,0.2);
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .slide-label { font-size: 0.62em; color: rgba(250,250,250,0.3); text-align: center; margin-top: -16px; padding-bottom: 4px; }
+
+  @media print {
+    body > * { display: none !important; }
+    #slide-modal {
+      display: block !important; position: static !important;
+      background: none !important; padding: 0 !important; gap: 0 !important;
+    }
+    .slide-modal-toolbar { display: none !important; }
+    .slide-label { display: none !important; }
+    .slide {
+      width: 100% !important; max-width: 100% !important;
+      page-break-after: always; border-radius: 0 !important;
+      box-shadow: none !important; border: none !important;
+    }
+  }
   </style>
 </head>
 <body>
@@ -3377,6 +3501,16 @@
 
 </main>
 
+<!-- ── Slide Generator Modal ── -->
+<div id="slide-modal" class="slide-modal hidden" onclick="handleSlideModalClick(event)">
+  <div class="slide-modal-toolbar">
+    <span class="slide-modal-title" id="slide-modal-title">Migration Slides</span>
+    <button class="slide-toolbar-btn" onclick="window.print()">🖨 Print / Save PDF</button>
+    <button class="slide-toolbar-btn close-btn" onclick="closeSlides()">✕ Close</button>
+  </div>
+  <div id="slide-container"></div>
+</div>
+
 <script>
   function showTab(id, btn) {
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -3432,6 +3566,192 @@
     body.classList.toggle('hidden');
     chev.classList.toggle('rotated');
   }
+
+  // ── Slide Generator ──────────────────────────────────────────────
+
+  const OUTCOME_COLORS = {
+    'Operate': '#7ED4F9',
+    'Perform': '#34CD71',
+    'Innovate': '#F050F8',
+    'Programme Mgmt': '#D1D2D3'
+  };
+
+  function generateSlides(slug, e) {
+    e.stopPropagation();
+    const section = document.querySelector('.mig-section #mig-chev-' + slug)?.closest('.mig-section')
+                 || document.getElementById('mig-chev-' + slug)?.closest('.mig-section');
+    if (!section) return;
+
+    const client  = section.querySelector('.mig-client')?.textContent.trim() || slug;
+    const isPilot = !!section.querySelector('.pilot-badge');
+
+    let health = 'Not Started', healthColor = '#D1D2D3';
+    if (section.querySelector('.health-on-track'))   { health = 'On Track';   healthColor = '#34CD71'; }
+    else if (section.querySelector('.health-at-risk'))  { health = 'At Risk';    healthColor = '#fb923c'; }
+    else if (section.querySelector('.health-blocked'))  { health = 'Blocked';    healthColor = '#f87171'; }
+
+    let cdl = '', region = '', golive = '';
+    section.querySelectorAll('.mig-meta span').forEach(s => {
+      const t = s.textContent.trim();
+      if (t.startsWith('CDL:')) cdl = t;
+      else if (['North America','N Europe','UKI','UK','S Europe'].includes(t)) region = t;
+      else if (t.startsWith('Go-live:')) golive = t;
+    });
+
+    const outcomes = [];
+    section.querySelectorAll('.outcome-panel').forEach(panel => {
+      const title     = panel.querySelector('.outcome-panel-title')?.textContent.trim() || '';
+      const statement = panel.querySelector('.outcome-statement')?.textContent.trim() || '';
+      const items     = Array.from(panel.querySelectorAll('.ms-item'));
+      const done      = items.filter(i => i.querySelector('.ms-dot')?.textContent.includes('✅')).length;
+      const inProg    = items.filter(i => i.querySelector('.ms-dot')?.textContent.includes('🔵')).length;
+      const atRisk    = items.filter(i => i.querySelector('.ms-dot')?.textContent.includes('⚠️')).length;
+      outcomes.push({ title, statement, total: items.length, done, inProg, atRisk });
+    });
+
+    const outlookItems = [];
+    section.querySelectorAll('.outlook-task').forEach(t => {
+      const text = t.textContent.trim();
+      if (text) outlookItems.push({
+        text,
+        isAtRisk:  t.classList.contains('ot-at-risk'),
+        isOnTrack: t.classList.contains('ot-on-track')
+      });
+    });
+
+    const risks = [];
+    section.querySelectorAll('.risk-tbl tbody tr').forEach((row, i) => {
+      if (i >= 4) return;
+      const c = row.querySelectorAll('td');
+      if (c.length >= 6) risks.push({
+        desc: c[0].textContent.trim(), cat: c[1].textContent.trim(),
+        lik:  c[2].textContent.trim(), impact: c[3].textContent.trim(),
+        owner: c[4].textContent.trim(), status: c[6]?.textContent.trim() || ''
+      });
+    });
+
+    const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    const subtitle = [cdl, golive, region, isPilot ? '🧪 NAm Pilot' : ''].filter(Boolean).join(' · ');
+
+    document.getElementById('slide-modal-title').textContent = client + ' — 2 slides';
+    document.getElementById('slide-container').innerHTML =
+      buildStatusSlide({ client, health, healthColor, subtitle, outcomes, today }) +
+      buildOutlookSlide({ client, outlookItems, risks, today });
+
+    document.getElementById('slide-modal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function buildStatusSlide({ client, health, healthColor, subtitle, outcomes, today }) {
+    const cards = outcomes.map(o => {
+      const col   = OUTCOME_COLORS[o.title] || '#D1D2D3';
+      const pct   = o.total ? Math.round(o.done / o.total * 100) : 0;
+      const parts = [`<span style="color:#34CD71">${o.done} done</span>`];
+      if (o.inProg)  parts.push(`<span style="color:#7ED4F9">${o.inProg} in progress</span>`);
+      if (o.atRisk)  parts.push(`<span style="color:#fb923c">⚠ ${o.atRisk} at risk</span>`);
+      const remaining = o.total - o.done - o.inProg - o.atRisk;
+      if (remaining > 0) parts.push(`<span style="color:rgba(250,250,250,0.35)">${remaining} to do</span>`);
+      return `
+        <div class="slide-outcome-card" style="border-color:${col}30; background:${col}08;">
+          <div class="slide-outcome-title" style="color:${col}">${o.title}</div>
+          <div class="slide-outcome-stmt">${o.statement}</div>
+          <div class="slide-bar-track"><div class="slide-bar-fill" style="width:${pct}%; background:${col};"></div></div>
+          <div class="slide-outcome-counts">${parts.join(' · ')}</div>
+        </div>`;
+    }).join('');
+    return `
+      <div class="slide-label">Slide 1 of 2 — Migration Status</div>
+      <div class="slide">
+        <div class="slide-header">
+          <span class="slide-brand">🐙 Kraken</span>
+          <span class="slide-date">${today}</span>
+        </div>
+        <div class="slide-title-row">
+          <h1 class="slide-h1">${client} Migration</h1>
+          <span class="slide-health-badge" style="color:${healthColor}; border-color:${healthColor}50; background:${healthColor}18;">● ${health}</span>
+        </div>
+        <div class="slide-subtitle">${subtitle}</div>
+        <div class="slide-outcome-grid">${cards}</div>
+        <div class="slide-footer">Outcome-focused delivery · Global H&amp;O · Prepared with Kraken H&amp;O Hub</div>
+      </div>`;
+  }
+
+  function buildOutlookSlide({ client, outlookItems, risks, today }) {
+    const outlookHtml = outlookItems.length === 0
+      ? '<div class="slide-empty">No active deliverables in 6-week window</div>'
+      : outlookItems.slice(0, 9).map(i => {
+          const col = i.isAtRisk ? '#fb923c' : i.isOnTrack ? '#34CD71' : 'rgba(255,255,255,0.18)';
+          const icon = i.isAtRisk ? '⚠' : i.isOnTrack ? '✓' : '○';
+          return `<div class="slide-outlook-item" style="border-left-color:${col}">
+            <span style="color:${col}; flex-shrink:0">${icon}</span><span>${i.text}</span></div>`;
+        }).join('');
+
+    const risksHtml = risks.length === 0
+      ? '<div class="slide-empty">No risks logged</div>'
+      : risks.map(r => {
+          const lc = r.lik    === 'H' ? '#f87171' : r.lik    === 'M' ? '#fb923c' : '#34CD71';
+          const ic = r.impact === 'H' ? '#f87171' : r.impact === 'M' ? '#fb923c' : '#34CD71';
+          const sc = r.status === 'Open' ? '#fb923c' : '#34CD71';
+          return `<div class="slide-risk-item">
+            <div class="slide-risk-desc">${r.desc}</div>
+            <div class="slide-risk-meta">
+              <span class="slide-risk-cat">${r.cat}</span>
+              <span style="color:${lc}">L: ${r.lik}</span>
+              <span style="color:${ic}">I: ${r.impact}</span>
+              <span style="color:rgba(250,250,250,0.45)">${r.owner}</span>
+              <span style="color:${sc}">${r.status}</span>
+            </div></div>`;
+        }).join('');
+
+    return `
+      <div class="slide-label">Slide 2 of 2 — Outlook &amp; Risks</div>
+      <div class="slide">
+        <div class="slide-header">
+          <span class="slide-brand">🐙 Kraken</span>
+          <span class="slide-date">${today}</span>
+        </div>
+        <h1 class="slide-h1" style="margin-bottom:16px">${client} — 6-Week Outlook &amp; Key Risks</h1>
+        <div class="slide-two-col">
+          <div>
+            <div class="slide-col-title">6-Week Outlook</div>
+            ${outlookHtml}
+          </div>
+          <div>
+            <div class="slide-col-title">Key Risks</div>
+            ${risksHtml}
+          </div>
+        </div>
+        <div class="slide-footer">Outcome-focused delivery · Global H&amp;O · Prepared with Kraken H&amp;O Hub</div>
+      </div>`;
+  }
+
+  function closeSlides() {
+    document.getElementById('slide-modal').classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  function handleSlideModalClick(e) {
+    if (e.target === document.getElementById('slide-modal')) closeSlides();
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeSlides();
+  });
+
+  // Inject "Slides" button into every migration header
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.mig-section').forEach(section => {
+      const chev = section.querySelector('[id^="mig-chev-"]');
+      if (!chev) return;
+      const slug = chev.id.replace('mig-chev-', '');
+      const btn  = document.createElement('button');
+      btn.className   = 'slide-gen-btn';
+      btn.textContent = '📊 Slides';
+      btn.onclick = (e) => generateSlides(slug, e);
+      chev.parentElement.insertBefore(btn, chev);
+    });
+    updateWine();
+  });
 </script>
 </body>
 </html>
