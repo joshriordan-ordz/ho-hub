@@ -1512,19 +1512,190 @@
   }
   .dev-saved-toast.show { opacity: 1; }
 
-  /* team heatmap */
-  .dev-overview-title { font-size: 1em; font-weight: 800; margin: 36px 0 14px; }
-  .dev-heatmap-wrap { overflow-x: auto; }
-  .dev-heatmap { display: grid; min-width: 700px; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-  .dev-hm-header, .dev-hm-name, .dev-hm-cell { padding: 7px 8px; font-size: 0.65em; border-right: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); }
-  .dev-hm-header { background: rgba(255,255,255,0.05); font-weight: 700; color: rgba(250,250,250,0.4); text-align: center; }
-  .dev-hm-name   { background: rgba(255,255,255,0.03); font-weight: 600; white-space: nowrap; }
-  .dev-hm-cell   { text-align: center; font-weight: 800; font-size: 0.72em; }
-  .dev-hm-l1 { background: rgba(248,113,113,0.2); color: #f87171; }
-  .dev-hm-l2 { background: rgba(251,146,60,0.2);  color: #fb923c; }
-  .dev-hm-l3 { background: rgba(96,240,248,0.15); color: #60F0F8; }
-  .dev-hm-l4 { background: rgba(52,205,113,0.2);  color: #34CD71; }
-  .dev-hm-empty { color: rgba(255,255,255,0.1); }
+  /* filter bar */
+  .dev-filter-bar {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px 20px; margin-bottom: 12px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .dev-search-input {
+    background: var(--dark-3); border: 1px solid var(--border);
+    color: var(--text); border-radius: 7px; padding: 8px 14px;
+    font-family: inherit; font-size: 0.85em; width: 100%; box-sizing: border-box;
+  }
+  .dev-search-input:focus { outline: none; border-color: rgba(240,80,248,0.4); box-shadow: 0 0 0 3px rgba(240,80,248,0.08); }
+  .dev-filter-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .dev-filter-label { font-size: 0.68em; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; white-space: nowrap; width: 46px; }
+  .dev-filter-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .dev-filter-chip {
+    background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+    color: var(--text-muted); border-radius: 5px; padding: 4px 11px;
+    font-family: inherit; font-size: 0.73em; font-weight: 600; cursor: pointer; transition: all 0.15s;
+  }
+  .dev-filter-chip:hover { background: var(--surface-hover); color: var(--text); }
+  .dev-filter-chip.active { background: rgba(240,80,248,0.12); border-color: rgba(240,80,248,0.4); color: #F050F8; }
+
+  /* slides button */
+  .dev-slides-btn {
+    background: rgba(52,205,113,0.12); border: 1px solid rgba(52,205,113,0.38);
+    color: #34CD71; border-radius: 7px; padding: 8px 18px;
+    font-family: inherit; font-size: 0.82em; font-weight: 700; cursor: pointer;
+    transition: all 0.15s; display: none;
+  }
+  .dev-slides-btn.visible { display: inline-block; }
+  .dev-slides-btn:hover { background: rgba(52,205,113,0.24); box-shadow: 0 0 16px rgba(52,205,113,0.18); }
+
+  /* radar chart */
+  .dev-output { margin-top: 32px; }
+  .dev-radar-wrap {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 28px; margin-bottom: 20px;
+    display: flex; flex-direction: column; align-items: center; gap: 20px;
+  }
+  .dev-radar-title { font-size: 0.95em; font-weight: 800; margin-bottom: 4px; align-self: flex-start; }
+  .dev-radar-svg { width: 100%; max-width: 440px; height: auto; }
+  .dev-radar-legend {
+    display: flex; flex-wrap: wrap; gap: 10px 24px; justify-content: center;
+    font-size: 0.75em;
+  }
+  .dev-radar-legend-item { display: flex; align-items: center; gap: 7px; }
+  .dev-radar-legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .dev-radar-avgs {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+    width: 100%; max-width: 440px; font-size: 0.75em;
+  }
+  .dev-radar-avg-item {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 8px; padding: 8px 10px; display: flex; flex-direction: column; gap: 2px;
+  }
+  .dev-radar-avg-group { color: var(--text-muted); font-size: 0.85em; line-height: 1.3; }
+  .dev-radar-avg-val { font-weight: 800; font-size: 1.1em; }
+
+  /* development plan */
+  .dev-plan-wrap {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 24px 28px; margin-bottom: 20px;
+  }
+  .dev-plan-title { font-size: 0.95em; font-weight: 800; margin-bottom: 4px; }
+  .dev-plan-subtitle { font-size: 0.75em; color: var(--text-muted); margin-bottom: 20px; }
+  .dev-plan-items { display: flex; flex-direction: column; gap: 12px; }
+  .dev-plan-item {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px; padding: 14px 16px; display: grid;
+    grid-template-columns: auto 1fr; gap: 0 14px;
+  }
+  .dev-plan-num {
+    grid-row: span 3; width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center;
+    font-size: 0.8em; font-weight: 800; color: var(--text-muted); flex-shrink: 0; margin-top: 2px;
+  }
+  .dev-plan-cap-name { font-size: 0.88em; font-weight: 700; margin-bottom: 2px; }
+  .dev-plan-meta { font-size: 0.72em; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .dev-plan-level-badge {
+    display: inline-block; padding: 2px 9px; border-radius: 4px; font-weight: 800; font-size: 0.9em;
+  }
+  .dev-plan-group-tag { opacity: 0.7; }
+  .dev-plan-next-label { font-size: 0.68em; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; color: var(--text-muted); margin-bottom: 3px; }
+  .dev-plan-next-text { font-size: 0.78em; color: rgba(250,250,250,0.75); line-height: 1.5; }
+
+  /* compact 360 dimension bars inside output */
+  .r360s-dims { display: flex; flex-direction: column; gap: 7px; margin-top: 14px; }
+  .r360s-dim-row { display: flex; align-items: center; gap: 10px; }
+  .r360s-dim-label { font-size: 0.75em; font-weight: 600; color: rgba(250,250,250,0.65); width: 130px; flex-shrink: 0; }
+  .r360s-bar-track { flex: 1; height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+  .r360s-bar-fill  { height: 100%; border-radius: 4px; transition: width 0.4s; }
+  .r360s-dim-val  { font-size: 0.78em; font-weight: 800; width: 28px; text-align: right; }
+
+  .hidden { display: none !important; }
+
+  /* sub-tab toggle */
+  .dev-subtab-bar {
+    display: flex; gap: 0; border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden; margin-top: 14px; align-self: flex-start;
+  }
+  .dev-subtab-btn {
+    background: transparent; color: var(--text-muted); border: none;
+    padding: 8px 22px; font-family: inherit; font-size: 0.82em; font-weight: 700;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .dev-subtab-btn:not(:last-child) { border-right: 1px solid var(--border); }
+  .dev-subtab-btn.active { background: rgba(240,80,248,0.14); color: #F050F8; }
+  .dev-subtab-btn:hover:not(.active) { background: var(--surface-hover); color: var(--text); }
+
+  /* 360 results */
+  .dev-360-empty { padding: 28px 0; color: var(--text-muted); font-size: 0.85em; }
+  .r360-results-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 24px 28px; margin-bottom: 20px;
+  }
+  .r360-results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+  .r360-results-title { font-size: 1em; font-weight: 800; }
+  .r360-results-count { font-size: 0.75em; background: rgba(96,240,248,0.1); border: 1px solid rgba(96,240,248,0.3); color: #60F0F8; padding: 3px 12px; border-radius: 5px; font-weight: 700; }
+  .r360-results-dims { display: flex; flex-direction: column; gap: 14px; }
+  .r360-result-dim { border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 14px; }
+  .r360-result-dim:last-child { border-bottom: none; padding-bottom: 0; }
+  .r360-result-dim-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 6px; }
+  .r360-result-dim-name { font-size: 0.8em; color: rgba(250,250,250,0.7); line-height: 1.4; flex: 1; }
+  .r360-result-avg { font-size: 0.82em; font-weight: 800; white-space: nowrap; }
+  .r360-avg-high { color: #34CD71; }
+  .r360-avg-mid  { color: #60F0F8; }
+  .r360-avg-low  { color: #fb923c; }
+  .r360-result-bar-track { height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
+  .r360-result-bar-fill  { height: 100%; border-radius: 3px; transition: width 0.4s; }
+  .r360-comments-list { display: flex; flex-direction: column; gap: 7px; margin-top: 4px; }
+  .r360-comment-item { font-size: 0.75em; display: flex; flex-direction: column; gap: 2px; }
+  .r360-comment-reviewer { color: var(--text-muted); font-weight: 700; font-size: 0.85em; }
+  .r360-comment-text { color: rgba(250,250,250,0.75); line-height: 1.45; }
+  .r360-qual-section { margin-top: 16px; }
+  .r360-qual-title { font-size: 0.78em; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); margin-bottom: 6px; }
+  .r360-qual-list { margin: 0; padding-left: 16px; font-size: 0.78em; color: rgba(250,250,250,0.75); display: flex; flex-direction: column; gap: 5px; line-height: 1.5; }
+
+  /* 360 form card */
+  .r360-form-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 24px 28px; margin-bottom: 24px;
+  }
+  .r360-form-header { margin-bottom: 22px; border-bottom: 1px solid rgba(255,255,255,0.07); padding-bottom: 18px; }
+  .r360-form-title {
+    font-size: 1.05em; font-weight: 800; margin-bottom: 10px;
+    background: linear-gradient(90deg, #F050F8, #60F0F8);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .r360-form-intro { font-size: 0.78em; color: var(--text-muted); line-height: 1.6; margin: 0; }
+  .r360-section { display: flex; flex-direction: column; gap: 10px; margin-bottom: 22px; }
+  .r360-input {
+    background: var(--dark-3); border: 1px solid var(--border);
+    color: var(--text); border-radius: 7px; padding: 10px 14px;
+    font-family: inherit; font-size: 0.85em; width: 100%; box-sizing: border-box;
+  }
+  .r360-input:focus { outline: none; border-color: rgba(240,80,248,0.4); box-shadow: 0 0 0 3px rgba(240,80,248,0.08); }
+  .r360-textarea { resize: vertical; min-height: 60px; }
+  .r360-label { font-size: 0.78em; font-weight: 700; color: rgba(250,250,250,0.65); margin-bottom: -4px; }
+  .r360-dim-block {
+    background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px; padding: 16px; margin-bottom: 10px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .r360-dim-q { display: flex; gap: 12px; align-items: flex-start; }
+  .r360-dim-num {
+    width: 26px; height: 26px; flex-shrink: 0; border-radius: 50%;
+    background: rgba(240,80,248,0.12); border: 1px solid rgba(240,80,248,0.3);
+    color: #F050F8; font-size: 0.72em; font-weight: 800;
+    display: flex; align-items: center; justify-content: center; margin-top: 1px;
+  }
+  .r360-dim-question { font-size: 0.85em; font-weight: 700; margin-bottom: 5px; line-height: 1.4; }
+  .r360-dim-bullets { margin: 0 0 0 2px; padding-left: 14px; font-size: 0.71em; color: var(--text-muted); display: flex; flex-direction: column; gap: 2px; }
+  .r360-scale-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .r360-scale-label { font-size: 0.68em; color: var(--text-muted); font-weight: 600; white-space: nowrap; }
+  .r360-scale { display: flex; gap: 6px; }
+  .r360-scale-btn {
+    width: 40px; height: 40px; border-radius: 8px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text); font-family: inherit; font-size: 0.95em; font-weight: 800;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .r360-scale-btn:hover { background: rgba(240,80,248,0.1); border-color: rgba(240,80,248,0.35); }
+  .r360-scale-btn.selected { background: rgba(240,80,248,0.18); border-color: rgba(240,80,248,0.6); color: #F050F8; box-shadow: 0 0 12px rgba(240,80,248,0.18); }
 
   @media (max-width: 700px) {
     .dev-cap-row { grid-template-columns: 1fr; }
@@ -1545,6 +1716,177 @@
       box-shadow: none !important; border: none !important;
     }
   }
+
+  /* ── Resourcing Snapshot ── */
+  .rs-hero {
+    margin-bottom: 24px; position: relative; padding: 24px 28px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    overflow: hidden;
+  }
+  .rs-hero::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, #7ED4F9, #34CD71, #F050F8);
+  }
+  .rs-hero h2 { font-size: 1.5em; font-weight: 800; margin: 0 0 4px; color: var(--white); }
+  .rs-hero p { font-size: 0.88em; color: var(--text-muted); margin: 0; }
+  .rs-section-label {
+    font-size: 0.72em; text-transform: uppercase; letter-spacing: 0.1em;
+    color: rgba(250,250,250,0.4); margin-bottom: 12px; font-weight: 700;
+  }
+  .rs-section-divider { border: none; border-top: 1px solid var(--border); margin: 32px 0 24px; }
+  .rs-filter-bar {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px;
+  }
+  .rs-filter-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .rs-filter-label {
+    font-size: 0.7em; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+    color: rgba(250,250,250,0.4); width: 50px; flex-shrink: 0;
+  }
+  .rs-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .rs-search-input {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 7px; color: var(--text); font-size: 0.82em; padding: 8px 12px;
+    font-family: inherit; width: 100%; outline: none; transition: border-color 0.15s;
+  }
+  .rs-search-input:focus { border-color: rgba(126,212,249,0.45); }
+  .rs-chip {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px; color: rgba(250,250,250,0.6); font-size: 0.72em; font-weight: 600;
+    padding: 4px 10px; cursor: pointer; transition: all 0.15s; font-family: inherit;
+    letter-spacing: 0.02em;
+  }
+  .rs-chip:hover { background: rgba(255,255,255,0.1); color: var(--text); }
+  .rs-chip.active { background: rgba(126,212,249,0.18); border-color: rgba(126,212,249,0.45); color: var(--indigo-light); }
+  .rs-table-wrap { overflow-x: auto; margin-bottom: 4px; }
+  .rs-count { font-size: 0.75em; color: rgba(250,250,250,0.35); margin-bottom: 8px; }
+  .rs-vacancy-row { opacity: 0.5; }
+  .rs-vacancy-badge {
+    background: rgba(240,80,248,0.12); border: 1px solid rgba(240,80,248,0.3);
+    color: #F050F8; font-size: 0.78em; font-weight: 700; padding: 2px 8px; border-radius: 5px;
+  }
+  .rs-type-badge { font-size: 0.72em; font-weight: 700; padding: 2px 7px; border-radius: 4px; }
+  .rs-type-kraken {
+    background: rgba(126,212,249,0.12); color: var(--indigo-light); border: 1px solid rgba(126,212,249,0.25);
+  }
+  .rs-type-partner {
+    background: rgba(52,205,113,0.1); color: #34CD71; border: 1px solid rgba(52,205,113,0.25);
+  }
+  .rs-client-tag {
+    display: inline-block; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(250,250,250,0.75); font-size: 0.72em; padding: 2px 7px; border-radius: 4px; margin: 1px 2px;
+  }
+  .rs-pipeline-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; margin-top: 4px;
+  }
+  .rs-pipeline-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 16px; text-align: center;
+  }
+  .rs-pipeline-active { border-color: rgba(240,80,248,0.3); background: rgba(240,80,248,0.05); }
+  .rs-pipeline-region {
+    font-size: 0.72em; text-transform: uppercase; letter-spacing: 0.06em;
+    color: rgba(250,250,250,0.5); margin-bottom: 6px;
+  }
+  .rs-pipeline-num { font-size: 2em; font-weight: 800; line-height: 1; }
+  .rs-pipeline-label { font-size: 0.65em; color: rgba(250,250,250,0.4); margin-top: 4px; }
+  /* ── Budgets & People ── */
+  .rs-bp-grid { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; }
+  .rs-bp-col { flex: 0 0 160px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .rs-bp-col-header { padding: 10px 12px 8px; border-bottom: 1px solid var(--border); }
+  .rs-bp-col-region { display: block; font-size: 0.8em; font-weight: 800; color: var(--text); }
+  .rs-bp-col-vs { display: block; font-size: 0.68em; font-weight: 700; margin-top: 2px; }
+  .rs-bp-person { padding: 6px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .rs-bp-person:last-child { border-bottom: none; }
+  .rs-bp-name { display: block; font-size: 0.78em; color: var(--text); }
+  .rs-bp-role { display: block; font-size: 0.65em; color: rgba(250,250,250,0.4); margin-top: 1px; }
+  .rs-bp-vacancy .rs-bp-name { color: rgba(240,80,248,0.7); font-style: italic; }
+  .rs-bp-details { border: none; }
+  .rs-bp-summary { list-style: none; display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 6px 0 10px; font-size: 0.9em; font-weight: 700; color: var(--text); user-select: none; }
+  .rs-bp-summary::-webkit-details-marker { display: none; }
+  .rs-bp-summary::before { content: '▶'; font-size: 0.65em; color: rgba(250,250,250,0.4); transition: transform 0.15s; }
+  details[open] .rs-bp-summary::before { transform: rotate(90deg); }
+  /* ── People & Clients ── */
+  .rs-pc-region { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 12px; overflow: hidden; }
+  .rs-pc-summary { display: flex; align-items: center; gap: 14px; padding: 12px 16px; cursor: pointer; list-style: none; user-select: none; }
+  .rs-pc-summary::-webkit-details-marker { display: none; }
+  .rs-pc-summary::before { content: '▶'; font-size: 0.65em; color: rgba(250,250,250,0.3); transition: transform 0.15s; }
+  details[open] .rs-pc-summary::before { transform: rotate(90deg); }
+  .rs-pc-summary strong { font-size: 0.9em; color: var(--text); }
+  .rs-pc-clients { font-size: 0.72em; color: rgba(250,250,250,0.4); }
+  .rs-pc-region .rs-table-wrap { padding: 0 16px 16px; }
+  /* ── Resourcing sub-tabs ── */
+  .rs-subtab-bar { display: flex; gap: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 24px; }
+  .rs-subtab-btn { flex: 1; background: none; border: none; border-right: 1px solid var(--border); color: rgba(250,250,250,0.5); font-size: 0.82em; font-weight: 600; padding: 10px 16px; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+  .rs-subtab-btn:last-child { border-right: none; }
+  .rs-subtab-btn.active { background: rgba(126,212,249,0.12); color: var(--indigo-light); }
+  .rs-subtab-btn:hover:not(.active) { background: var(--surface-hover); color: var(--text); }
+  .rs-util-table td:first-child { font-size: 0.78em; color: rgba(250,250,250,0.6); }
+  /* ── Capability Heatmap ── */
+  .rs-cap-section { margin-top: 28px; }
+  .rs-cap-heatmap-table { width: 100%; border-collapse: collapse; font-size: 0.78em; }
+  .rs-cap-heatmap-table th { padding: 6px 8px; text-align: center; font-size: 0.75em; font-weight: 700; color: rgba(250,250,250,0.55); border-bottom: 1px solid var(--border); }
+  .rs-cap-heatmap-table th:first-child { text-align: left; }
+  .rs-cap-heatmap-table td { padding: 5px 8px; border-bottom: 1px solid rgba(255,255,255,0.04); text-align: center; }
+  .rs-cap-heatmap-table td:first-child { text-align: left; font-weight: 700; white-space: nowrap; }
+  .rs-cap-cell { border-radius: 5px; padding: 3px 7px; font-weight: 700; font-size: 0.88em; display: inline-block; min-width: 36px; }
+  .rs-cap-cell.green  { background: rgba(52,205,113,0.18); color: #34CD71; }
+  .rs-cap-cell.amber  { background: rgba(251,146,60,0.18);  color: #fb923c; }
+  .rs-cap-cell.red    { background: rgba(240,80,248,0.13);  color: #F050F8; }
+  .rs-cap-cell.empty  { background: rgba(255,255,255,0.04); color: rgba(250,250,250,0.25); }
+  .rs-cap-coverage { font-size: 0.65em; color: rgba(250,250,250,0.3); margin-top: 1px; }
+  /* ── Supply vs Demand ── */
+  .rs-sd-section { margin-bottom: 28px; }
+  .rs-sd-row { display: flex; align-items: center; gap: 12px; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .rs-sd-row:last-child { border-bottom: none; }
+  .rs-sd-group { display: flex; align-items: center; gap: 7px; min-width: 210px; font-size: 0.82em; font-weight: 700; }
+  .rs-sd-bars { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+  .rs-sd-bar-row { display: flex; align-items: center; gap: 6px; }
+  .rs-sd-bar-label { font-size: 0.68em; color: rgba(250,250,250,0.4); min-width: 42px; }
+  .rs-sd-bar-track { flex: 1; background: rgba(255,255,255,0.07); border-radius: 3px; height: 7px; overflow: hidden; }
+  .rs-sd-bar-fill { height: 100%; border-radius: 3px; }
+  .rs-sd-bar-supply { background: #60F0F8; }
+  .rs-sd-bar-demand { background: #F050F8; }
+  .rs-sd-bar-num { font-size: 0.72em; font-weight: 700; min-width: 22px; text-align: right; }
+  .rs-sd-developing { font-size: 0.65em; color: rgba(250,250,250,0.35); margin-left: 4px; }
+  .rs-sd-status { font-size: 0.68em; font-weight: 800; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+  .rs-sd-status.covered   { background: rgba(52,205,113,0.15);  color: #34CD71; }
+  .rs-sd-status.stretched { background: rgba(251,146,60,0.15);  color: #fb923c; }
+  .rs-sd-status.gap       { background: rgba(240,80,248,0.12);  color: #F050F8; }
+  .rs-sd-status.nodata    { background: rgba(255,255,255,0.05); color: rgba(250,250,250,0.3); }
+  /* ── Dev Tool: training badges ── */
+  .dev-training-details { margin-top: 24px; border-top: 1px solid var(--border); padding-top: 16px; }
+  .dev-training-summary { list-style: none; display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.88em; font-weight: 700; color: var(--text); user-select: none; margin-bottom: 4px; }
+  .dev-training-summary::-webkit-details-marker { display: none; }
+  .dev-training-summary::before { content: '▶'; font-size: 0.65em; color: rgba(250,250,250,0.4); transition: transform 0.15s; }
+  details[open].dev-training-details .dev-training-summary::before { transform: rotate(90deg); }
+  .dev-badge-row { margin-bottom: 10px; }
+  .dev-badge-label { display: flex; flex-direction: column; gap: 8px; padding: 10px 12px; border-radius: 8px; border: 1px solid rgba(250,250,250,0.07); }
+  .dev-badge-check { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+  .dev-badge-name { font-weight: 700; font-size: 0.85em; }
+  .dev-badge-modules { display: flex; flex-wrap: wrap; gap: 6px; padding-left: 24px; }
+  .dev-cert-pill { padding: 3px 10px; border-radius: 12px; font-size: 0.77em; cursor: pointer; font-weight: 600; user-select: none; transition: all 0.15s; }
+  .dev-cert-pill.certified { background: rgba(52,205,113,0.2); border: 1px solid rgba(52,205,113,0.5); color: #34CD71; }
+  .dev-cert-pill.training  { background: rgba(251,146,60,0.15); border: 1px solid rgba(251,146,60,0.4); color: #fb923c; }
+  .dev-cert-pill.locked    { background: rgba(250,250,250,0.04); border: 1px solid rgba(250,250,250,0.08); color: rgba(250,250,250,0.2); cursor: default; }
+  /* ── Module coverage table ── */
+  .rs-mc-table { width: 100%; border-collapse: collapse; font-size: 0.78em; }
+  .rs-mc-table th { padding: 6px 10px; text-align: center; font-weight: 700; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  .rs-mc-table th:first-child { text-align: left; }
+  .rs-mc-table td { padding: 5px 8px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .rs-mc-practice-header td { font-size: 0.82em; letter-spacing: 0.02em; }
+  .rs-mc-cell { text-align: center; }
+  .rs-mc-cell.green { color: #34CD71; font-weight: 700; }
+  .rs-mc-cell.amber { color: #fb923c; font-weight: 700; }
+  .rs-mc-cell.empty { color: rgba(250,250,250,0.2); }
+  /* ── Scheduling helper ── */
+  .rs-sched-select { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--text); padding: 6px 10px; font-size: 0.85em; font-family: inherit; cursor: pointer; }
+  .rs-sched-select:focus { outline: none; border-color: rgba(126,212,249,0.4); }
+  .rs-sched-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+  .rs-sched-row:last-child { border-bottom: none; }
+  .rs-sched-pill { padding: 2px 10px; border-radius: 10px; font-size: 0.77em; font-weight: 700; white-space: nowrap; }
+  .rs-sched-pill.certified { background: rgba(52,205,113,0.2); color: #34CD71; border: 1px solid rgba(52,205,113,0.4); }
+  .rs-sched-pill.training  { background: rgba(251,146,60,0.12); color: #fb923c; border: 1px solid rgba(251,146,60,0.35); }
   </style>
 </head>
 <body>
@@ -1556,9 +1898,9 @@
   </a>
   <nav>
     <button class="tab-btn active" onclick="showTab('transformation', this)">HOT Transformation Progress Status</button>
-    <button class="tab-btn" onclick="showTab('products', this)">Human and Org Products</button>
     <button class="tab-btn" onclick="showTab('migrations', this)">Human and Org Migration Status</button>
     <button class="tab-btn" onclick="showTab('development', this)">Development Tool</button>
+    <button class="tab-btn" onclick="showTab('resourcing', this)">Resourcing Snapshot</button>
   </nav>
   <button id="noise-btn" class="noise-btn quiet" onclick="toggleNoise()">Unleash the Chaos</button>
   <a class="board-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854" target="_blank">
@@ -2048,444 +2390,9 @@
   </div>
 
   <!-- ══════════════════════════════════
-       TAB 2: PRODUCTS
+       TAB 2: MIGRATIONS (was TAB 3)
   ══════════════════════════════════ -->
-  <div id="tab-products" class="tab-panel">
-
-    <div class="section-heading">Human and Org Products</div>
-    <p class="section-sub">Global best practice transformation products and modules — built from 45+ migrations. <strong style="color:var(--indigo-light);">★ Critical</strong> modules are the recommended foundation of every programme.</p>
-
-    <!-- ── Culture ── -->
-    <div class="practice-block">
-      <div class="practice-header">
-        <span class="practice-icon">🌱</span>
-        <div>
-          <div class="practice-name">Culture</div>
-          <div class="practice-product">Culture-by-Design System</div>
-        </div>
-      </div>
-      <div class="products-grid">
-
-        <div class="module-card critical">
-          <div class="module-header">
-            <span class="module-icon">🎨</span>
-            <span class="critical-badge">★ Critical</span>
-          </div>
-          <div class="name">Culture by Design</div>
-          <div class="desc">Defines the target culture by linking business goals to clear behaviours, beliefs, and values. Includes culture survey to baseline current state and a Culture by Design workshop to define the future state and gap to close.</div>
-          <div class="module-meta">
-            <div class="phase-tags">
-              <span class="phase-tag establish">Establish</span>
-              <span class="phase-tag build">Build</span>
-            </div>
-            <div class="meta-detail">Surveys &amp; workshops · 5–8 weeks</div>
-          </div>
-        </div>
-
-        <div class="module-card">
-          <div class="module-header"><span class="module-icon">🔄</span></div>
-          <div class="name">Rituals</div>
-          <div class="desc">Defines how the business runs day-to-day through clear, structured agile rituals — stand-ups, planning sessions, reviews, retrospectives and decision forums alongside communication channels and performance cycles.</div>
-          <div class="module-meta">
-            <div class="phase-tags">
-              <span class="phase-tag establish">Establish</span>
-              <span class="phase-tag operate">Operate</span>
-            </div>
-            <div class="meta-detail">Workshops · 3–6 weeks design, ongoing commitment</div>
-          </div>
-        </div>
-
-        <div class="module-card">
-          <div class="module-header"><span class="module-icon">👥</span></div>
-          <div class="name">Early Adopters (Ops)</div>
-          <div class="desc">Joint initiative with Octopus "Octanova" introducing the Operations Operating Model. Universal Agents learn the role and Kraken platform in advance of migration — achieving faster speed to competency and high-performing behaviours.</div>
-          <div class="module-meta">
-            <div class="phase-tags">
-              <span class="phase-tag establish">Establish</span>
-              <span class="phase-tag build">Build</span>
-            </div>
-            <div class="meta-detail">In person · Min 3 weeks</div>
-          </div>
-        </div>
-
-        <div class="module-card">
-          <div class="module-header"><span class="module-icon">⚡</span></div>
-          <div class="name">Culture Interventions</div>
-          <div class="desc">Targeted interventions at key moments throughout transformation when pressure is highest — psychological safety immersion days, alignment sessions, team resets and mid-migration check-ins.</div>
-          <div class="module-meta">
-            <div class="phase-tags">
-              <span class="phase-tag establish">Establish</span>
-              <span class="phase-tag transfer">Transfer</span>
-            </div>
-            <div class="meta-detail">Workshops · Variable</div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ── Coaching ── -->
-    <div class="practice-block">
-      <div class="practice-header">
-        <span class="practice-icon">🧠</span>
-        <div>
-          <div class="practice-name">Coaching</div>
-          <div class="practice-product">Leadership Acceleration Suite</div>
-        </div>
-      </div>
-      <div class="products-grid">
-
-        <div class="module-card critical">
-          <div class="module-header">
-            <span class="module-icon">🎯</span>
-            <span class="critical-badge">★ Critical</span>
-          </div>
-          <div class="name">Executive Coaching</div>
-          <div class="desc">1:1 executive-level coaching for senior leaders critical to programme success. Confidential support to stay grounded, make better decisions and bring teams on the transformation journey with a small number of highly experienced coaches.</div>
-          <div class="module-meta">
-            <div class="phase-tags">
-              <span class="phase-tag establish">Establish</span>
-            </div>
-            <div class="meta-detail">In person / online · 4–6 × 90 min sessions (up to 5 people)</div>
-          </div>
-        </div>
-
-        <div class="module-card">
-          <div class="module-header"><span class="module-icon">🏆</span></div>
-          <div class="name">Group Coaching</div>
-          <div class="desc">Tailored sessions pushing leadership performance beyond the standard programme. Delivered by world-class practitioners and elite sports performance experts drawing on psychology and neuroscience to unlock next-level capability.</div>
-          <div class="module-meta">
-            <div class="phase-tags">
-              <span class="phase-tag build">Build</span>
-              <span class="phase-tag operate">Operate</span>
-            </div>
-            <div class="meta-detail">Workshops · Varies</div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ── Learning & LDP ── -->
-    <div class="practice-block">
-      <div class="practice-header">
-        <span class="practice-icon">🎓</span>
-        <div>
-          <div class="practice-name">Learning &amp; LDP</div>
-          <div class="practice-product">Kraken Leadership &amp; Capability Academy</div>
-        </div>
-      </div>
-      <div class="products-grid">
-
-        <div class="module-card critical">
-          <div class="module-header">
-            <span class="module-icon">🌟</span>
-            <span class="critical-badge">★ Critical</span>
-          </div>
-          <div class="name">Exec LDP</div>
-          <div class="desc">Leading-edge, evidence-based programme giving senior leaders the self-awareness, strategic capability and behavioural toolkit to lead transformation. Leaders understand themselves, their impact, and the critical role they play.</div>
-          <div class="module-meta">
-            <div class="phase-tags"><span class="phase-tag establish">Establish</span></div>
-            <div class="meta-detail">Workshops · 5 days</div>
-          </div>
-        </div>
-
-        <div class="module-card critical">
-          <div class="module-header">
-            <span class="module-icon">⚙️</span>
-            <span class="critical-badge">★ Critical</span>
-          </div>
-          <div class="name">Ops LDP</div>
-          <div class="desc">Structured leadership development for operational leaders — leading self, leading people, leading the operation and building capacity. Space for reflection, open dialogue and collaborative learning that migration demands.</div>
-          <div class="module-meta">
-            <div class="phase-tags"><span class="phase-tag build">Build</span></div>
-            <div class="meta-detail">Workshops · 4 days over 4–8 weeks</div>
-          </div>
-        </div>
-
-        <div class="module-card critical">
-          <div class="module-header">
-            <span class="module-icon">🤝</span>
-            <span class="critical-badge">★ Critical</span>
-          </div>
-          <div class="name">Universal Agent Training</div>
-          <div class="desc">Critical onboarding combining hands-on system training, real-world scenarios and ways of working. Builds technical skills alongside psychological safety, growth mindset and accountability behaviours from day one.</div>
-          <div class="module-meta">
-            <div class="phase-tags"><span class="phase-tag establish">Establish</span></div>
-            <div class="meta-detail">Programme · 2–3 weeks</div>
-          </div>
-        </div>
-
-        <div class="module-card critical">
-          <div class="module-header">
-            <span class="module-icon">📚</span>
-            <span class="critical-badge">★ Critical</span>
-          </div>
-          <div class="name">Kraken Academy</div>
-          <div class="desc">Structured, on-the-job e-learning building deep skills-based capability across billing, complaints and metering. Enables agents to handle complex customer journeys end-to-end without back-office handoffs.</div>
-          <div class="module-meta">
-            <div class="phase-tags">
-              <span class="phase-tag build">Build</span>
-              <span class="phase-tag operate">Operate</span>
-            </div>
-            <div class="meta-detail">E-learning · Ongoing</div>
-          </div>
-        </div>
-
-        <div class="module-card critical">
-          <div class="module-header">
-            <span class="module-icon">🗂️</span>
-            <span class="critical-badge">★ Critical</span>
-          </div>
-          <div class="name">TDO Training</div>
-          <div class="desc">Immersive programme establishing joint client and Kraken ways of working — shared communication, project management tools, prioritisation skills, psychological safety and agile leadership for TDO teams.</div>
-          <div class="module-meta">
-            <div class="phase-tags">
-              <span class="phase-tag establish">Establish</span>
-              <span class="phase-tag build">Build</span>
-            </div>
-            <div class="meta-detail">Face to face · 2 days</div>
-          </div>
-        </div>
-
-        <div class="module-card">
-          <div class="module-header"><span class="module-icon">🎤</span></div>
-          <div class="name">Facilitation Mastery</div>
-          <div class="desc">Builds internal capability to run onboarding and facilitation in a structured, engaging and repeatable way — enabling teams to confidently train others and run sessions without relying on external support.</div>
-          <div class="module-meta">
-            <div class="phase-tags"><span class="phase-tag build">Build</span></div>
-            <div class="meta-detail">Programme · 4 weeks</div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ── Data ── -->
-    <div class="practice-block">
-      <div class="practice-header">
-        <span class="practice-icon">📊</span>
-        <div>
-          <div class="practice-name">Data</div>
-          <div class="practice-product">Data Enablement</div>
-        </div>
-      </div>
-      <div class="products-grid">
-
-        <div class="module-card critical">
-          <div class="module-header">
-            <span class="module-icon">🧭</span>
-            <span class="critical-badge">★ Critical</span>
-          </div>
-          <div class="name">Data North Star</div>
-          <div class="desc">Short facilitated session to define clear business priorities for data. Aligns leadership on where data should create value first, identifies initial use cases and sets guiding principles for early decisions.</div>
-          <div class="module-meta">
-            <div class="phase-tags"><span class="phase-tag establish">Establish</span></div>
-            <div class="meta-detail">Workshop · 1 hour</div>
-          </div>
-        </div>
-
-        <div class="module-card critical">
-          <div class="module-header">
-            <span class="module-icon">📐</span>
-            <span class="critical-badge">★ Critical</span>
-          </div>
-          <div class="name">Data TOM v1</div>
-          <div class="desc">Defines the data team, roles, and setup needed during migration. Minimum viable data capability covering team structure, responsibilities and core architecture to ensure reporting is accurate and trusted from day one.</div>
-          <div class="module-meta">
-            <div class="phase-tags"><span class="phase-tag establish">Establish</span></div>
-            <div class="meta-detail">Workshops · 1–2 hours</div>
-          </div>
-        </div>
-
-        <div class="module-card critical">
-          <div class="module-header">
-            <span class="module-icon">🔬</span>
-            <span class="critical-badge">★ Critical</span>
-          </div>
-          <div class="name">Data TOM v2</div>
-          <div class="desc">Builds a sustainable, high-ROI data organisation post-migration. Moves from delivering reporting to embedding data into day-to-day decision making and building AI capabilities and optimisations.</div>
-          <div class="module-meta">
-            <div class="phase-tags">
-              <span class="phase-tag operate">Operate</span>
-              <span class="phase-tag transfer">Transfer</span>
-            </div>
-            <div class="meta-detail">Workshops · Varies</div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ── Innovation ── -->
-    <div class="practice-block">
-      <div class="practice-header">
-        <span class="practice-icon">💡</span>
-        <div>
-          <div class="practice-name">Innovation</div>
-          <div class="practice-product">Growth Acceleration</div>
-        </div>
-      </div>
-      <div class="products-grid">
-
-        <div class="module-card critical">
-          <div class="module-header">
-            <span class="module-icon">🔍</span>
-            <span class="critical-badge">★ Critical</span>
-          </div>
-          <div class="name">Innovation Discovery &amp; Baseline</div>
-          <div class="desc">Introduces Kraken's data-led innovation model combined with deep discovery of how the client currently approaches innovation. Establishes baseline metrics and insights to understand pre-Kraken ways of working.</div>
-          <div class="module-meta">
-            <div class="phase-tags"><span class="phase-tag establish">Establish</span></div>
-            <div class="meta-detail">In-person workshop · ½–1 day</div>
-          </div>
-        </div>
-
-        <div class="module-card critical">
-          <div class="module-header">
-            <span class="module-icon">🚀</span>
-            <span class="critical-badge">★ Critical</span>
-          </div>
-          <div class="name">Marketing &amp; Product TOM</div>
-          <div class="desc">Workshop introducing the Kraken operating model for high-performing marketing and product teams, emphasising small agile squads with end-to-end ownership of go-to-market and customer experience.</div>
-          <div class="module-meta">
-            <div class="phase-tags"><span class="phase-tag establish">Establish</span></div>
-            <div class="meta-detail">In-person workshop &amp; materials · 4 weeks</div>
-          </div>
-        </div>
-
-        <div class="module-card critical">
-          <div class="module-header">
-            <span class="module-icon">🗺️</span>
-            <span class="critical-badge">★ Critical</span>
-          </div>
-          <div class="name">Go-to-Market Process Design</div>
-          <div class="desc">Redesigns the end-to-end innovation process with a clear framework from problem discovery to MVP launch based on Design Thinking principles — rapid ideation, lightweight MVPs and continuous feedback loops.</div>
-          <div class="module-meta">
-            <div class="phase-tags"><span class="phase-tag establish">Establish</span></div>
-            <div class="meta-detail">In-person workshop &amp; materials · 4 weeks</div>
-          </div>
-        </div>
-
-        <div class="module-card">
-          <div class="module-header"><span class="module-icon">😊</span></div>
-          <div class="name">Customer Experience Optimisation</div>
-          <div class="desc">Modules targeting key CX areas once the UA model is stabilised — key journey analysis, automation of manual processes, self-serve capability, channel optimisation and crisis management processes.</div>
-          <div class="module-meta">
-            <div class="phase-tags">
-              <span class="phase-tag operate">Operate</span>
-              <span class="phase-tag transfer">Transfer</span>
-            </div>
-            <div class="meta-detail">Workshops &amp; online · 6 weeks</div>
-          </div>
-        </div>
-
-        <div class="module-card">
-          <div class="module-header"><span class="module-icon">🎯</span></div>
-          <div class="name">Customer Segmentation &amp; Targeting</div>
-          <div class="desc">Co-creates a segmentation strategy embedded directly into how Kraken is set up — defining the approach, embedding into key journeys and close collaboration with Comms and Lifecycle CDLs throughout.</div>
-          <div class="module-meta">
-            <div class="phase-tags"><span class="phase-tag build">Build</span></div>
-            <div class="meta-detail">Workshops &amp; data analysis · 2–3 weeks</div>
-          </div>
-        </div>
-
-        <div class="module-card">
-          <div class="module-header"><span class="module-icon">💰</span></div>
-          <div class="name">Value Optimisation</div>
-          <div class="desc">Uses Kraken data to optimise the product portfolio and deepen understanding of customer churn, lifetime value, cross-sell, retention and adoption in collaboration with Commercial CDLs.</div>
-          <div class="module-meta">
-            <div class="phase-tags"><span class="phase-tag build">Build</span></div>
-            <div class="meta-detail">Data analysis &amp; workshops · 4–6 weeks</div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ── Operating Model ── -->
-    <div class="practice-block">
-      <div class="practice-header">
-        <span class="practice-icon">🏢</span>
-        <div>
-          <div class="practice-name">Operating Model</div>
-          <div class="practice-product">Operating Model Programme</div>
-        </div>
-      </div>
-      <div class="products-grid">
-
-        <div class="module-card critical">
-          <div class="module-header">
-            <span class="module-icon">📋</span>
-            <span class="critical-badge">★ Critical</span>
-          </div>
-          <div class="name">TOM Ready Programme</div>
-          <div class="desc">Suite of content familiarising clients with all elements of the Universal Agent Operating Model — roles and responsibilities, conscious silos and success metrics. Assists in designing the target operating model before migration begins.</div>
-          <div class="module-meta">
-            <div class="phase-tags"><span class="phase-tag establish">Establish</span></div>
-            <div class="meta-detail">Online content &amp; workshops · 6 weeks (1–2 hrs/week)</div>
-          </div>
-        </div>
-
-        <div class="module-card critical">
-          <div class="module-header">
-            <span class="module-icon">🏗️</span>
-            <span class="critical-badge">★ Critical</span>
-          </div>
-          <div class="name">Organisation Design</div>
-          <div class="desc">Suite of workshops supporting clients in designing target operating models for their overall organisation and impacted functions. Global best practice for Kraken-enabled retail utilities — governance, ways of working and value creation.</div>
-          <div class="module-meta">
-            <div class="phase-tags">
-              <span class="phase-tag establish">Establish</span>
-              <span class="phase-tag build">Build</span>
-            </div>
-            <div class="meta-detail">Workshops &amp; content · Client dependent</div>
-          </div>
-        </div>
-
-        <div class="module-card">
-          <div class="module-header"><span class="module-icon">🧪</span></div>
-          <div class="name">Early Adopters (Org)</div>
-          <div class="desc">Flexible "experience lab" with Octopus "Octanova" — bespoke workshops addressing specific client challenges from problem-solving with Kraken data to go-to-market design in a live Kraken-enabled environment.</div>
-          <div class="module-meta">
-            <div class="phase-tags">
-              <span class="phase-tag establish">Establish</span>
-              <span class="phase-tag build">Build</span>
-            </div>
-            <div class="meta-detail">In person · 1 day to multi-day</div>
-          </div>
-        </div>
-
-        <div class="module-card">
-          <div class="module-header"><span class="module-icon">🤝</span></div>
-          <div class="name">BPO Partner Programme</div>
-          <div class="desc">Accreditation programme building a network of BPO partners vetted and trained to deliver Kraken standards. Current partners: Accenture, DDC, Konecta, Sigma. Enables faster ramp-up and lower delivery risk for clients.</div>
-          <div class="module-meta">
-            <div class="phase-tags"><span class="phase-tag establish">Establish</span></div>
-            <div class="meta-detail">Workshops · ~1 week intro + site visits</div>
-          </div>
-        </div>
-
-        <div class="module-card critical">
-          <div class="module-header">
-            <span class="module-icon">✅</span>
-            <span class="critical-badge">★ Critical</span>
-          </div>
-          <div class="name">Model Ready Programme</div>
-          <div class="desc">Targeted programme for selected teams at 50–60% migration. Identifies challenges, resets priorities and equips teams with structure, skills and guidance for long-term success under operational pressure.</div>
-          <div class="module-meta">
-            <div class="phase-tags">
-              <span class="phase-tag build">Build</span>
-              <span class="phase-tag operate">Operate</span>
-            </div>
-            <div class="meta-detail">Workshops, content &amp; mentoring · ~12 weeks</div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-  </div>
+  <!-- Products moved to products.html -->
 
   <!-- ══════════════════════════════════
        TAB 3: MIGRATIONS
@@ -3707,6 +3614,40 @@
     <div class="dev-hero">
       <h2>Development Tool</h2>
       <p>Assess capability levels against the H&amp;O Development Matrix · Ratings are saved in your browser</p>
+      <div class="dev-subtab-bar">
+        <button class="dev-subtab-btn active" id="dev-st-matrix" onclick="devShowSubtab('matrix')">Development Matrix</button>
+        <button class="dev-subtab-btn" id="dev-st-360" onclick="devShowSubtab('360')">360 Review</button>
+      </div>
+    </div>
+
+    <div id="dev-subtab-matrix">
+    <div class="dev-filter-bar">
+      <input class="dev-search-input" id="dev-search" type="search" placeholder="Search by name, role, practice, region…" oninput="devApplyFilters()">
+      <div class="dev-filter-group">
+        <span class="dev-filter-label">Region</span>
+        <div class="dev-filter-chips" id="dev-region-chips">
+          <button class="dev-filter-chip active" onclick="devSetFilterRegion('All',this)">All</button>
+          <button class="dev-filter-chip" onclick="devSetFilterRegion('UK&amp;I',this)">UK&amp;I</button>
+          <button class="dev-filter-chip" onclick="devSetFilterRegion('N Europe',this)">N Europe</button>
+          <button class="dev-filter-chip" onclick="devSetFilterRegion('S Europe',this)">S Europe</button>
+          <button class="dev-filter-chip" onclick="devSetFilterRegion('ME',this)">ME</button>
+          <button class="dev-filter-chip" onclick="devSetFilterRegion('USA',this)">USA</button>
+          <button class="dev-filter-chip" onclick="devSetFilterRegion('Aus/NZ',this)">Aus/NZ</button>
+          <button class="dev-filter-chip" onclick="devSetFilterRegion('Japan',this)">Japan</button>
+        </div>
+      </div>
+      <div class="dev-filter-group">
+        <span class="dev-filter-label">Role</span>
+        <div class="dev-filter-chips" id="dev-role-chips">
+          <button class="dev-filter-chip active" onclick="devSetFilterRole('All',this)">All</button>
+          <button class="dev-filter-chip" onclick="devSetFilterRole('GPL',this)">GPL</button>
+          <button class="dev-filter-chip" onclick="devSetFilterRole('OD Lead',this)">OD Lead</button>
+          <button class="dev-filter-chip" onclick="devSetFilterRole('HD Lead',this)">HD Lead</button>
+          <button class="dev-filter-chip" onclick="devSetFilterRole('OD&amp;HD Lead',this)">OD&amp;HD Lead</button>
+          <button class="dev-filter-chip" onclick="devSetFilterRole('SCDL',this)">SCDL</button>
+          <button class="dev-filter-chip" onclick="devSetFilterRole('CDL',this)">CDL</button>
+        </div>
+      </div>
     </div>
 
     <div class="dev-select-bar">
@@ -3726,14 +3667,158 @@
       <div class="dev-select-group" style="flex-direction:row; align-items:flex-end; gap:8px">
         <button class="dev-save-btn" onclick="devSave()">Save</button>
         <button class="dev-compare-btn" id="dev-compare-btn" onclick="devToggleCompare()">Compare</button>
+        <button class="dev-slides-btn" id="dev-slides-btn" onclick="devGenerateSlides()">📊 Slides</button>
       </div>
       <div class="dev-person-info" id="dev-person-info"></div>
     </div>
 
     <div id="dev-assessment"></div>
-    <div id="dev-overview"></div>
+    <div id="dev-training"></div>
+    <div id="dev-output"></div>
+    </div><!-- /dev-subtab-matrix -->
+
+    <div id="dev-subtab-360" class="hidden">
+      <div id="dev-360-body"></div>
+    </div>
+
     <div class="dev-saved-toast" id="dev-toast">Assessment saved</div>
   </div>
+
+  <!-- ══════════════════════════════════
+       TAB 5: RESOURCING SNAPSHOT
+  ══════════════════════════════════ -->
+  <div id="tab-resourcing" class="tab-panel">
+
+    <div class="rs-hero">
+      <h2>Resourcing Snapshot</h2>
+      <p>Live view of the H&amp;O team across all regions — people, clients, hiring pipeline, and utilisation.</p>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="label">Active (Kraken)</div>
+        <div class="value" style="color:var(--indigo-light)" id="rs-stat-active">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Open Vacancies</div>
+        <div class="value" style="color:#F050F8" id="rs-stat-vacancies">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Current ACV</div>
+        <div class="value" style="color:#34CD71" id="rs-stat-acv">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Current Clients</div>
+        <div class="value" style="color:var(--indigo-light)" id="rs-stat-current">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Planned Clients</div>
+        <div class="value" style="color:rgba(126,212,249,0.55)" id="rs-stat-planned">—</div>
+      </div>
+    </div>
+
+    <div class="rs-subtab-bar">
+      <button class="rs-subtab-btn active" onclick="rsShowSubtab('budgets',this)">Budgets &amp; People</button>
+      <button class="rs-subtab-btn" onclick="rsShowSubtab('clients',this)">Clients</button>
+      <button class="rs-subtab-btn" onclick="rsShowSubtab('utilisation',this)">Utilisation</button>
+      <button class="rs-subtab-btn" onclick="rsShowSubtab('people-clients',this)">People &amp; Clients</button>
+    </div>
+
+    <!-- ── Clients ── -->
+    <div id="rs-st-clients" class="hidden">
+      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px">
+        <div class="rs-chips">
+          <button class="rs-chip rs-status-chip active" onclick="rsSetClientStatus('All',this)">All</button>
+          <button class="rs-chip rs-status-chip" onclick="rsSetClientStatus('Current',this)">Current</button>
+          <button class="rs-chip rs-status-chip" onclick="rsSetClientStatus('Planned',this)">Planned</button>
+        </div>
+        <div class="rs-chips">
+          <button class="rs-chip rs-region-chip active" onclick="rsSetClientRegion('All',this)">All regions</button>
+          <button class="rs-chip rs-region-chip" onclick="rsSetClientRegion('UK&amp;I',this)">UK&amp;I</button>
+          <button class="rs-chip rs-region-chip" onclick="rsSetClientRegion('N Europe',this)">N Europe</button>
+          <button class="rs-chip rs-region-chip" onclick="rsSetClientRegion('S Europe',this)">S Europe</button>
+          <button class="rs-chip rs-region-chip" onclick="rsSetClientRegion('ME',this)">ME</button>
+          <button class="rs-chip rs-region-chip" onclick="rsSetClientRegion('USA',this)">USA</button>
+          <button class="rs-chip rs-region-chip" onclick="rsSetClientRegion('Aus/NZ',this)">Aus/NZ</button>
+          <button class="rs-chip rs-region-chip" onclick="rsSetClientRegion('Japan',this)">Japan</button>
+        </div>
+      </div>
+      <div class="rs-table-wrap">
+        <table class="srt">
+          <thead>
+            <tr>
+              <th>Client</th><th>Region</th><th>Status</th>
+              <th style="text-align:right">Agreements</th>
+              <th style="text-align:center">Size</th>
+              <th style="text-align:right">Req HC</th>
+              <th>Team</th>
+            </tr>
+          </thead>
+          <tbody id="rs-clients-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── Utilisation (Kantata) ── -->
+    <div id="rs-st-utilisation" class="hidden">
+      <p class="section-sub" style="margin-bottom:12px">FTE allocation from Kantata — snapshot 01 May 2026. Months: May–Oct 2026.</p>
+      <div class="rs-chips" style="margin-bottom:14px">
+        <button class="rs-chip rs-status-chip active" onclick="rsSetUtilRegion('All',this)">All</button>
+        <button class="rs-chip rs-status-chip" onclick="rsSetUtilRegion('UK&amp;I',this)">UK&amp;I</button>
+        <button class="rs-chip rs-status-chip" onclick="rsSetUtilRegion('N Europe',this)">N Europe</button>
+        <button class="rs-chip rs-status-chip" onclick="rsSetUtilRegion('S Europe',this)">S Europe</button>
+        <button class="rs-chip rs-status-chip" onclick="rsSetUtilRegion('ME',this)">ME</button>
+        <button class="rs-chip rs-status-chip" onclick="rsSetUtilRegion('USA',this)">USA</button>
+        <button class="rs-chip rs-status-chip" onclick="rsSetUtilRegion('Aus/NZ',this)">Aus/NZ</button>
+        <button class="rs-chip rs-status-chip" onclick="rsSetUtilRegion('Japan',this)">Japan</button>
+      </div>
+      <div class="rs-table-wrap">
+        <table class="srt rs-util-table">
+          <thead>
+            <tr>
+              <th>Project</th><th>Person</th><th style="text-align:right">May</th>
+              <th style="text-align:right">Jun</th><th style="text-align:right">Jul</th>
+              <th style="text-align:right">Aug</th><th style="text-align:right">Sep</th>
+              <th style="text-align:right">Oct</th>
+            </tr>
+          </thead>
+          <tbody id="rs-util-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── Budgets & People ── -->
+    <div id="rs-st-budgets">
+      <div class="rs-section-label" style="margin-bottom:10px">Budget vs Headcount by Region</div>
+      <p class="section-sub" style="margin-bottom:12px">Budget = agreed 2025/26 headcount target. vs Budget = (Current HC + Active Hires) − Budget. Red = over, green = under.</p>
+      <div class="rs-table-wrap">
+        <div id="rs-budget-table-wrap"></div>
+      </div>
+      <div class="rs-section-divider"></div>
+      <div id="rs-budget-people"></div>
+      <div class="rs-cap-section">
+        <div class="rs-section-divider"></div>
+        <div class="rs-section-label" style="margin-bottom:6px">Capability Profile by Region</div>
+        <p class="section-sub" style="margin-bottom:12px">Average Dev Tool rating per capability group across rated people in each region. Leader rating preferred; falls back to self. — = no ratings yet.</p>
+        <div class="rs-table-wrap"><div id="rs-cap-heatmap"></div></div>
+      </div>
+    </div>
+
+    <!-- ── People & Clients New ── -->
+    <div id="rs-st-people-clients" class="hidden">
+      <div class="rs-section-label" style="margin-bottom:6px">Module Coverage by Region</div>
+      <p class="section-sub" style="margin-bottom:12px">Practice badges and module certifications per region. Certified count shown; +N = in training. Hover a cell to see names.</p>
+      <div id="rs-module-coverage"></div>
+      <div class="rs-section-divider"></div>
+      <div class="rs-section-label" style="margin-bottom:6px">Scheduling Helper</div>
+      <p class="section-sub" style="margin-bottom:12px">Find who can deliver a module in a region. Certified first, then in training.</p>
+      <div id="rs-scheduling"></div>
+      <div class="rs-section-divider"></div>
+      <p class="section-sub" style="margin-bottom:16px">Module planning and people allocation by region and client. Green dot = confirmed demand. S Europe and ME have full planning data; other regions are template-only.</p>
+      <div id="rs-pc-regions"></div>
+    </div>
+
+  </div><!-- /tab-resourcing -->
 
 </main>
 
@@ -3753,6 +3838,11 @@
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('tab-' + id).classList.add('active');
     btn.classList.add('active');
+    if (id === 'resourcing') {
+      rsRenderCapabilityHeatmap();
+      rsRenderModuleCoverage();
+      rsRenderScheduling();
+    }
   }
 
   function updateWine() {
@@ -4069,82 +4159,12 @@
     });
     updateWine();
     devInit();
+    rsInit();
   });
 
   // ── Development Tool ──────────────────────────────────────────────
 
-  const DEV_PEOPLE = [
-    {name:'Josh Brookes',role:'GPL',practice:'Operating Model',region:'UK&I'},
-    {name:'Katherine Lamb',role:'GPL',practice:'Innovation',region:'UK&I'},
-    {name:'Paul Loran',role:'GPL',practice:'Innovation',region:'UK&I'},
-    {name:'Emily Noakes',role:'GPL',practice:'Culture',region:'UK&I'},
-    {name:'Lisa Hardie',role:'OD Lead',practice:'Telco',region:'UK&I'},
-    {name:'Sam Winter',role:'OD Lead',practice:'Org Design',region:'UK&I'},
-    {name:'Natasha Wallace',role:'HD Lead',practice:'Human Design',region:'UK&I'},
-    {name:'Josh Popham',role:'SCDL',practice:'Innovation',region:'UK&I'},
-    {name:'Terilee Ward',role:'SCDL',practice:'Operating Model',region:'UK&I'},
-    {name:'Katarzyna Sotek',role:'SCDL',practice:'Operating Model',region:'UK&I'},
-    {name:'Klarissa Patel',role:'CDL',practice:'Culture',region:'UK&I'},
-    {name:'Kelly Rankine',role:'CDL',practice:'Learning',region:'UK&I'},
-    {name:'Siga Krubally',role:'CDL',practice:'Learning',region:'UK&I'},
-    {name:'Liam Mabbott',role:'SCDL',practice:'Culture',region:'UK&I'},
-    {name:'Jess Brewer',role:'SCDL',practice:'Innovation',region:'UK&I'},
-    {name:'Sotiris Karoulla',role:'CDL',practice:'Learning',region:'UK&I'},
-    {name:'Emily Snow',role:'CDL',practice:'Operating Model',region:'UK&I'},
-    {name:'Hannah Williams',role:'CDL',practice:'Telco',region:'UK&I'},
-    {name:'Sev Summers',role:'CDL',practice:'Telco',region:'UK&I'},
-    {name:'Harry Cooke',role:'CDL',practice:'Water',region:'UK&I'},
-    {name:'Harry Worrall',role:'CDL',practice:'Telco',region:'UK&I'},
-    {name:'Shreya Prasad',role:'CDL',practice:'Telco',region:'UK&I'},
-    {name:'Ellie Grigorjevs-Walsh',role:'CDL',practice:'Telco',region:'UK&I'},
-    {name:'Roxanne Rath',role:'HD Lead',practice:'Human Design',region:'N Europe'},
-    {name:'Alex Taylor',role:'SCDL',practice:'Culture',region:'N Europe'},
-    {name:'Alexej Jablonski',role:'SCDL',practice:'LDP',region:'N Europe'},
-    {name:'Diederick Theunissen',role:'SCDL',practice:'Operating Model',region:'N Europe'},
-    {name:'Erlend Styve',role:'SCDL',practice:'Operating Model',region:'N Europe'},
-    {name:'Sandra Nielsen',role:'SCDL',practice:'Culture',region:'N Europe'},
-    {name:'Amy Barnes',role:'SCDL',practice:'LDP',region:'N Europe'},
-    {name:'Sanne Foekens',role:'CDL',practice:'LDP',region:'N Europe'},
-    {name:'Sanne Jongeling',role:'CDL',practice:'Learning',region:'N Europe'},
-    {name:'David Springhetti',role:'SCDL',practice:'Operating Model',region:'N Europe'},
-    {name:'Mirjam Brandhuber',role:'CDL',practice:'Culture',region:'N Europe'},
-    {name:'Karoline Czychon',role:'CDL',practice:'Operating Model',region:'N Europe'},
-    {name:'Anna Šútorová',role:'SCDL',practice:'Operating Model',region:'N Europe'},
-    {name:'Alex Holden',role:'CDL',practice:'Learning',region:'N Europe'},
-    {name:'Karin Yardy',role:'OD Lead',practice:'Org Design',region:'S Europe'},
-    {name:'Valeria Winkworth',role:'HD Lead',practice:'Human Design',region:'S Europe'},
-    {name:'Claudia Díaz',role:'SCDL',practice:'Culture',region:'S Europe'},
-    {name:'Jose Saidler',role:'CDL',practice:'Learning',region:'S Europe'},
-    {name:"Mardochée N'goran",role:'CDL',practice:'Learning',region:'S Europe'},
-    {name:'Ferdinand Baulez',role:'CDL',practice:'Operating Model',region:'S Europe'},
-    {name:'Melissa Jensen Labiano',role:'CDL',practice:'Learning',region:'S Europe'},
-    {name:'Eloïse Stonehouse',role:'CDL',practice:'LDP',region:'S Europe'},
-    {name:'Shoaib Nasir',role:'OD Lead',practice:'Org Design',region:'ME'},
-    {name:'Brooke Owen',role:'SCDL',practice:'Operating Model',region:'ME'},
-    {name:'Robert Dietz',role:'OD&HD Lead',practice:'Human Design',region:'USA'},
-    {name:'Matt Hard',role:'SCDL',practice:'',region:'USA'},
-    {name:'Kristina Francisco',role:'OD Lead',practice:'Org Design',region:'USA'},
-    {name:'Ross Crosby',role:'HD Lead',practice:'Human Design',region:'USA'},
-    {name:'Safiyah Iqbal',role:'SCDL',practice:'LDP',region:'USA'},
-    {name:'Emily Messer',role:'CDL',practice:'Culture',region:'USA'},
-    {name:'Shayleen Joseph',role:'CDL',practice:'Operating Model',region:'USA'},
-    {name:'Samuel Malloy',role:'CDL',practice:'',region:'USA'},
-    {name:'Amy Mason',role:'SCDL',practice:'Learning',region:'USA'},
-    {name:'Keijan Martin',role:'CDL',practice:'',region:'USA'},
-    {name:'Nicola Harrison',role:'OD&HD Lead',practice:'Human Design',region:'Aus/NZ'},
-    {name:'Jordan Forshaw',role:'SCDL',practice:'Operating Model',region:'Aus/NZ'},
-    {name:'James Childs',role:'CDL',practice:'',region:'Aus/NZ'},
-    {name:'Hiroko Otsubo',role:'OD&HD Lead',practice:'Human Design',region:'Japan'},
-    {name:'Daisaku Nishinaka',role:'CDL',practice:'Culture',region:'Japan'},
-    {name:'Takahiro Sawai',role:'CDL',practice:'',region:'Japan'},
-    {name:'Natsuki Oyama',role:'CDL',practice:'',region:'Japan'},
-    {name:'Hiroaki Kidoguchi',role:'CDL',practice:'',region:'Japan'},
-    {name:'Issei Matsumiya',role:'CDL',practice:'',region:'Japan'},
-    {name:'Toshihito Kakizaki',role:'SCDL',practice:'',region:'Japan'},
-    {name:'Marika Sato',role:'CDL',practice:'',region:'Japan'},
-    {name:'Ippei Kito',role:'CDL',practice:'',region:'Japan'},
-    {name:'Yoshiko Saito',role:'CDL',practice:'',region:'Japan'},
-  ];
+  // DEV_PEOPLE derived from unified PEOPLE list (defined after RS constants)
 
   const DEV_MATRIX = [
     { group: 'Knowledge', caps: [
@@ -4189,30 +4209,98 @@
     'Mission Tasks':              { color: '#fb923c', icon: '🚀' },
   };
 
+  const REVIEW_360_DIMS = [
+    { key: 'problem_definition', question: 'How effectively does this person identify and define the right problems to solve?',
+      bullets: ['Brings clarity to complex or unclear problems','Uses data and insight to understand root causes','Connects issues across teams or areas (not just symptoms)'] },
+    { key: 'prioritisation', question: 'How effectively does this person focus work on what matters most?',
+      bullets: ['Prioritises high-impact work over low-value activity','Challenges unnecessary or low-impact requests','Helps others stay aligned to clear priorities'] },
+    { key: 'delivery', question: 'How effectively does this person deliver and drive work forward?',
+      bullets: ['Takes ownership and follows through','Delivers work that is practical and usable','Coordinates effectively with others to get things done'] },
+    { key: 'influence', question: 'How effectively does this person work with and influence others?',
+      bullets: ['Communicates clearly and builds trust','Aligns different stakeholders when priorities differ','Influences decisions at the right level'] },
+    { key: 'change_adoption', question: 'How effectively does this person ensure changes actually stick?',
+      bullets: ['Supports teams to adopt new ways of working','Builds confidence and capability in others','Ensures work leads to real behaviour or performance change'] },
+    { key: 'systems_thinking', question: 'How well does this person think beyond their immediate scope?',
+      bullets: ['Understands how work impacts the wider system','Connects work across teams or functions','Identifies broader issues or opportunities'] },
+    { key: 'impact', question: 'How much impact does this person have on outcomes?',
+      bullets: ['Work leads to meaningful improvements (e.g. performance, efficiency, experience)','Focuses on measurable results rather than activity','Helps others understand what success looks like'] },
+    { key: 'contribution', question: 'How does this person contribute beyond their immediate work?',
+      bullets: ['Shares knowledge, tools, or approaches','Helps others improve','Contributes to improving how the team works'] },
+  ];
+
   let devCurrentPerson = '';
   let devCurrentRole   = 'self'; // 'self' | 'leader'
   let devCompareMode   = false;
   let devRatings       = {}; // { capName: level 1-4 }
+  let devFilterRegion  = 'All';
+  let devFilterRole    = 'All';
+  let devSearchQuery   = '';
+  let devCurrentSubtab = 'matrix';
 
   function devStorageKey(person, role) {
     return 'dev_' + person + '_' + role;
   }
 
   function devInit() {
+    devApplyFilters();
+    devRenderOutput();
+  }
+
+  function devApplyFilters() {
+    const q   = (document.getElementById('dev-search')?.value || '').toLowerCase();
     const sel = document.getElementById('dev-person-select');
-    const regions = [...new Set(DEV_PEOPLE.map(p => p.region))];
-    regions.forEach(region => {
-      const grp = document.createElement('optgroup');
-      grp.label = region;
-      DEV_PEOPLE.filter(p => p.region === region).forEach(p => {
-        const opt = document.createElement('option');
-        opt.value = p.name;
-        opt.textContent = p.name;
-        grp.appendChild(opt);
-      });
-      sel.appendChild(grp);
+    const prev = sel.value;
+    // clear everything except the placeholder
+    while (sel.options.length > 1) sel.remove(1);
+
+    const filtered = DEV_PEOPLE.filter(p => {
+      if (devFilterRegion !== 'All' && p.region !== devFilterRegion) return false;
+      if (devFilterRole   !== 'All' && p.role   !== devFilterRole)   return false;
+      if (q && !([p.name, p.role, p.practice, p.region].join(' ').toLowerCase().includes(q))) return false;
+      return true;
     });
-    devRenderHeatmap();
+
+    filtered.forEach(p => {
+      const opt = document.createElement('option');
+      opt.value = p.name;
+      opt.textContent = p.name + ' (' + p.role + (p.practice ? ', ' + p.practice : '') + ')';
+      sel.appendChild(opt);
+    });
+
+    // restore previous selection if still in filtered list
+    if (filtered.some(p => p.name === prev)) {
+      sel.value = prev;
+    } else if (devCurrentPerson && !filtered.some(p => p.name === devCurrentPerson)) {
+      devCurrentPerson = '';
+      devRatings = {};
+      document.getElementById('dev-person-info').textContent = '';
+      devRenderAssessment();
+      devUpdateCompareBtn();
+      devRenderOutput();
+    }
+  }
+
+  function devShowSubtab(tab) {
+    devCurrentSubtab = tab;
+    document.getElementById('dev-subtab-matrix').classList.toggle('hidden', tab !== 'matrix');
+    document.getElementById('dev-subtab-360').classList.toggle('hidden', tab !== '360');
+    document.getElementById('dev-st-matrix').classList.toggle('active', tab === 'matrix');
+    document.getElementById('dev-st-360').classList.toggle('active', tab === '360');
+    if (tab === '360') dev360Render();
+  }
+
+  function devSetFilterRegion(region, btn) {
+    devFilterRegion = region;
+    document.querySelectorAll('#dev-region-chips .dev-filter-chip').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    devApplyFilters();
+  }
+
+  function devSetFilterRole(role, btn) {
+    devFilterRole = role;
+    document.querySelectorAll('#dev-role-chips .dev-filter-chip').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    devApplyFilters();
   }
 
   function devSelectPerson(name) {
@@ -4223,7 +4311,10 @@
     info.textContent = person ? (person.role + (person.practice ? ' · ' + person.practice : '') + ' · ' + person.region) : '';
     devLoadRatings();
     devRenderAssessment();
+    devRenderTraining();
     devUpdateCompareBtn();
+    devRenderOutput();
+    if (devCurrentSubtab === '360') dev360Render();
   }
 
   function devSetRole(role) {
@@ -4345,11 +4436,70 @@
     }).join('');
   }
 
+  function devRenderTraining() {
+    const el = document.getElementById('dev-training');
+    if (!el) return;
+    if (!devCurrentPerson) { el.innerHTML = ''; return; }
+    const wasOpen = el.querySelector('details.dev-training-details')?.open ?? false;
+    const t = getTraining(devCurrentPerson);
+    const rows = PRACTICES.map(prac => {
+      const held  = !!t.practices[prac];
+      const color = PRACTICE_COLORS[prac] || '#7ED4F9';
+      const mods  = MODULE_LIST.filter(([p]) => p === prac).map(([,m]) => m);
+      const pills = mods.map(mod => {
+        if (!held) return `<span class="dev-cert-pill locked">${mod}</span>`;
+        const cert = !!t.certs[mod];
+        return `<span class="dev-cert-pill ${cert ? 'certified' : 'training'}" onclick="devToggleCert('${mod.replace(/'/g,"\\'")}','${prac.replace(/'/g,"\\'")}')">` +
+          (cert ? '✓ ' : '') + mod + `</span>`;
+      }).join('');
+      const pid = 'dbadge_' + prac.replace(/[^a-z0-9]/gi,'_');
+      return `<div class="dev-badge-row">
+        <div class="dev-badge-label" style="border-color:${color}25">
+          <span class="dev-badge-check">
+            <input type="checkbox" id="${pid}" ${held ? 'checked' : ''} onchange="devTogglePracticeBadge('${prac.replace(/'/g,"\\'")}',this.checked)">
+            <label for="${pid}" class="dev-badge-name" style="color:${color};cursor:pointer">${prac}</label>
+          </span>
+          <div class="dev-badge-modules">${pills}</div>
+        </div>
+      </div>`;
+    }).join('');
+    el.innerHTML = `<details class="dev-training-details"${wasOpen ? ' open' : ''}>
+      <summary class="dev-training-summary">Practice badges &amp; certifications</summary>
+      <div style="margin-top:12px">${rows}</div>
+    </details>`;
+  }
+
+  function devTogglePracticeBadge(practice, held) {
+    if (!devCurrentPerson) return;
+    const t = getTraining(devCurrentPerson);
+    if (held) {
+      t.practices[practice] = true;
+    } else {
+      delete t.practices[practice];
+      MODULE_LIST.filter(([p]) => p === practice).forEach(([,m]) => delete t.certs[m]);
+    }
+    setTraining(devCurrentPerson, t);
+    devRenderTraining();
+    if (typeof rsRenderModuleCoverage === 'function') rsRenderModuleCoverage();
+    if (typeof rsRenderScheduling === 'function') rsRenderScheduling();
+  }
+
+  function devToggleCert(moduleName, practice) {
+    if (!devCurrentPerson) return;
+    const t = getTraining(devCurrentPerson);
+    if (!t.practices[practice]) return;
+    if (t.certs[moduleName]) { delete t.certs[moduleName]; } else { t.certs[moduleName] = true; }
+    setTraining(devCurrentPerson, t);
+    devRenderTraining();
+    if (typeof rsRenderModuleCoverage === 'function') rsRenderModuleCoverage();
+    if (typeof rsRenderScheduling === 'function') rsRenderScheduling();
+  }
+
   function devSave() {
     if (!devCurrentPerson) return;
     localStorage.setItem(devStorageKey(devCurrentPerson, devCurrentRole), JSON.stringify(devRatings));
     devUpdateCompareBtn();
-    devRenderHeatmap();
+    devRenderOutput();
     const toast = document.getElementById('dev-toast');
     toast.textContent = (devCurrentRole === 'self' ? 'Self' : 'Leader') + ' assessment saved for ' + devCurrentPerson;
     toast.classList.add('show');
@@ -4357,52 +4507,1281 @@
   }
 
   function devUpdateCompareBtn() {
-    if (!devCurrentPerson) { document.getElementById('dev-compare-btn').classList.remove('visible'); return; }
+    if (!devCurrentPerson) {
+      document.getElementById('dev-compare-btn').classList.remove('visible');
+      document.getElementById('dev-slides-btn').classList.remove('visible');
+      return;
+    }
     const hasSelf   = !!localStorage.getItem(devStorageKey(devCurrentPerson, 'self'));
     const hasLeader = !!localStorage.getItem(devStorageKey(devCurrentPerson, 'leader'));
     document.getElementById('dev-compare-btn').classList.toggle('visible', hasSelf && hasLeader);
+    document.getElementById('dev-slides-btn').classList.toggle('visible', hasSelf || hasLeader);
   }
 
   function devToggleCompare() {
     devCompareMode = !devCompareMode;
     document.getElementById('dev-compare-btn').textContent = devCompareMode ? 'Back to Assessment' : 'Compare';
     devRenderAssessment();
+    devRenderOutput();
   }
 
-  function devRenderHeatmap() {
-    const el = document.getElementById('dev-overview');
-    // Collect all assessed people
-    const assessed = DEV_PEOPLE.filter(p =>
-      localStorage.getItem(devStorageKey(p.name, 'self')) ||
-      localStorage.getItem(devStorageKey(p.name, 'leader'))
-    );
-    if (assessed.length === 0) { el.innerHTML = ''; return; }
+  function devComputeGroupAverages(ratings) {
+    const avgs = {};
+    DEV_MATRIX.forEach(group => {
+      const vals = group.caps.map(c => ratings[c.name] || 0);
+      const sum  = vals.reduce((a, b) => a + b, 0);
+      avgs[group.group] = Math.round((sum / group.caps.length) * 10) / 10;
+    });
+    return avgs;
+  }
 
-    // Flat cap list for column headers (abbreviated)
-    const allCaps = DEV_MATRIX.flatMap(g => g.caps);
-    const colHeaders = allCaps.map(c => `<div class="dev-hm-header" title="${c.name}">${c.name.split(' ').slice(0,2).join(' ')}</div>`).join('');
-    const cols = 1 + allCaps.length;
+  function devBuildRadarSVG({ selfAvgs, leaderAvgs, size }) {
+    const cx = size / 2, cy = size / 2;
+    const maxR = size * 0.36;
+    const groups = DEV_MATRIX.map(g => g.group);
+    const n = groups.length;
+    const step = (Math.PI * 2) / n;
+    const startAngle = -Math.PI / 2;
 
-    const rows = assessed.map(p => {
-      const selfR   = JSON.parse(localStorage.getItem(devStorageKey(p.name, 'self'))   || '{}');
-      const leaderR = JSON.parse(localStorage.getItem(devStorageKey(p.name, 'leader')) || '{}');
-      const cells = allCaps.map(cap => {
-        const v = leaderR[cap.name] || selfR[cap.name] || 0;
-        const cls = v ? `dev-hm-l${v}` : 'dev-hm-empty';
-        return `<div class="dev-hm-cell ${cls}">${v ? 'L'+v : '·'}</div>`;
-      }).join('');
-      return `<div class="dev-hm-name">${p.name}<br><span style="color:rgba(255,255,255,0.3); font-weight:400">${p.role}</span></div>${cells}`;
+    function pt(i, r) {
+      const a = startAngle + i * step;
+      return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+    }
+
+    // grid rings
+    let rings = '';
+    for (let lvl = 1; lvl <= 4; lvl++) {
+      const r = (lvl / 4) * maxR;
+      const pts = groups.map((_, i) => pt(i, r).join(',')).join(' ');
+      rings += `<polygon points="${pts}" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>`;
+    }
+    // axis lines
+    let axes = '';
+    groups.forEach((_, i) => {
+      const [x, y] = pt(i, maxR);
+      axes += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>`;
+    });
+
+    function makePolygon(avgs, color, alpha) {
+      const pts = groups.map((g, i) => {
+        const v = avgs[g] || 0;
+        return pt(i, (v / 4) * maxR).join(',');
+      }).join(' ');
+      return `<polygon points="${pts}" fill="${color}" fill-opacity="${alpha}" stroke="${color}" stroke-width="2" stroke-linejoin="round"/>`;
+    }
+
+    const selfPoly   = makePolygon(selfAvgs,   '#F050F8', 0.15);
+    const leaderPoly = leaderAvgs ? makePolygon(leaderAvgs, '#60F0F8', 0.12) : '';
+
+    // axis labels (outside the chart)
+    let labels = '';
+    const labelR = maxR + 22;
+    groups.forEach((g, i) => {
+      const meta = DEV_GROUP_META[g] || {};
+      const [lx, ly] = pt(i, labelR);
+      const anchor = lx < cx - 5 ? 'end' : lx > cx + 5 ? 'start' : 'middle';
+      labels += `<text x="${lx}" y="${ly}" text-anchor="${anchor}" dominant-baseline="middle"
+        fill="rgba(250,250,250,0.55)" font-size="9" font-family="inherit">${meta.icon || ''} ${g}</text>`;
+    });
+
+    // level tick labels
+    let ticks = '';
+    for (let lvl = 1; lvl <= 4; lvl++) {
+      const r = (lvl / 4) * maxR;
+      const [tx, ty] = [cx + 3, cy - r + 4];
+      ticks += `<text x="${tx}" y="${ty}" fill="rgba(255,255,255,0.2)" font-size="8" font-family="inherit">L${lvl}</text>`;
+    }
+
+    return `<svg viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg" class="dev-radar-svg">
+      ${rings}${axes}${leaderPoly}${selfPoly}${labels}${ticks}
+    </svg>`;
+  }
+
+  function devPickFocusAreas(ratings, k) {
+    const areas = [];
+    DEV_MATRIX.forEach(group => {
+      group.caps.forEach(cap => {
+        const lvl = ratings[cap.name] || 0;
+        areas.push({ cap, group: group.group, lvl });
+      });
+    });
+    areas.sort((a, b) => a.lvl - b.lvl);
+    return areas.slice(0, k);
+  }
+
+  function devRenderOutput() {
+    const el = document.getElementById('dev-output');
+    if (!el) return;
+    if (!devCurrentPerson) { el.innerHTML = ''; return; }
+
+    const selfR   = JSON.parse(localStorage.getItem(devStorageKey(devCurrentPerson, 'self'))   || '{}');
+    const leaderR = JSON.parse(localStorage.getItem(devStorageKey(devCurrentPerson, 'leader')) || 'null');
+
+    const hasAny = Object.keys(selfR).length > 0 || (leaderR && Object.keys(leaderR).length > 0);
+    if (!hasAny) { el.innerHTML = '<p style="color:var(--text-muted);font-size:0.82em;padding:16px 0">Save an assessment above to see the radar chart and development plan.</p>'; return; }
+
+    // Decide which ratings to use for the dev plan: prefer leader, fall back to self
+    const planRatings = (leaderR && Object.keys(leaderR).length > 0) ? leaderR : selfR;
+    const selfAvgs   = devComputeGroupAverages(selfR);
+    const leaderAvgs = (leaderR && Object.keys(leaderR).length > 0) ? devComputeGroupAverages(leaderR) : null;
+    const showCompare = devCompareMode && leaderAvgs;
+
+    const radarSvg = devBuildRadarSVG({ selfAvgs, leaderAvgs: showCompare ? leaderAvgs : null, size: 440 });
+
+    // Average legend rows
+    const avgRows = DEV_MATRIX.map(group => {
+      const meta = DEV_GROUP_META[group.group] || {};
+      const sv = selfAvgs[group.group];
+      const lv = leaderAvgs ? leaderAvgs[group.group] : null;
+      const valHtml = lv !== null
+        ? `<span style="color:#F050F8">${sv}</span> / <span style="color:#60F0F8">${lv}</span>`
+        : `<span style="color:#F050F8">${sv}</span>`;
+      return `<div class="dev-radar-avg-item">
+        <span class="dev-radar-avg-group">${meta.icon || ''} ${group.group}</span>
+        <span class="dev-radar-avg-val">${valHtml}</span>
+      </div>`;
     }).join('');
 
-    el.innerHTML = `
-      <div class="dev-overview-title">Team Assessment Overview <span style="font-size:0.8em; font-weight:400">(${assessed.length} assessed)</span></div>
-      <div class="dev-heatmap-wrap">
-        <div class="dev-heatmap" style="grid-template-columns: 160px repeat(${allCaps.length}, 1fr)">
-          <div class="dev-hm-header">Name</div>${colHeaders}
-          ${rows}
+    const legendHtml = showCompare
+      ? `<div class="dev-radar-legend">
+          <div class="dev-radar-legend-item"><div class="dev-radar-legend-dot" style="background:#F050F8"></div>Self</div>
+          <div class="dev-radar-legend-item"><div class="dev-radar-legend-dot" style="background:#60F0F8"></div>Leader / Assessor</div>
+        </div>`
+      : '';
+
+    // Focus areas
+    const focusAreas = devPickFocusAreas(planRatings, 3);
+    const levelColours = { 0: '#f87171', 1: '#f87171', 2: '#fb923c', 3: '#60F0F8', 4: '#34CD71' };
+    const focusItems = focusAreas.map((a, idx) => {
+      const meta = DEV_GROUP_META[a.group] || {};
+      const lc   = levelColours[a.lvl] || '#7ED4F9';
+      const curLabel = a.lvl === 0 ? 'Unrated' : `L${a.lvl}`;
+      const nextDesc = a.cap.levels[a.lvl] || a.cap.levels[0]; // next level descriptor, or L1 if unrated
+      return `<div class="dev-plan-item">
+        <div class="dev-plan-num">${idx + 1}</div>
+        <div class="dev-plan-cap-name">${a.cap.name}</div>
+        <div class="dev-plan-meta">
+          <span class="dev-plan-level-badge" style="background:${lc}18; border:1px solid ${lc}44; color:${lc}">${curLabel}</span>
+          <span class="dev-plan-group-tag" style="color:${meta.color||'#7ED4F9'}">${meta.icon||''} ${a.group}</span>
+        </div>
+        <div>
+          <div class="dev-plan-next-label">To reach ${a.lvl === 0 ? 'L1' : 'L'+(a.lvl+1)} →</div>
+          <div class="dev-plan-next-text">${nextDesc}</div>
         </div>
       </div>`;
+    }).join('');
+
+    // 360 summary
+    const r360data = dev360ComputeAvgs(devCurrentPerson);
+    let r360Html = '';
+    if (r360data) {
+      const { avgs, reviews } = r360data;
+      const dimBars = REVIEW_360_DIMS.map(d => {
+        const avg  = avgs[d.key];
+        const pct  = (avg / 5) * 100;
+        const col  = avg >= 4 ? '#34CD71' : avg >= 3 ? '#60F0F8' : '#fb923c';
+        const avgLabel = avg > 0 ? avg.toFixed(1) : '—';
+        return `<div class="r360s-dim-row">
+          <span class="r360s-dim-label">${R360_LABELS[d.key]}</span>
+          <div class="r360s-bar-track"><div class="r360s-bar-fill" style="width:${pct}%;background:${col}"></div></div>
+          <span class="r360s-dim-val" style="color:${col}">${avgLabel}</span>
+        </div>`;
+      }).join('');
+
+      const strengths = reviews.filter(r => r.strengths).slice(0, 3)
+        .map(r => `<li>${r.strengths}</li>`).join('');
+      const improve = reviews.filter(r => r.improve).slice(0, 3)
+        .map(r => `<li>${r.improve}</li>`).join('');
+
+      r360Html = `<div class="dev-plan-wrap" style="margin-top:20px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <div class="dev-plan-title">360 Feedback Summary</div>
+          <span style="font-size:0.72em;background:rgba(96,240,248,0.1);border:1px solid rgba(96,240,248,0.3);color:#60F0F8;padding:2px 10px;border-radius:5px;font-weight:700">${reviews.length} response${reviews.length > 1 ? 's' : ''}</span>
+        </div>
+        <div class="dev-plan-subtitle">Peer / stakeholder ratings on 8 dimensions (1–5 scale)</div>
+        <div class="r360s-dims">${dimBars}</div>
+        ${strengths ? `<div style="margin-top:14px"><div class="dev-plan-next-label">Strengths observed</div><ul style="margin:6px 0 0;padding-left:16px;font-size:0.78em;color:rgba(250,250,250,0.75);display:flex;flex-direction:column;gap:4px;line-height:1.5">${strengths}</ul></div>` : ''}
+        ${improve   ? `<div style="margin-top:10px"><div class="dev-plan-next-label">Areas to develop</div><ul style="margin:6px 0 0;padding-left:16px;font-size:0.78em;color:rgba(250,250,250,0.75);display:flex;flex-direction:column;gap:4px;line-height:1.5">${improve}</ul></div>` : ''}
+      </div>`;
+    }
+
+    el.innerHTML = `
+      <div class="dev-radar-wrap">
+        <div class="dev-radar-title">Capability Profile${showCompare ? ' — Self vs Leader' : ''}</div>
+        ${radarSvg}
+        ${legendHtml}
+        <div class="dev-radar-avgs">${avgRows}</div>
+      </div>
+      <div class="dev-plan-wrap">
+        <div class="dev-plan-title">Focus the next 90 days on:</div>
+        <div class="dev-plan-subtitle">Based on ${leaderAvgs ? 'leader' : 'self'} assessment — the 3 capabilities most in need of development</div>
+        <div class="dev-plan-items">${focusItems}</div>
+      </div>
+      ${r360Html}`;
   }
+
+  // ── 360 Review ──────────────────────────────────────────────────────────────
+
+  const R360_LABELS = {
+    problem_definition: 'Problem Definition',
+    prioritisation:     'Prioritisation',
+    delivery:           'Delivery',
+    influence:          'Influence',
+    change_adoption:    'Change Adoption',
+    systems_thinking:   'Systems Thinking',
+    impact:             'Impact',
+    contribution:       'Contribution',
+  };
+
+  function dev360StorageKey(personName) { return 'reviews360_' + personName; }
+
+  function dev360GetReviews(personName) {
+    const stored = localStorage.getItem(dev360StorageKey(personName));
+    return stored ? JSON.parse(stored) : [];
+  }
+
+  function dev360ComputeAvgs(personName) {
+    const reviews = dev360GetReviews(personName);
+    if (!reviews.length) return null;
+    const avgs = {};
+    REVIEW_360_DIMS.forEach(d => {
+      const scored = reviews.filter(r => r.scores[d.key] > 0);
+      avgs[d.key] = scored.length
+        ? Math.round(scored.reduce((s, r) => s + r.scores[d.key], 0) / scored.length * 10) / 10
+        : 0;
+    });
+    return { avgs, reviews };
+  }
+
+  function dev360SetScale(dimKey, val, btn) {
+    const container = document.getElementById('r360_scale_' + dimKey);
+    container.querySelectorAll('.r360-scale-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+  }
+
+  function dev360SaveReview() {
+    if (!devCurrentPerson) return;
+    const reviewer     = (document.getElementById('r360_reviewer')?.value?.trim()) || 'Anonymous';
+    const relationship = document.getElementById('r360_relationship')?.value?.trim() || '';
+    const scores = {}, comments = {};
+    REVIEW_360_DIMS.forEach(d => {
+      const sel = document.querySelector('#r360_scale_' + d.key + ' .r360-scale-btn.selected');
+      scores[d.key]   = sel ? parseInt(sel.dataset.val) : 0;
+      comments[d.key] = document.getElementById('r360_comment_' + d.key)?.value?.trim() || '';
+    });
+    if (!Object.values(scores).some(s => s > 0)) {
+      alert('Please rate at least one dimension before saving.');
+      return;
+    }
+    const reviews = dev360GetReviews(devCurrentPerson);
+    reviews.push({
+      id: Date.now(),
+      reviewer,
+      relationship,
+      scores,
+      comments,
+      strengths: document.getElementById('r360_strengths')?.value?.trim() || '',
+      improve:   document.getElementById('r360_improve')?.value?.trim()   || '',
+      other:     document.getElementById('r360_other')?.value?.trim()     || '',
+      date: new Date().toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }),
+    });
+    localStorage.setItem(dev360StorageKey(devCurrentPerson), JSON.stringify(reviews));
+    const toast = document.getElementById('dev-toast');
+    toast.textContent = '360 feedback saved';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+    dev360Render();
+  }
+
+  function dev360Render() {
+    const el = document.getElementById('dev-360-body');
+    if (!el) return;
+    if (!devCurrentPerson) {
+      el.innerHTML = '<div class="dev-360-empty"><p>Switch to <strong>Development Matrix</strong> and select a person first, then come back here to collect or view 360 feedback.</p></div>';
+      return;
+    }
+    const name    = devCurrentPerson;
+    const possessive = name.endsWith('s') ? name + '’' : name + '’s';
+    const reviews = dev360GetReviews(name);
+
+    // ── Results section ──
+    let resultsHtml = '';
+    if (reviews.length > 0) {
+      const avgScores = {};
+      REVIEW_360_DIMS.forEach(d => {
+        const scored = reviews.filter(r => r.scores[d.key] > 0);
+        avgScores[d.key] = scored.length > 0
+          ? Math.round(scored.reduce((s, r) => s + r.scores[d.key], 0) / scored.length * 10) / 10
+          : 0;
+      });
+
+      const dimRows = REVIEW_360_DIMS.map(d => {
+        const avg  = avgScores[d.key];
+        const pct  = (avg / 5) * 100;
+        const cls  = avg >= 4 ? 'r360-avg-high' : avg >= 3 ? 'r360-avg-mid' : 'r360-avg-low';
+        const fill = avg >= 4 ? '#34CD71' : avg >= 3 ? '#60F0F8' : '#fb923c';
+        const dimComments = reviews
+          .filter(r => r.comments[d.key])
+          .map(r => `<div class="r360-comment-item">
+            <span class="r360-comment-reviewer">${r.reviewer}${r.relationship ? ' · ' + r.relationship : ''} · ${r.date}</span>
+            <span class="r360-comment-text">${r.comments[d.key]}</span>
+          </div>`).join('');
+        return `<div class="r360-result-dim">
+          <div class="r360-result-dim-head">
+            <span class="r360-result-dim-name">${d.question}</span>
+            <span class="r360-result-avg ${cls}">${avg > 0 ? avg : '—'} / 5</span>
+          </div>
+          <div class="r360-result-bar-track"><div class="r360-result-bar-fill" style="width:${pct}%;background:${fill}"></div></div>
+          ${dimComments ? '<div class="r360-comments-list">' + dimComments + '</div>' : ''}
+        </div>`;
+      }).join('');
+
+      const allStrengths = reviews.filter(r => r.strengths).map(r => `<li><strong>${r.reviewer}</strong> — ${r.strengths}</li>`).join('');
+      const allImprove   = reviews.filter(r => r.improve).map(r => `<li><strong>${r.reviewer}</strong> — ${r.improve}</li>`).join('');
+      const allOther     = reviews.filter(r => r.other).map(r => `<li><strong>${r.reviewer}</strong> — ${r.other}</li>`).join('');
+
+      resultsHtml = `<div class="r360-results-card">
+        <div class="r360-results-header">
+          <span class="r360-results-title">360 Results — ${name}</span>
+          <span class="r360-results-count">${reviews.length} response${reviews.length > 1 ? 's' : ''}</span>
+        </div>
+        <div class="r360-results-dims">${dimRows}</div>
+        ${allStrengths ? '<div class="r360-qual-section"><div class="r360-qual-title">Biggest Strengths</div><ul class="r360-qual-list">' + allStrengths + '</ul></div>' : ''}
+        ${allImprove   ? '<div class="r360-qual-section"><div class="r360-qual-title">Areas to Improve</div><ul class="r360-qual-list">' + allImprove + '</ul></div>' : ''}
+        ${allOther     ? '<div class="r360-qual-section"><div class="r360-qual-title">Other Comments</div><ul class="r360-qual-list">' + allOther + '</ul></div>' : ''}
+      </div>`;
+    }
+
+    // ── Form section ──
+    const dimForms = REVIEW_360_DIMS.map((d, idx) => {
+      const scaleBtns = [1,2,3,4,5].map(v =>
+        `<button class="r360-scale-btn" data-val="${v}" onclick="dev360SetScale('${d.key}',${v},this)">${v}</button>`
+      ).join('');
+      const bullets = d.bullets.map(b => `<li>${b}</li>`).join('');
+      return `<div class="r360-dim-block">
+        <div class="r360-dim-q">
+          <div class="r360-dim-num">${idx + 1}</div>
+          <div>
+            <div class="r360-dim-question">On a scale of 1–5, ${d.question}</div>
+            <ul class="r360-dim-bullets">${bullets}</ul>
+          </div>
+        </div>
+        <div class="r360-scale-row">
+          <span class="r360-scale-label">Not at all</span>
+          <div class="r360-scale" id="r360_scale_${d.key}">${scaleBtns}</div>
+          <span class="r360-scale-label">All the time</span>
+        </div>
+        <textarea class="r360-input r360-textarea" id="r360_comment_${d.key}" placeholder="Supporting comments…" rows="2"></textarea>
+      </div>`;
+    }).join('');
+
+    const formHtml = `<div class="r360-form-card">
+      <div class="r360-form-header">
+        <div class="r360-form-title">360 Feedback Form — ${name}</div>
+        <p class="r360-form-intro">This feedback is designed to help ${name} map their current impact. Focus on outcomes (what actually got better) and behaviours (how they did it). This should take no more than 10–15 minutes.<br><br>Your honest, constructive input will help them lean into their strengths and identify specific areas to build on. Be candid, specific, and kind. Feedback can be anonymous — leave your name blank if you prefer.</p>
+      </div>
+      <div class="r360-section">
+        <input class="r360-input" id="r360_reviewer" type="text" placeholder="Your name (optional — leave blank to stay anonymous)">
+        <input class="r360-input" id="r360_relationship" type="text" placeholder="Your relationship to ${name}, e.g. peer, manager, client partner">
+      </div>
+      <div class="r360-section">${dimForms}</div>
+      <div class="r360-section">
+        <label class="r360-label">What are ${possessive} biggest strengths?</label>
+        <textarea class="r360-input r360-textarea" id="r360_strengths" placeholder="Describe specific strengths you have observed…" rows="3"></textarea>
+        <label class="r360-label">Where could ${name} improve the most?</label>
+        <input class="r360-input" id="r360_improve" type="text" placeholder="Be specific and constructive…">
+        <label class="r360-label">Any other comments?</label>
+        <textarea class="r360-input r360-textarea" id="r360_other" placeholder="Anything else you would like to share…" rows="2"></textarea>
+      </div>
+      <button class="dev-save-btn" onclick="dev360SaveReview()">Save Feedback</button>
+    </div>`;
+
+    el.innerHTML = resultsHtml + formHtml;
+  }
+
+  // ── End 360 Review ──────────────────────────────────────────────────────────
+
+  function devGenerateSlides() {
+    if (!devCurrentPerson) return;
+    const person = DEV_PEOPLE.find(p => p.name === devCurrentPerson) || {};
+    const selfR   = JSON.parse(localStorage.getItem(devStorageKey(devCurrentPerson, 'self'))   || '{}');
+    const leaderR = JSON.parse(localStorage.getItem(devStorageKey(devCurrentPerson, 'leader')) || 'null');
+    const hasLeader = leaderR && Object.keys(leaderR).length > 0;
+    const planRatings = hasLeader ? leaderR : selfR;
+    const selfAvgs   = devComputeGroupAverages(selfR);
+    const leaderAvgs = hasLeader ? devComputeGroupAverages(leaderR) : null;
+
+    const today = new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
+    const subtitle = [person.role, person.practice, person.region].filter(Boolean).join(' · ');
+    const levelColours = { 0: '#f87171', 1: '#f87171', 2: '#fb923c', 3: '#60F0F8', 4: '#34CD71' };
+
+    // Slide 1 — Radar
+    const radarSvg = devBuildRadarSVG({ selfAvgs, leaderAvgs, size: 400 });
+    const avgTableRows = DEV_MATRIX.map(group => {
+      const meta = DEV_GROUP_META[group.group] || {};
+      const sv = selfAvgs[group.group];
+      const lv = leaderAvgs ? leaderAvgs[group.group] : null;
+      const valCell = lv !== null
+        ? `<span style="color:#F050F8">${sv}</span> / <span style="color:#60F0F8">${lv}</span>`
+        : `<span style="color:#F050F8">${sv}</span>`;
+      return `<tr><td style="padding:4px 10px 4px 0; color:rgba(250,250,250,0.7); font-size:0.82em">${meta.icon||''} ${group.group}</td><td style="padding:4px 0; font-weight:700; font-size:0.88em">${valCell}</td></tr>`;
+    }).join('');
+
+    const legendRow = leaderAvgs
+      ? `<div style="display:flex;gap:20px;font-size:0.75em;margin-bottom:12px">
+           <span><span style="color:#F050F8;font-weight:700">■</span> Self</span>
+           <span><span style="color:#60F0F8;font-weight:700">■</span> Leader / Assessor</span>
+         </div>`
+      : '';
+
+    const slide1 = `<div class="slide">
+      <div class="slide-header" style="background:linear-gradient(135deg,#100030 0%,#1a0045 100%)">
+        <div>
+          <div class="slide-h1">${devCurrentPerson}</div>
+          <div class="slide-label" style="color:rgba(250,250,250,0.55); font-size:0.82em; margin-top:4px">${subtitle}</div>
+        </div>
+        <div class="slide-label">H&amp;O Development Tool · ${today}</div>
+      </div>
+      <div style="display:flex; gap:28px; align-items:flex-start; flex-wrap:wrap; flex:1">
+        <div style="flex:0 0 auto">${radarSvg}</div>
+        <div style="flex:1; min-width:180px">
+          <div style="font-size:0.85em;font-weight:800;margin-bottom:10px;color:rgba(250,250,250,0.7)">Group Averages (/ 4)</div>
+          ${legendRow}
+          <table style="border-collapse:collapse">${avgTableRows}</table>
+        </div>
+      </div>
+      <div class="slide-footer">Capability Radar — H&amp;O Development Matrix · ${today}</div>
+    </div>`;
+
+    // Slide 2 — Development Plan
+    const focusAreas = devPickFocusAreas(planRatings, 3);
+    const planRows = focusAreas.map((a, idx) => {
+      const meta = DEV_GROUP_META[a.group] || {};
+      const lc   = levelColours[a.lvl] || '#7ED4F9';
+      const curLabel = a.lvl === 0 ? 'Unrated' : `L${a.lvl}`;
+      const nextLvlLabel = a.lvl === 0 ? 'L1' : 'L' + (a.lvl + 1);
+      const nextDesc = a.cap.levels[a.lvl] || a.cap.levels[0];
+      return `<tr>
+        <td class="srt-td">${idx+1}. ${a.cap.name}</td>
+        <td class="srt-td" style="white-space:nowrap">${meta.icon||''} ${a.group}</td>
+        <td class="srt-td" style="text-align:center"><span style="background:${lc}20;border:1px solid ${lc}50;color:${lc};border-radius:4px;padding:2px 8px;font-weight:800;font-size:0.85em">${curLabel}</span></td>
+        <td class="srt-td" style="font-size:0.82em;color:rgba(250,250,250,0.75)">${nextLvlLabel}: ${nextDesc}</td>
+      </tr>`;
+    }).join('');
+
+    const slide2 = `<div class="slide">
+      <div class="slide-header" style="background:linear-gradient(135deg,#100030 0%,#1a0045 100%)">
+        <div>
+          <div class="slide-h1">Development Plan</div>
+          <div class="slide-label" style="color:rgba(250,250,250,0.55); font-size:0.82em; margin-top:4px">${devCurrentPerson} · ${subtitle}</div>
+        </div>
+        <div class="slide-label">H&amp;O Development Tool · ${today}</div>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:1em;font-weight:800;margin-bottom:6px">Focus the next 90 days on:</div>
+        <div style="font-size:0.78em;color:rgba(250,250,250,0.5);margin-bottom:18px">Based on ${hasLeader ? 'leader' : 'self'} assessment — the 3 capabilities most in need of development</div>
+        <table class="srt" style="width:100%">
+          <thead><tr>
+            <th class="srt-th">Capability</th>
+            <th class="srt-th">Group</th>
+            <th class="srt-th" style="text-align:center">Current Level</th>
+            <th class="srt-th">Next Step</th>
+          </tr></thead>
+          <tbody>${planRows}</tbody>
+        </table>
+      </div>
+      <div class="slide-footer">Development Plan — H&amp;O Development Matrix · ${today}</div>
+    </div>`;
+
+    // Slide 3 — 360 Feedback (only if responses exist)
+    let slide3 = '';
+    const r360data = dev360ComputeAvgs(devCurrentPerson);
+    if (r360data) {
+      const { avgs, reviews } = r360data;
+      const dimRows360 = REVIEW_360_DIMS.map(d => {
+        const avg  = avgs[d.key];
+        const pct  = (avg / 5) * 100;
+        const col  = avg >= 4 ? '#34CD71' : avg >= 3 ? '#60F0F8' : '#fb923c';
+        const bar  = `<div style="height:8px;background:rgba(255,255,255,0.07);border-radius:4px;overflow:hidden;flex:1"><div style="height:100%;width:${pct}%;background:${col};border-radius:4px"></div></div>`;
+        return `<tr>
+          <td class="srt-td" style="font-size:0.82em">${R360_LABELS[d.key]}</td>
+          <td class="srt-td" style="width:55%;padding:6px 10px"><div style="display:flex;align-items:center;gap:8px">${bar}</div></td>
+          <td class="srt-td" style="text-align:center;font-weight:800;font-size:0.88em;color:${col}">${avg > 0 ? avg.toFixed(1) : '—'}</td>
+        </tr>`;
+      }).join('');
+
+      const allStrengths = [...new Set(reviews.filter(r => r.strengths).map(r => r.strengths))].slice(0, 4)
+        .map(s => `<li style="margin-bottom:4px;line-height:1.45;color:rgba(250,250,250,0.82)">${s}</li>`).join('');
+      const allImprove = [...new Set(reviews.filter(r => r.improve).map(r => r.improve))].slice(0, 4)
+        .map(s => `<li style="margin-bottom:4px;line-height:1.45;color:rgba(250,250,250,0.82)">${s}</li>`).join('');
+
+      slide3 = `<div class="slide">
+        <div class="slide-header" style="background:linear-gradient(135deg,#100030 0%,#1a0045 100%)">
+          <div>
+            <div class="slide-h1">360 Feedback</div>
+            <div class="slide-label" style="color:rgba(250,250,250,0.55);font-size:0.82em;margin-top:4px">${devCurrentPerson} · ${subtitle} · ${reviews.length} response${reviews.length > 1 ? 's' : ''}</div>
+          </div>
+          <div class="slide-label">H&amp;O Development Tool · ${today}</div>
+        </div>
+        <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:24px">
+          <div>
+            <div style="font-size:0.82em;font-weight:800;margin-bottom:10px;color:rgba(250,250,250,0.6);text-transform:uppercase;letter-spacing:0.07em">Dimension Scores (1–5)</div>
+            <table class="srt" style="width:100%">
+              <thead><tr>
+                <th class="srt-th">Dimension</th>
+                <th class="srt-th">Score</th>
+                <th class="srt-th" style="text-align:center">Avg</th>
+              </tr></thead>
+              <tbody>${dimRows360}</tbody>
+            </table>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            ${allStrengths ? `<div>
+              <div style="font-size:0.82em;font-weight:800;margin-bottom:8px;color:rgba(250,250,250,0.6);text-transform:uppercase;letter-spacing:0.07em">Strengths observed</div>
+              <ul style="margin:0;padding-left:16px;font-size:0.8em">${allStrengths}</ul>
+            </div>` : ''}
+            ${allImprove ? `<div>
+              <div style="font-size:0.82em;font-weight:800;margin-bottom:8px;color:rgba(250,250,250,0.6);text-transform:uppercase;letter-spacing:0.07em">Areas to develop</div>
+              <ul style="margin:0;padding-left:16px;font-size:0.8em">${allImprove}</ul>
+            </div>` : ''}
+          </div>
+        </div>
+        <div class="slide-footer">360 Feedback — H&amp;O Development Matrix · ${today}</div>
+      </div>`;
+    }
+
+    document.getElementById('slide-container').innerHTML = slide1 + slide2 + slide3;
+    document.getElementById('slide-modal-title').textContent = 'Development Slides — ' + devCurrentPerson + (slide3 ? ' (3 slides)' : '');
+    document.getElementById('slide-modal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // ── Resourcing Snapshot ──────────────────────────────────────────────
+
+  const PEOPLE = [
+    // UK&I
+    {name:'Josh Brookes',role:'GPL',practice:'Operating Model',region:'UK&I',type:'Kraken',clients:[]},
+    {name:'Katherine Lamb',role:'GPL',practice:'Innovation',region:'UK&I',type:'Kraken',clients:['Total UK','EI','Pleni France, Iberia']},
+    {name:'Paul Loran',role:'GPL',practice:'Innovation',region:'UK&I',type:'Kraken',clients:['Norlys','EWIE']},
+    {name:'Emily Noakes',role:'GPL',practice:'Culture',region:'UK&I',type:'Kraken',clients:[]},
+    {name:'Lisa Hardie',role:'OD Lead',practice:'Telco',region:'UK&I',type:'Kraken',clients:['Talk Talk']},
+    {name:'Sam Winter',role:'OD Lead',practice:'Org Design',region:'UK&I',type:'Kraken',clients:[]},
+    {name:'Natasha Wallace',role:'HD Lead',practice:'Human Design',region:'UK&I',type:'Kraken',clients:['EI']},
+    {name:'Josh Popham',role:'SCDL',practice:'Innovation',region:'UK&I',type:'Kraken',clients:['Total Spain']},
+    {name:'Terilee Ward',role:'SCDL',practice:'Operating Model',region:'UK&I',type:'Kraken',clients:[]},
+    {name:'Katarzyna Sotek',role:'SCDL',practice:'Operating Model',region:'UK&I',type:'Kraken',clients:['EI']},
+    {name:'Klarissa Patel',role:'CDL',practice:'Culture',region:'UK&I',type:'Kraken',clients:['Total UK','EI']},
+    {name:'Kelly Rankine',role:'CDL',practice:'Learning',region:'UK&I',type:'Kraken',clients:[]},
+    {name:'Siga Krubally',role:'CDL',practice:'Learning',region:'UK&I',type:'Kraken',clients:['EI']},
+    {name:'Jane Fennelly',role:'',practice:'',region:'UK&I',type:'Partner',clients:[]},
+    {name:'Liam Mabbott',role:'SCDL',practice:'Culture',region:'UK&I',type:'Kraken',clients:['EI']},
+    {name:'Jess Brewer',role:'SCDL',practice:'Innovation',region:'UK&I',type:'Kraken',clients:['Total UK']},
+    {name:'Sotiris Karoulla',role:'CDL',practice:'Learning',region:'UK&I',type:'Kraken',clients:['Total UK']},
+    {name:'Emily Snow',role:'CDL',practice:'Operating Model',region:'UK&I',type:'Kraken',clients:['Total UK']},
+    {name:'Hannah Williams',role:'CDL',practice:'Telco',region:'UK&I',type:'Kraken',clients:['Talk Talk']},
+    {name:'Sev Summers',role:'CDL',practice:'Telco',region:'UK&I',type:'Kraken',clients:['Talk Talk']},
+    {name:'Harry Cooke',role:'CDL',practice:'Water',region:'UK&I',type:'Kraken',clients:['Talk Talk']},
+    {name:'Harry Worrall',role:'CDL',practice:'Telco',region:'UK&I',type:'Kraken',clients:['Talk Talk']},
+    {name:'Shreya Prasad',role:'CDL',practice:'Telco',region:'UK&I',type:'Kraken',clients:['Talk Talk']},
+    {name:'Ellie Grigorjevs-Walsh',role:'CDL',practice:'Telco',region:'UK&I',type:'Kraken',clients:['Talk Talk']},
+    {name:'Katie Wiggins',role:'CDL',practice:'Learning',region:'UK&I',type:'Partner',clients:[]},
+    {name:'Meghan Brady',role:'CDL',practice:'Learning',region:'UK&I',type:'Kraken',clients:[]},
+    {name:'Juliet Destrade',role:'CDL',practice:'Learning',region:'UK&I',type:'Kraken',clients:[]},
+    // N Europe
+    {name:'@ vacancy',role:'GPL',practice:'Learning',region:'N Europe',type:'Kraken',clients:[]},
+    {name:'@ vacancy',role:'OD Lead',practice:'Org Design',region:'N Europe',type:'Kraken',clients:[]},
+    {name:'Roxanne Rath',role:'HD Lead',practice:'Human Design',region:'N Europe',type:'Kraken',clients:[]},
+    {name:'Alex Taylor',role:'SCDL',practice:'Culture',region:'N Europe',type:'Kraken',clients:['Maingau','EWIE']},
+    {name:'Alexej Jablonski',role:'SCDL',practice:'LDP',region:'N Europe',type:'Kraken',clients:['Maingau']},
+    {name:'Diederick Theunissen',role:'SCDL',practice:'Operating Model',region:'N Europe',type:'Partner',clients:['Norlys']},
+    {name:'Erlend Styve',role:'SCDL',practice:'Operating Model',region:'N Europe',type:'Kraken',clients:['Norlys']},
+    {name:'Sandra Nielsen',role:'SCDL',practice:'Culture',region:'N Europe',type:'Partner',clients:['Norlys']},
+    {name:'Amy Barnes',role:'SCDL',practice:'LDP',region:'N Europe',type:'Kraken',clients:['Norlys']},
+    {name:'Sanne Foekens',role:'CDL',practice:'LDP',region:'N Europe',type:'Partner',clients:['Norlys']},
+    {name:'Sanne Jongeling',role:'CDL',practice:'Learning',region:'N Europe',type:'Partner',clients:['Norlys']},
+    {name:'David Springhetti',role:'SCDL',practice:'Operating Model',region:'N Europe',type:'Partner',clients:['EWIE']},
+    {name:'Mirjam Brandhuber',role:'CDL',practice:'Culture',region:'N Europe',type:'Partner',clients:['EWIE']},
+    {name:'Karoline Czychon',role:'CDL',practice:'Operating Model',region:'N Europe',type:'Partner',clients:['EWIE']},
+    {name:'Anna Šútorová',role:'SCDL',practice:'Operating Model',region:'N Europe',type:'Kraken',clients:['Norlys']},
+    {name:'Alex Holden',role:'CDL',practice:'Learning',region:'N Europe',type:'Kraken',clients:['Maingau','EWIE']},
+    // S Europe
+    {name:'@ vacancy',role:'GPL',practice:'Data',region:'S Europe',type:'Kraken',clients:['TTE']},
+    {name:'Karin Yardy',role:'OD Lead',practice:'Org Design',region:'S Europe',type:'Kraken',clients:['Vanderbron','Norlys','Pleni France']},
+    {name:'Valeria Winkworth',role:'HD Lead',practice:'Human Design',region:'S Europe',type:'Partner',clients:['EWIE','Maingau']},
+    {name:'Claudia Díaz',role:'SCDL',practice:'Culture',region:'S Europe',type:'Kraken',clients:['Pleni Spain']},
+    {name:'Jose Saidler',role:'CDL',practice:'Learning',region:'S Europe',type:'Kraken',clients:['TTE Spain']},
+    {name:"Mardochée N'goran",role:'CDL',practice:'Learning',region:'S Europe',type:'Kraken',clients:['Pleni France']},
+    {name:'Ferdinand Baulez',role:'CDL',practice:'Operating Model',region:'S Europe',type:'Kraken',clients:['Pleni Spain']},
+    {name:'Melissa Jensen Labiano',role:'CDL',practice:'Learning',region:'S Europe',type:'Kraken',clients:['Pleni Spain']},
+    {name:'Eloïse Stonehouse',role:'CDL',practice:'LDP',region:'S Europe',type:'Kraken',clients:['Pleni France']},
+    {name:'@ vacancy',role:'CDL',practice:'Human Design',region:'S Europe',type:'Kraken',clients:[]},
+    {name:'@ vacancy',role:'CDL',practice:'Org Design',region:'S Europe',type:'Kraken',clients:['TTE']},
+    // ME
+    {name:'Shoaib Nasir',role:'OD Lead',practice:'Org Design',region:'ME',type:'Kraken',clients:['SE','EI','EWIE']},
+    {name:'Brooke Owen',role:'SCDL',practice:'Operating Model',region:'ME',type:'Kraken',clients:['EI','SE']},
+    // USA
+    {name:'Robert Dietz',role:'OD&HD Lead',practice:'Human Design',region:'USA',type:'Kraken',clients:['National Grid','Champion']},
+    {name:'Matt Hard',role:'SCDL',practice:'',region:'USA',type:'Kraken',clients:['PGE']},
+    {name:'Kristina Francisco',role:'OD Lead',practice:'Org Design',region:'USA',type:'Kraken',clients:['National Grid']},
+    {name:'Ross Crosby',role:'HD Lead',practice:'Human Design',region:'USA',type:'Kraken',clients:['National Grid']},
+    {name:'Safiyah Iqbal',role:'SCDL',practice:'LDP',region:'USA',type:'Kraken',clients:['National Grid']},
+    {name:'Emily Messer',role:'CDL',practice:'Culture',region:'USA',type:'Kraken',clients:['Champion']},
+    {name:'Shayleen Joseph',role:'CDL',practice:'Operating Model',region:'USA',type:'Kraken',clients:['Champion']},
+    {name:'Samuel Malloy',role:'CDL',practice:'',region:'USA',type:'Kraken',clients:['National Grid']},
+    {name:'Amy Mason',role:'SCDL',practice:'Learning',region:'USA',type:'Kraken',clients:['National Grid']},
+    {name:'Keijan Martin',role:'CDL',practice:'',region:'USA',type:'Kraken',clients:['PGE']},
+    {name:'@ vacancy',role:'CDL',practice:'Operating Model',region:'USA',type:'Kraken',clients:[]},
+    // Aus/NZ
+    {name:'Nicola Harrison',role:'OD&HD Lead',practice:'Human Design',region:'Aus/NZ',type:'Partner',clients:['Meridian']},
+    {name:'Jordan Forshaw',role:'SCDL',practice:'Operating Model',region:'Aus/NZ',type:'Kraken',clients:['Meridian']},
+    {name:'@ vacancy',role:'CDL',practice:'',region:'Aus/NZ',type:'Kraken',clients:['Red/EA']},
+    {name:'@ vacancy',role:'CDL',practice:'',region:'Aus/NZ',type:'Kraken',clients:['Red/EA']},
+    {name:'James Childs',role:'CDL',practice:'',region:'Aus/NZ',type:'Kraken',clients:['Essential']},
+    // Japan
+    {name:'Hiroko Otsubo',role:'OD&HD Lead',practice:'Human Design',region:'Japan',type:'Kraken',clients:['Tokyo Gas','Kyuden']},
+    {name:'Daisaku Nishinaka',role:'CDL',practice:'Culture',region:'Japan',type:'Kraken',clients:['Kyuden','Tokyo Gas']},
+    {name:'Takahiro Sawai',role:'CDL',practice:'',region:'Japan',type:'Partner',clients:['Kyuden']},
+    {name:'Natsuki Oyama',role:'CDL',practice:'',region:'Japan',type:'Partner',clients:['Kyuden']},
+    {name:'Hiroaki Kidoguchi',role:'CDL',practice:'',region:'Japan',type:'Kraken',clients:['Internal Project (Operations)']},
+    {name:'Issei Matsumiya',role:'CDL',practice:'',region:'Japan',type:'Partner',clients:['Tokyo Gas']},
+    {name:'Toshihito Kakizaki',role:'SCDL',practice:'',region:'Japan',type:'Partner',clients:['Kyuden']},
+    {name:'Marika Sato',role:'CDL',practice:'',region:'Japan',type:'Kraken',clients:[]},
+    {name:'Ippei Kito',role:'CDL',practice:'',region:'Japan',type:'Partner',clients:['Tokyo Gas']},
+    {name:'Yoshiko Saito',role:'CDL',practice:'',region:'Japan',type:'Kraken',clients:[]},
+  ];
+  const RS_PEOPLE = PEOPLE;
+  const DEV_PEOPLE = PEOPLE.filter(p => p.name !== '@ vacancy' && p.role);
+
+  const RS_CLIENTS = [
+    {name:'SE',region:'ME',status:'Current',agreements:15.0,size:'L',hc:6},
+    {name:'Norlys',region:'N Europe',status:'Current',agreements:0.5,size:'S',hc:2.85},
+    {name:'Champion',region:'USA',status:'Current',agreements:0.2,size:'S',hc:2.85},
+    {name:'EWIE',region:'N Europe',status:'Current',agreements:0.5,size:'S',hc:2.85},
+    {name:'Vanderbron',region:'N Europe',status:'Current',agreements:0.5,size:'S',hc:2.85},
+    {name:'EI',region:'UK&I',status:'Current',agreements:1.3,size:'M',hc:4.5},
+    {name:'Maingau',region:'N Europe',status:'Current',agreements:0.2,size:'S',hc:2.85},
+    {name:'Meridian',region:'Aus/NZ',status:'Current',agreements:0.3,size:'S',hc:2.85},
+    {name:'National Grid',region:'USA',status:'Current',agreements:6.5,size:'L',hc:6},
+    {name:'Pleni Spain',region:'S Europe',status:'Current',agreements:0.5,size:'S',hc:2.85},
+    {name:'Kyuden Pilot',region:'Japan',status:'Current',agreements:0.1,size:'S',hc:2.85},
+    {name:'Total UK',region:'UK&I',status:'Current',agreements:0.3,size:'S',hc:2.85},
+    {name:'Talk Talk',region:'UK&I',status:'Current',agreements:1.0,size:'M',hc:4.5},
+    {name:'Total Spain B2B',region:'S Europe',status:'Current',agreements:2.0,size:'S',hc:2.0},
+    {name:'Kyuden (full)',region:'Japan',status:'Planned',agreements:8.5,size:'L',hc:6},
+    {name:'Lichtblick',region:'N Europe',status:'Planned',agreements:1.0,size:'S',hc:2.85},
+    {name:'Portland General Elec',region:'USA',status:'Planned',agreements:1.0,size:'S',hc:2.85},
+    {name:'PSE',region:'USA',status:'Planned',agreements:2.2,size:'M',hc:4.5},
+    {name:'Red Energy',region:'Aus/NZ',status:'Planned',agreements:1.6,size:'M',hc:4.5},
+    {name:'Total France',region:'S Europe',status:'Planned',agreements:5.8,size:'L',hc:6},
+    {name:'Total Belgium',region:'S Europe',status:'Planned',agreements:0.7,size:'S',hc:2.85},
+    {name:'Pleni Greece',region:'S Europe',status:'Planned',agreements:0.6,size:'S',hc:2.85},
+    {name:'Plenitude Portugal',region:'S Europe',status:'Planned',agreements:0,size:'S',hc:2.85},
+  ];
+
+  const RS_BUDGET_DATA = [
+    {region:'ME',       budget:2,  currentHC:2,  hires:0},
+    {region:'N Europe', budget:12, currentHC:15, hires:1},
+    {region:'S Europe', budget:22, currentHC:8,  hires:2},
+    {region:'UK&I',     budget:21, currentHC:23, hires:0},
+    {region:'USA',      budget:10, currentHC:10, hires:1},
+    {region:'Aus/NZ',   budget:6,  currentHC:3,  hires:2},
+    {region:'Japan',    budget:8,  currentHC:10, hires:0},
+  ];
+
+  // [practice, module, profile] — 26 modules, index-matched to RS_PC_DATA assignments
+  const MODULE_LIST = [
+    ['Coaching','Exec Coaching',''],
+    ['Coaching','Group Coaching',''],
+    ['Learning & LDP','UA training (2)','CDL'],
+    ['Learning & LDP','Kraken Academy (1)','CDL'],
+    ['Learning & LDP','Ops LDP (1)','CDL/SCDL'],
+    ['Learning & LDP','Exec LDP (1)','Director/Head of'],
+    ['Learning & LDP','TDO training (1)','CDL'],
+    ['Learning & LDP','Facilitation Mastery (1)','CDL'],
+    ['Culture','Culture by design (1)','Director/Head of'],
+    ['Culture','Rituals (1)',''],
+    ['Culture','Early Adopters',''],
+    ['Culture','Culture interventions',''],
+    ['Data','Data North Star',''],
+    ['Data','Data TOM v1',''],
+    ['Data','Data TOM v2',''],
+    ['Innovation','Innovation discovery & baselines',''],
+    ['Innovation','Marketing & Product TOM',''],
+    ['Innovation','GTM product design',''],
+    ['Innovation','CX optimisation',''],
+    ['Innovation','Segmentation & Targeting',''],
+    ['Innovation','Value optimisation',''],
+    ['Operating Models','TOM Ready','SCDL'],
+    ['Operating Models','Org Design','Director/Head of'],
+    ['Operating Models','Model Ready programme','SCDL'],
+    ['Operating Models','Early Adopters','SCDL'],
+    ['Operating Models','BPO Programme','SCDL'],
+  ];
+
+  const _se6 = (a,b,c,d,e,f) => [a,b,c,d,e,f];
+  const _km = 'Kristy Mayer-Mejia';
+  const _kl = 'Katherine Lamb';
+  const _js = 'Jose Saidler';
+  const _mjl = 'Melissa Jensen Labiano';
+  const _es = "Eloïse Stonehouse";
+  const _mn = "Mardochée N'goran";
+  const _vw = 'Valeria Winkworth';
+  const _nw = 'Natasha Wallace';
+  const _cd = 'Claudia Díaz';
+  const _as = 'Anna Šútorová';
+  const _ky = 'Karin Yardy';
+  const RS_PC_DATA = [
+    {
+      region: 'Southern Europe',
+      clients: ['Pleni Spain','Pleni Portugal','TTE B2B','Pleni Greece','Total FR','Total BE'],
+      demand: [0,0,1,1,1,0,1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,1,0,0,0],
+      assignments: [
+        _se6('Gap','Gap','Gap','Gap','Gap','Gap'),
+        _se6('Gap','Gap','Gap','Gap','Gap','Gap'),
+        _se6(_js+' · '+_mjl,'',_js+' · '+_mjl,'',_es+' · '+_mn,_es+' · '+_mn),
+        _se6(_js+' · '+_mjl,'',_js+' · '+_mjl,'',_es+' · '+_mn,_es+' · '+_mn),
+        _se6(_js+' · '+_mjl,'',_js+' · '+_mjl,'',_es+' · '+_mn,_es+' · '+_mn),
+        _se6('','','','','',''),
+        _se6('','','','','',''),
+        _se6(_mjl,'',_js,'',_es,_mn),
+        _se6(_vw,_vw,_nw,_vw,_nw,_vw),
+        _se6(_cd,'',_cd,'',_as,_as),
+        _se6('','','','','',''),
+        _se6('','','','','','Gap'),
+        _se6(_km,_km,_km,_km,_km,_km),
+        _se6(_km,_km,_km,_km,_km,_km),
+        _se6(_km,_km,_km,_km,_km,_km),
+        _se6(_kl,_kl,_kl,_kl,_kl,_kl),
+        _se6(_kl,_kl,_kl,_kl,_kl,_kl),
+        _se6(_kl,_kl,_kl,_kl,_kl,_kl),
+        _se6(_kl,_kl,_kl,_kl,_kl,_kl),
+        _se6(_kl,_kl,_kl,_kl,_kl,_kl),
+        _se6(_kl,_kl,_kl,_kl,_kl,_kl),
+        _se6(_cd,_cd,_cd,'',_as,_as),
+        _se6(_ky,_ky,_ky,_ky,_ky+' · '+_as,_ky+' · '+_as),
+        _se6('','','','','',''),
+        _se6('','','','','',''),
+        _se6('','','','','',''),
+      ],
+    },
+    {
+      region: 'Middle East',
+      clients: ['Saudi Energy'],
+      demand: [1,1,1,1,1,1,1,0,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      assignments: [
+        ['Gap'],['Gap'],
+        ['Leen Kanaan'],['Leen Kanaan'],['Tala Zabaneh'],['Valeria Winkworth'],['Gap'],['Brooke Owen'],
+        ['Valeria Winkworth'],['Brooke Owen'],['Brooke Owen'],[''],
+        ['Ferdinand Schwarz'],['Ferdinand Schwarz'],['Ferdinand Schwarz'],
+        ['Paul Loran'],['Paul Loran'],['Paul Loran'],['Paul Loran'],['Paul Loran'],['Paul Loran'],
+        ['Shoaib Nasir'],['Shoaib Nasir · Federica Fiore · Khlil Zariat'],
+        ['Brooke Owen'],['Brooke Owen'],['Shoaib Nasir · Federica Fiore · Khlil Zariat'],
+      ],
+    },
+    {region:'UK&I',         clients:['EI'],                           demand:null, assignments:null},
+    {region:'N Europe',     clients:['Ewie','Maingau','Vanderbron'],   demand:null, assignments:null},
+    {region:'Aus/NZ',       clients:['Meridian','Red Energy'],         demand:null, assignments:null},
+    {region:'North America',clients:['National Grid'],                 demand:null, assignments:null},
+    {region:'Japan',        clients:['Tokyo Gas','Kyuden'],            demand:null, assignments:null},
+  ];
+
+  // Kantata FTE — each entry is {project, person, may, jun, jul, aug, sep, oct}
+  // Where months are identical, a helper below fills the missing ones.
+  const RS_UTILISATION = [
+    {project:'AU - Red Energy',       person:'Nicola Harrison',        may:0.5,  jun:0.5,  jul:0.5,  aug:0.5,  sep:0.5,  oct:0.5},
+    {project:'Champion',              person:'Ross Crosby',            may:0.3,  jun:0.3,  jul:0.3,  aug:0.3,  sep:0.3,  oct:0.3},
+    {project:'Champion',              person:'Emily Messer',           may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'Champion',              person:'Shayleen Joseph',        may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'Champion',              person:'Safiyah Iqbal',          may:0.5,  jun:0.5,  jul:0.5,  aug:0.5,  sep:0.5,  oct:0.5},
+    {project:'DE - EWIE',             person:'Roxanne Rath',           may:0.25, jun:0.25, jul:0.25, aug:0.25, sep:0.25, oct:0.25},
+    {project:'DE - EWIE',             person:'Valeria Winkworth',      may:0.25, jun:0.25, jul:0.25, aug:0.25, sep:0.25, oct:0.25},
+    {project:'DE - EWIE',             person:'David Springhetti',      may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'DE - EWIE',             person:'Alex Holden',            may:0.5,  jun:0.5,  jul:0.5,  aug:0.5,  sep:0.5,  oct:0.5},
+    {project:'DE - EWIE',             person:'Mirjam Brandhuber',      may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'DE - EWIE',             person:'Alex Taylor',            may:0.48, jun:0.48, jul:0.48, aug:0.48, sep:0.48, oct:0.48},
+    {project:'DE - EWIE',             person:'Karoline Czychon',       may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'DK - Norlys',           person:'Roxanne Rath',           may:0.25, jun:0.25, jul:0.25, aug:0.25, sep:0.25, oct:0.25},
+    {project:'DK - Norlys',           person:'Karin Yardy',            may:0.25, jun:0.25, jul:0.25, aug:0.25, sep:0.25, oct:0.25},
+    {project:'DK - Norlys',           person:'Valeria Winkworth',      may:0.25, jun:0.25, jul:0.25, aug:0.25, sep:0.25, oct:0.25},
+    {project:'DK - Norlys',           person:'Ferdinand Baulez',       may:0.51, jun:0.51, jul:0.51, aug:0.51, sep:0.51, oct:0.51},
+    {project:'DK - Norlys',           person:'Anna Šútorová',          may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'DK - Norlys',           person:'Erlend Styve',           may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'DK - Norlys',           person:'Sandra Nielsen',         may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'ES - Total Energies B2C',person:'Karin Yardy',           may:0.3,  jun:0.3,  jul:0.3,  aug:0.3,  sep:0.3,  oct:0.3},
+    {project:'ES - Total Energies B2C',person:'Jose Saidler',          may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'ES - Total Energies B2C',person:'Josh Popham',           may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'Essential Energy',      person:'James Childs',           may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'FR - Plenitude',        person:'Karin Yardy',            may:0.1,  jun:0.1,  jul:0.1,  aug:0.1,  sep:0.1,  oct:0.1},
+    {project:'FR - Plenitude',        person:'Valeria Winkworth',      may:0.15, jun:0.15, jul:0.15, aug:0.15, sep:0.15, oct:0.15},
+    {project:'FR - Plenitude',        person:'Ferdinand Baulez',       may:0.5,  jun:0.5,  jul:0.5,  aug:0.5,  sep:0.5,  oct:0.5},
+    {project:"FR - Plenitude",        person:"Mardochée N'goran",      may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'IB - Plenitude',        person:'Karin Yardy',            may:0.1,  jun:0.1,  jul:0.1,  aug:0.1,  sep:0.1,  oct:0.1},
+    {project:'IB - Plenitude',        person:'Melissa Jensen Labiano', may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'IB - Plenitude',        person:'Claudia Díaz',           may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'Internal Kraken',       person:'Emily Noakes',           may:0.95, jun:0.95, jul:0.95, aug:0.95, sep:0.95, oct:0.95},
+    {project:'Internal Kraken',       person:'Katherine Lamb',         may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'Internal Kraken',       person:'Paul Loran',             may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'Internal Kraken',       person:'Josh Brookes',           may:0.0,  jun:0.0,  jul:0.0,  aug:0.0,  sep:0.0,  oct:1.0},
+    {project:'Internal Kraken',       person:'Jane Fennelly',          may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'Internal Kraken',       person:'Sam Winter',             may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'Internal Kraken',       person:'Valeria Winkworth',      may:0.35, jun:0.35, jul:0.35, aug:0.35, sep:0.35, oct:0.35},
+    {project:'Internal Kraken',       person:'Hiroaki Kidoguchi',      may:0.88, jun:0.88, jul:0.88, aug:0.88, sep:0.88, oct:0.88},
+    {project:'Internal Kraken',       person:'Juliet Destrade',        may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'Internal Kraken',       person:'Katie Wiggins',          may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'Internal Kraken',       person:'Kelly Rankine',          may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'Internal Kraken',       person:'Meghan Brady',           may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'Internal Kraken',       person:'Terilee Ward',           may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'JP - Kyuden',           person:'Hiroko Otsubo',          may:0.2,  jun:0.2,  jul:0.2,  aug:0.2,  sep:0.2,  oct:0.2},
+    {project:'JP - Kyuden',           person:'Daisaku Nishinaka',      may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'JP - Kyuden',           person:'Issei Matsumiya',        may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'JP - Kyuden',           person:'Natsuki Oyama',          may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'JP - Kyuden',           person:'Takahiro Sawai',         may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'JP - Kyuden',           person:'Yoshiko Saito',          may:0.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'JP - Kyuden',           person:'Toshihito Kakizaki',     may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'Maingau',               person:'Roxanne Rath',           may:0.25, jun:0.25, jul:0.25, aug:0.25, sep:0.25, oct:0.25},
+    {project:'Maingau',               person:'Alex Holden',            may:0.5,  jun:0.5,  jul:0.5,  aug:0.5,  sep:0.5,  oct:0.5},
+    {project:'Maingau',               person:'Alex Taylor',            may:0.21, jun:0.21, jul:0.21, aug:0.21, sep:0.21, oct:0.21},
+    {project:'ME - Saudi Energy',     person:'Shoaib Nasir',           may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'ME - Saudi Energy',     person:'Brooke Owen',            may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'Meridian Energy (NZ)',  person:'Nicola Harrison',        may:0.5,  jun:0.5,  jul:0.5,  aug:0.5,  sep:0.5,  oct:0.5},
+    {project:'Meridian Energy (NZ)',  person:'Eloïse Stonehouse',      may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'Meridian Energy (NZ)',  person:'Jordan Forshaw',         may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'NA - PGE',              person:'Robert Dietz',           may:0.3,  jun:0.3,  jul:0.3,  aug:0.3,  sep:0.3,  oct:0.3},
+    {project:'NA - PGE',              person:'Ross Crosby',            may:0.3,  jun:0.3,  jul:0.3,  aug:0.3,  sep:0.3,  oct:0.3},
+    {project:'NA - PGE',              person:'Keijan Martin',          may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'NA - PGE',              person:'Safiyah Iqbal',          may:0.5,  jun:0.5,  jul:0.5,  aug:0.5,  sep:0.5,  oct:0.5},
+    {project:'NA - PGE',              person:'Matt Hard',              may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'National Grid (US)',    person:'Kristina Francisco',     may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'National Grid (US)',    person:'Robert Dietz',           may:0.7,  jun:0.7,  jul:0.7,  aug:0.7,  sep:0.7,  oct:0.7},
+    {project:'National Grid (US)',    person:'Ross Crosby',            may:0.4,  jun:0.4,  jul:0.4,  aug:0.4,  sep:0.4,  oct:0.4},
+    {project:'National Grid (US)',    person:'Samuel Malloy',          may:0.95, jun:0.95, jul:0.95, aug:0.95, sep:0.95, oct:0.95},
+    {project:'National Grid (US)',    person:'Amy Mason',              may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'NL - Vanderbron',       person:'Karin Yardy',            may:0.25, jun:0.25, jul:0.25, aug:0.25, sep:0.25, oct:0.25},
+    {project:'NL - Vanderbron',       person:'Roxanne Rath',           may:0.25, jun:0.25, jul:0.25, aug:0.25, sep:0.25, oct:0.25},
+    {project:'NL - Vanderbron',       person:'Diederick Theunissen',   may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'NL - Vanderbron',       person:'Sanne Foekens',          may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'NL - Vanderbron',       person:'Sotiris Karoulla',       may:0.5,  jun:0.5,  jul:0.5,  aug:0.5,  sep:0.5,  oct:0.5},
+    {project:'NL - Vanderbron',       person:'Amy Barnes',             may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'NL - Vanderbron',       person:'Sanne Jongeling',        may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'Tokyo Gas',             person:'Hiroko Otsubo',          may:0.8,  jun:0.8,  jul:0.8,  aug:0.8,  sep:0.8,  oct:0.8},
+    {project:'Tokyo Gas',             person:'Ippei Kito',             may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'Tokyo Gas',             person:'Marika Sato',            may:0.71, jun:0.71, jul:0.71, aug:0.71, sep:0.71, oct:0.71},
+    {project:'UK - ESB (EI)',         person:'Emily Snow',             may:0.25, jun:0.25, jul:0.25, aug:0.25, sep:0.25, oct:0.25},
+    {project:'UK - ESB (EI)',         person:'Siga Krubally',          may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'UK - ESB (EI)',         person:'Katarzyna Sotek',        may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'UK - ESB (EI)',         person:'Natasha Wallace',        may:0.25, jun:0.25, jul:0.25, aug:0.25, sep:0.25, oct:0.25},
+    {project:'UK - ESB (EI)',         person:'Liam Mabbott',           may:1.01, jun:1.01, jul:1.01, aug:1.01, sep:1.01, oct:1.01},
+    {project:'UK - Total Energies',   person:'Emily Snow',             may:0.75, jun:0.75, jul:0.75, aug:0.75, sep:0.75, oct:0.75},
+    {project:'UK - Total Energies',   person:'Klarissa Patel',         may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'UK - Total Energies',   person:'Sotiris Karoulla',       may:0.5,  jun:0.5,  jul:0.5,  aug:0.5,  sep:0.5,  oct:0.5},
+    {project:'UK - Total Energies',   person:'Jess Brewer',            may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'Cuckoo Internet',       person:'Lisa Hardie',            may:0.1,  jun:0.1,  jul:0.1,  aug:0.1,  sep:0.1,  oct:0.1},
+    {project:'Cuckoo Internet',       person:'Hannah Williams',        may:0.5,  jun:0.5,  jul:0.5,  aug:0.5,  sep:0.5,  oct:0.5},
+    {project:'Talk Talk',             person:'Lisa Hardie',            may:0.9,  jun:0.9,  jul:0.9,  aug:0.9,  sep:0.9,  oct:0.9},
+    {project:'Talk Talk',             person:'Ellie Grigorjevs-Walsh', may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'Talk Talk',             person:'Hannah Williams',        may:0.5,  jun:0.5,  jul:0.5,  aug:0.5,  sep:0.5,  oct:0.5},
+    {project:'Talk Talk',             person:'Harry Cooke',            may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'Talk Talk',             person:'Harry Worrall',          may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'Talk Talk',             person:'Sev Summers',            may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'Talk Talk',             person:'Shreya Prasad',          may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+    {project:'Talk Talk',             person:'Alexej Jablonski',       may:1.0,  jun:1.0,  jul:1.0,  aug:1.0,  sep:1.0,  oct:1.0},
+  ];
+
+  let rsClientStatus = 'All';
+  let rsClientRegion = 'All';
+  let rsUtilRegion   = 'All';
+  let rsSchedRegion  = 'All';
+  let rsSchedModule  = '';
+
+  function rsShowSubtab(tab, btn) {
+    document.querySelectorAll('.rs-subtab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    ['clients','utilisation','budgets','people-clients'].forEach(t => {
+      const el = document.getElementById('rs-st-' + t);
+      if (el) el.classList.toggle('hidden', t !== tab);
+    });
+  }
+
+  function rsRenderBudgets() {
+    const wrap = document.getElementById('rs-budget-table-wrap');
+    if (wrap) {
+      const D = RS_BUDGET_DATA;
+      const totBudget = D.reduce((a,r)=>a+r.budget,0);
+      const totHC     = D.reduce((a,r)=>a+r.currentHC,0);
+      const totHires  = D.reduce((a,r)=>a+r.hires,0);
+      const totHH     = totHC + totHires;
+      const totVs     = totHH - totBudget;
+      const totC      = totVs > 0 ? '#ef4444' : totVs < 0 ? '#34CD71' : 'rgba(250,250,250,0.4)';
+      const NUM  = 'text-align:center;font-size:1.5em;padding:10px 16px';
+      const NUMW = 'text-align:center;font-size:1.5em;font-weight:700;padding:10px 16px';
+      const VS   = 'text-align:center;font-size:2.2em;font-weight:900;padding:12px 16px';
+      const LBL  = 'font-weight:600;white-space:nowrap;padding:10px 14px';
+      const headerCells = D.map(r=>`<th style="text-align:center;padding:10px 16px">${r.region}</th>`).join('');
+      const budgetCells = D.map(r=>`<td style="${NUM}">${r.budget}</td>`).join('');
+      const currentCells= D.map(r=>`<td style="${NUM}">${r.currentHC}</td>`).join('');
+      const hiresCells  = D.map(r=>`<td style="${NUM}">${r.hires > 0 ? r.hires : '—'}</td>`).join('');
+      const hhCells     = D.map(r=>`<td style="${NUMW}">${r.currentHC+r.hires}</td>`).join('');
+      const vsCells     = D.map(r=>{
+        const vs = (r.currentHC+r.hires) - r.budget;
+        const c  = vs > 0 ? '#ef4444' : vs < 0 ? '#34CD71' : 'rgba(250,250,250,0.4)';
+        return `<td style="${VS};color:${c}">${vs > 0 ? '+' : ''}${vs}</td>`;
+      }).join('');
+      wrap.innerHTML = `<table class="srt" style="width:100%">
+        <thead><tr>
+          <th style="min-width:100px"></th>
+          ${headerCells}
+          <th style="text-align:center;padding:10px 16px">Total</th>
+        </tr></thead>
+        <tbody>
+          <tr><td style="${LBL}">Budget HC</td>${budgetCells}<td style="${NUMW}">${totBudget}</td></tr>
+          <tr><td style="${LBL}">Current HC</td>${currentCells}<td style="${NUM}">${totHC}</td></tr>
+          <tr><td style="${LBL}">Active Hires</td>${hiresCells}<td style="${NUM}">${totHires}</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="${LBL}">HC + Hires</td>${hhCells}<td style="${NUMW}">${totHH}</td></tr>
+          <tr style="border-top:2px solid var(--border)"><td style="font-weight:800;white-space:nowrap;font-size:1.1em;padding:12px 14px">vs Budget</td>${vsCells}<td style="${VS};color:${totC}">${totVs > 0 ? '+' : ''}${totVs}</td></tr>
+        </tbody>
+      </table>`;
+    }
+
+    const grid = document.getElementById('rs-budget-people');
+    if (grid) {
+      const regions = ['ME','N Europe','S Europe','UK&I','USA','Aus/NZ','Japan'];
+      grid.innerHTML = `<details class="rs-bp-details"><summary class="rs-bp-summary">People by Region</summary><div class="rs-bp-grid">${regions.map(region => {
+        const people = RS_PEOPLE.filter(p => p.region === region);
+        const bd = RS_BUDGET_DATA.find(b => b.region === region);
+        const vs = bd ? (bd.currentHC + bd.hires - bd.budget) : 0;
+        const vc = vs > 0 ? '#ef4444' : vs < 0 ? '#34CD71' : 'rgba(250,250,250,0.4)';
+        const vt = vs === 0 ? 'on budget' : (vs > 0 ? `+${vs} over` : `${vs} under`);
+        const items = people.map(p => {
+          const isV = p.name === '@ vacancy';
+          return `<div class="rs-bp-person ${isV ? 'rs-bp-vacancy' : ''}">
+            <span class="rs-bp-name">${isV ? '@ vacancy' : p.name}</span>
+            <span class="rs-bp-role">${isV ? (p.role || '') : (p.role || '')}</span>
+          </div>`;
+        }).join('');
+        return `<div class="rs-bp-col">
+          <div class="rs-bp-col-header">
+            <span class="rs-bp-col-region">${region}</span>
+            <span class="rs-bp-col-vs" style="color:${vc}">${vt}</span>
+          </div>
+          ${items}
+        </div>`;
+      }).join('')}</div></details>`;
+    }
+  }
+
+  function rsRenderPeopleClients() {
+    const container = document.getElementById('rs-pc-regions');
+    if (!container) return;
+    // Precompute practice groups for rowspan
+    const practiceGroups = [];
+    let cg = null;
+    MODULE_LIST.forEach(([practice, module, profile], idx) => {
+      if (!cg || cg.practice !== practice) { cg = {practice, modules: []}; practiceGroups.push(cg); }
+      cg.modules.push({module, profile, idx});
+    });
+    container.innerHTML = RS_PC_DATA.map(region => {
+      const clientHeaders = region.clients.map(c => `<th>${c}</th>`).join('');
+      let tableBody;
+      if (!region.assignments) {
+        tableBody = `<tr><td colspan="${3 + region.clients.length}" style="text-align:center;color:rgba(250,250,250,0.3);padding:20px;font-size:0.85em">Not yet planned — module coverage TBD</td></tr>`;
+      } else {
+        tableBody = practiceGroups.flatMap(group =>
+          group.modules.map((m, mi) => {
+            const cells = region.assignments[m.idx].map(a => {
+              if (!a) return `<td style="color:rgba(250,250,250,0.15)">—</td>`;
+              if (a === 'Gap') return `<td style="color:#F050F8;font-weight:700;font-size:0.8em">Gap</td>`;
+              return `<td style="font-size:0.75em">${a.split(' · ').map(p => `<span style="display:block;white-space:nowrap">${p}</span>`).join('')}</td>`;
+            }).join('');
+            const pCell = mi === 0
+              ? `<td rowspan="${group.modules.length}" style="vertical-align:top;font-weight:700;color:var(--indigo-light);font-size:0.8em;white-space:nowrap">${group.practice}</td>`
+              : '';
+            const dot = region.demand && region.demand[m.idx] > 0 ? ' <span style="color:#34CD71;font-size:0.65em">●</span>' : '';
+            return `<tr>${pCell}<td style="font-size:0.8em">${m.module}${dot}</td><td style="color:rgba(250,250,250,0.4);font-size:0.75em;white-space:nowrap">${m.profile}</td>${cells}</tr>`;
+          })
+        ).join('');
+      }
+      const isOpen = region.assignments !== null;
+      return `<details class="rs-pc-region" ${isOpen ? 'open' : ''}>
+        <summary class="rs-pc-summary">
+          <strong>${region.region}</strong>
+          <span class="rs-pc-clients">${region.clients.join(' · ')}</span>
+        </summary>
+        <div class="rs-table-wrap" style="padding:0 16px 16px">
+          <table class="srt">
+            <thead><tr><th>Practice</th><th>Module</th><th>Profile</th>${clientHeaders}</tr></thead>
+            <tbody>${tableBody}</tbody>
+          </table>
+        </div>
+      </details>`;
+    }).join('');
+  }
+
+  function rsSetUtilRegion(region, btn) {
+    rsUtilRegion = region;
+    document.querySelectorAll('#rs-st-utilisation .rs-status-chip').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    rsRenderUtilisation();
+  }
+
+  function rsRenderUtilisation() {
+    const tbody = document.getElementById('rs-util-tbody');
+    if (!tbody) return;
+    const fmt = v => v > 0 ? v.toFixed(2) : '<span style="color:rgba(250,250,250,0.2)">—</span>';
+    const regionOf = name => PEOPLE.find(p => p.name === name)?.region || '';
+    const data = rsUtilRegion === 'All'
+      ? RS_UTILISATION
+      : RS_UTILISATION.filter(r => regionOf(r.person) === rsUtilRegion);
+    const projects = [...new Set(data.map(r => r.project))];
+    if (projects.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;color:rgba(250,250,250,0.3);padding:20px">No utilisation data for this region.</td></tr>`;
+      return;
+    }
+    tbody.innerHTML = projects.flatMap(proj => {
+      const rows = data.filter(r => r.project === proj);
+      return rows.map((r, i) => `<tr>
+        ${i === 0 ? `<td rowspan="${rows.length}" style="vertical-align:top;font-weight:600;color:var(--text)">${r.project}</td>` : ''}
+        <td>${r.person}</td>
+        <td style="text-align:right">${fmt(r.may)}</td>
+        <td style="text-align:right">${fmt(r.jun)}</td>
+        <td style="text-align:right">${fmt(r.jul)}</td>
+        <td style="text-align:right">${fmt(r.aug)}</td>
+        <td style="text-align:right">${fmt(r.sep)}</td>
+        <td style="text-align:right">${fmt(r.oct)}</td>
+      </tr>`);
+    }).join('');
+  }
+
+  function rsInit() {
+    const active     = PEOPLE.filter(p => p.name !== '@ vacancy' && p.type !== 'Partner').length;
+    const vacancies  = PEOPLE.filter(p => p.name === '@ vacancy').length;
+    const current    = RS_CLIENTS.filter(c => c.status === 'Current');
+    const planned    = RS_CLIENTS.filter(c => c.status === 'Planned');
+    const acv        = current.reduce((s, c) => s + c.agreements, 0);
+    document.getElementById('rs-stat-active').textContent    = active;
+    document.getElementById('rs-stat-vacancies').textContent = vacancies;
+    document.getElementById('rs-stat-acv').textContent       = '£' + acv.toFixed(1) + 'm';
+    document.getElementById('rs-stat-current').textContent   = current.length;
+    document.getElementById('rs-stat-planned').textContent   = planned.length;
+    rsRenderClients();
+    rsRenderUtilisation();
+    rsRenderBudgets();
+    rsRenderPeopleClients();
+    rsRenderCapabilityHeatmap();
+    rsRenderModuleCoverage();
+    rsRenderScheduling();
+  }
+
+  function rsSetClientStatus(status, btn) {
+    rsClientStatus = status;
+    document.querySelectorAll('#rs-st-clients .rs-status-chip').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    rsRenderClients();
+  }
+
+  function rsSetClientRegion(region, btn) {
+    rsClientRegion = region;
+    document.querySelectorAll('#rs-st-clients .rs-region-chip').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    rsRenderClients();
+  }
+
+  function rsRenderClients() {
+    const tbody = document.getElementById('rs-clients-tbody');
+    if (!tbody) return;
+    let rows = RS_CLIENTS;
+    if (rsClientStatus !== 'All') rows = rows.filter(c => c.status === rsClientStatus);
+    if (rsClientRegion !== 'All') rows = rows.filter(c => c.region === rsClientRegion);
+    tbody.innerHTML = rows.map(c => {
+      const statusColor = c.status === 'Current' ? '#34CD71' : 'var(--indigo-light)';
+      const sizeColor   = c.size === 'L' ? '#F050F8' : c.size === 'M' ? '#fb923c' : 'rgba(250,250,250,0.5)';
+      const team = PEOPLE.filter(p => p.clients && p.clients.some(cl => cl === c.name || c.name.includes(cl) || cl.includes(c.name)));
+      const teamHtml = team.length
+        ? team.map(p => `<span style="display:inline-block;margin:1px 3px 1px 0;background:rgba(126,212,249,0.1);border:1px solid rgba(126,212,249,0.25);border-radius:4px;padding:1px 6px;font-size:0.72em;white-space:nowrap">${p.name} <span style="opacity:0.55">${p.role}</span></span>`).join('')
+        : '<span style="color:rgba(250,250,250,0.25);font-size:0.8em">—</span>';
+      return `<tr>
+        <td><strong>${c.name}</strong></td>
+        <td>${c.region}</td>
+        <td><span style="color:${statusColor};font-weight:700">${c.status}</span></td>
+        <td style="text-align:right">${c.agreements > 0 ? '£' + c.agreements.toFixed(1) + 'm' : '—'}</td>
+        <td style="text-align:center;color:${sizeColor};font-weight:800">${c.size}</td>
+        <td style="text-align:right">${c.hc}</td>
+        <td style="max-width:320px">${teamHtml}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  // ── Dev-Tool integration helpers ──────────────────────────────────
+
+  function getCapAvgs(personName) {
+    const lk = localStorage.getItem('dev_' + personName + '_leader');
+    const sk = localStorage.getItem('dev_' + personName + '_self');
+    const raw = lk ? JSON.parse(lk) : sk ? JSON.parse(sk) : null;
+    if (!raw) return null;
+    const avgs = {};
+    DEV_MATRIX.forEach(g => {
+      const vals = g.caps.map(c => raw[c.name] || 0);
+      avgs[g.group] = vals.reduce((a, v) => a + v, 0) / vals.length;
+    });
+    return avgs;
+  }
+
+  function getTraining(name) {
+    try { const s = localStorage.getItem('training_' + name); return s ? JSON.parse(s) : {practices:{}, certs:{}}; }
+    catch(e) { return {practices:{}, certs:{}}; }
+  }
+  function setTraining(name, t) {
+    localStorage.setItem('training_' + name, JSON.stringify(t));
+  }
+
+  const PRACTICE_COLORS = {
+    'Coaching':        '#60F0F8',
+    'Learning & LDP':  '#7ED4F9',
+    'Culture':         '#F050F8',
+    'Data':            '#34CD71',
+    'Innovation':      '#fb923c',
+    'Operating Models':'#a78bfa',
+  };
+  const PRACTICES = [...new Set(MODULE_LIST.map(([p]) => p))];
+
+  function rsRenderCapabilityHeatmap() {
+    const el = document.getElementById('rs-cap-heatmap');
+    if (!el) return;
+    const regions = ['UK&I','N Europe','S Europe','ME','USA','Aus/NZ','Japan'];
+    const groups  = DEV_MATRIX.map(g => g.group);
+    const headCols = groups.map(g => {
+      const meta = DEV_GROUP_META[g] || {};
+      return `<th style="color:${meta.color || 'var(--text)'};font-size:0.72em">${meta.icon || ''}&nbsp;${g}</th>`;
+    }).join('');
+    const bodyRows = regions.map(region => {
+      const people = PEOPLE.filter(p => p.region === region && p.name !== '@ vacancy');
+      const ratingsList = people.map(p => getCapAvgs(p.name)).filter(Boolean);
+      const rated = ratingsList.length;
+      const cells = groups.map(g => {
+        if (rated === 0) return `<td><span class="rs-cap-cell empty">—</span></td>`;
+        const sum = ratingsList.reduce((a, r) => a + (r[g] || 0), 0);
+        const avg = sum / rated;
+        const cls = avg >= 3 ? 'green' : avg >= 2 ? 'amber' : 'red';
+        return `<td><span class="rs-cap-cell ${cls}">${avg.toFixed(1)}</span></td>`;
+      }).join('');
+      return `<tr>
+        <td><strong>${region}</strong><div class="rs-cap-coverage">${rated}/${people.length} rated</div></td>
+        ${cells}
+      </tr>`;
+    }).join('');
+    el.innerHTML = `<table class="rs-cap-heatmap-table">
+      <thead><tr><th>Region</th>${headCols}</tr></thead>
+      <tbody>${bodyRows}</tbody>
+    </table>`;
+  }
+
+  function rsRenderModuleCoverage() {
+    const el = document.getElementById('rs-module-coverage');
+    if (!el) return;
+    const regions = ['UK&I','N Europe','S Europe','ME','USA','Aus/NZ','Japan'];
+
+    const peopleByRegion = {};
+    regions.forEach(r => peopleByRegion[r] = []);
+    PEOPLE.filter(p => p.name !== '@ vacancy').forEach(p => {
+      if (p.region && peopleByRegion[p.region]) peopleByRegion[p.region].push(p.name);
+    });
+
+    let html = `<div class="rs-table-wrap"><table class="rs-mc-table">
+      <thead><tr>
+        <th style="text-align:left;min-width:160px">Module</th>
+        ${regions.map(r => `<th>${r}</th>`).join('')}
+      </tr></thead>
+      <tbody>`;
+
+    PRACTICES.forEach(prac => {
+      const color = PRACTICE_COLORS[prac] || '#7ED4F9';
+      const mods  = MODULE_LIST.filter(([p]) => p === prac).map(([,m]) => m);
+      html += `<tr class="rs-mc-practice-header" style="background:${color}18;border-top:2px solid ${color}35">
+        <td colspan="${regions.length + 1}" style="color:${color};font-weight:700;padding:7px 12px">${prac}</td>
+      </tr>`;
+      mods.forEach(mod => {
+        const cells = regions.map(r => {
+          const names = peopleByRegion[r] || [];
+          let cert = 0, train = 0;
+          const certNames = [], trainNames = [];
+          names.forEach(name => {
+            const t = getTraining(name);
+            if (!t.practices[prac]) return;
+            if (t.certs[mod]) { cert++; certNames.push(name); }
+            else { train++; trainNames.push(name); }
+          });
+          if (cert === 0 && train === 0) {
+            const anyBadge = names.some(n => !!getTraining(n).practices[prac]);
+            if (!anyBadge) return `<td class="rs-mc-cell empty">—</td>`;
+            return `<td class="rs-mc-cell" style="text-align:center"><span style="opacity:0.35">0</span></td>`;
+          }
+          let cls = 'rs-mc-cell';
+          let bg  = '';
+          if      (cert >= 2) { cls += ' green'; bg = 'background:rgba(52,205,113,0.12)'; }
+          else if (cert >= 1 || train >= 1) { cls += ' amber'; bg = 'background:rgba(251,146,60,0.12)'; }
+          const title = [...certNames.map(n => '✓ '+n), ...trainNames.map(n => '~ '+n)].join(', ');
+          const sec   = train > 0 ? `<span style="opacity:0.55;font-size:0.75em"> +${train}</span>` : '';
+          return `<td class="${cls}" style="${bg};text-align:center" title="${title}">${cert}${sec}</td>`;
+        }).join('');
+        html += `<tr><td style="padding:5px 12px;font-size:0.81em">${mod}</td>${cells}</tr>`;
+      });
+    });
+
+    html += `</tbody></table></div>`;
+    el.innerHTML = html;
+  }
+
+  function rsRenderScheduling() {
+    const el = document.getElementById('rs-scheduling');
+    if (!el) return;
+    const regions = ['All','UK&I','N Europe','S Europe','ME','USA','Aus/NZ','Japan'];
+    if (!rsSchedModule && MODULE_LIST.length > 0) rsSchedModule = MODULE_LIST[0][1];
+
+    const modOptions = PRACTICES.map(prac => {
+      const mods = MODULE_LIST.filter(([p]) => p === prac);
+      return `<optgroup label="${prac}">${mods.map(([,m]) => `<option value="${m.replace(/"/g,'&quot;')}" ${rsSchedModule === m ? 'selected' : ''}>${m}</option>`).join('')}</optgroup>`;
+    }).join('');
+
+    let resultsHtml = '';
+    if (rsSchedModule) {
+      const practice   = (MODULE_LIST.find(([,m]) => m === rsSchedModule) || [])[0] || '';
+      const candidates = PEOPLE.filter(p => {
+        if (p.name === '@ vacancy') return false;
+        if (rsSchedRegion !== 'All' && p.region !== rsSchedRegion) return false;
+        return !!getTraining(p.name).practices[practice];
+      });
+      const certified = candidates.filter(p => !!getTraining(p.name).certs[rsSchedModule]);
+      const training  = candidates.filter(p => !getTraining(p.name).certs[rsSchedModule]);
+      if (candidates.length === 0) {
+        resultsHtml = `<p style="color:var(--text-muted);font-size:0.85em;padding:12px 0">No one ${rsSchedRegion !== 'All' ? 'in ' + rsSchedRegion + ' ' : ''}holds the ${practice} badge.</p>`;
+      } else {
+        const renderRow = (p, cert) => {
+          const clients = p.clients && p.clients.length ? p.clients.join(', ') : '—';
+          return `<div class="rs-sched-row">
+            <div style="flex:1;min-width:140px">
+              <strong>${p.name}</strong>
+              <span style="color:var(--text-muted);font-size:0.8em;margin-left:6px">${p.role}</span>
+              <span style="color:rgba(250,250,250,0.38);font-size:0.75em;margin-left:6px">${p.region}</span>
+            </div>
+            <span class="rs-sched-pill ${cert ? 'certified' : 'training'}">${cert ? '✓ Certified' : '~ In training'}</span>
+            <span style="font-size:0.75em;color:var(--text-muted)">${clients}</span>
+          </div>`;
+        };
+        resultsHtml = [...certified.map(p => renderRow(p, true)), ...training.map(p => renderRow(p, false))].join('');
+      }
+    }
+
+    el.innerHTML = `<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px">
+      <select class="rs-sched-select" onchange="rsSetSchedRegion(this.value)">
+        ${regions.map(r => `<option value="${r}" ${rsSchedRegion === r ? 'selected' : ''}>${r === 'All' ? 'All regions' : r}</option>`).join('')}
+      </select>
+      <select class="rs-sched-select" onchange="rsSetSchedModule(this.value)">${modOptions}</select>
+    </div>
+    <div>${resultsHtml}</div>`;
+  }
+
+  function rsSetSchedRegion(r) { rsSchedRegion = r; rsRenderScheduling(); }
+  function rsSetSchedModule(m) { rsSchedModule = m; rsRenderScheduling(); }
+
 </script>
 </body>
 </html>
