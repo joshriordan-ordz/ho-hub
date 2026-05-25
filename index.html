@@ -1245,6 +1245,22 @@
     margin-bottom: 10px;
   }
 
+  /* ── Migration view toggle ── */
+  .mig-view-bar {
+    display: flex; gap: 6px; margin-bottom: 16px;
+  }
+  .mig-view-btn {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text-muted); border-radius: 6px; padding: 6px 14px;
+    font-family: inherit; font-size: 0.78em; font-weight: 600;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .mig-view-btn:hover { background: var(--surface-hover); color: var(--text); }
+  .mig-view-btn.active {
+    background: var(--indigo-dim); border-color: var(--indigo-border);
+    color: var(--indigo-light);
+  }
+
   @media (max-width: 960px) {
     .outcome-grid { grid-template-columns: repeat(2, 1fr); }
   }
@@ -2473,6 +2489,12 @@
         <span class="mig-chevron" id="mig-chev-pge">▼</span>
       </div>
       <div class="mig-body hidden" id="mig-body-pge">
+        <div class="mig-view-bar">
+          <button class="mig-view-btn active" onclick="migSetView('pge','worklist',this)">Current Worklist</button>
+          <button class="mig-view-btn" onclick="migSetView('pge','steerco',this)">Beta SteerCo Reporting</button>
+        </div>
+
+        <div id="mig-pge-worklist">
         <div class="mig-asana-source">Live tasks from Asana board · 85 incomplete · <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1213640858621108" target="_blank">Open board ↗</a></div>
         <div class="task-board">
 
@@ -2583,6 +2605,112 @@
           </div>
 
         </div>
+        </div><!-- /mig-pge-worklist -->
+
+        <div id="mig-pge-steerco" class="hidden">
+          <div>
+            <div class="mig-sub-label">Outcome Milestones</div>
+            <div class="outcome-grid">
+              <div class="outcome-panel op-operate">
+                <div class="outcome-panel-title">Operate</div>
+                <div class="outcome-statement">Client's Universal Agents are trained, confident, and handling customer queries end-to-end</div>
+                <ul class="ms-list">
+                  <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">TOM designed</span></li>
+                  <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">FTE ratios agreed</span></li>
+                  <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">WFM discovery sessions</span></li>
+                  <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">Scheduling tooling (Calabrio) agreed</span></li>
+                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Performance tracking live</span></li>
+                </ul>
+              </div>
+              <div class="outcome-panel op-perform">
+                <div class="outcome-panel-title">Perform</div>
+                <div class="outcome-statement">Client's culture is measurably improving, with rising engagement and psychological safety</div>
+                <ul class="ms-list">
+                  <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">Culture baseline designed</span></li>
+                  <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">Culture baseline fieldwork</span></li>
+                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Psychological safety programme</span></li>
+                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Leadership coaching schedule</span></li>
+                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Engagement pulse cadence</span></li>
+                </ul>
+              </div>
+              <div class="outcome-panel op-innovate">
+                <div class="outcome-panel-title">Innovate</div>
+                <div class="outcome-statement">Client's MVB team is live, performing, and scaling</div>
+                <ul class="ms-list">
+                  <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">MVB team identified</span></li>
+                  <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">MVB team onboarded to Kraken</span></li>
+                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">First innovation sprint</span></li>
+                </ul>
+              </div>
+              <div class="outcome-panel op-progmgmt">
+                <div class="outcome-panel-title">Programme Mgmt</div>
+                <div class="outcome-statement">Migration set up for success with the right team, tools, and ways of working from day one</div>
+                <ul class="ms-list">
+                  <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">Governance structure live</span></li>
+                  <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">Asana board restructured to outcome format</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="mig-sub-label">6-Week Outlook</div>
+            <div class="outlook-wrap">
+              <div class="outlook-grid">
+                <div class="outlook-header-cell">Workstream</div>
+                <div class="outlook-header-cell">W1 · 25 May</div>
+                <div class="outlook-header-cell">W2 · 1 Jun</div>
+                <div class="outlook-header-cell">W3 · 8 Jun</div>
+                <div class="outlook-header-cell">W4 · 15 Jun</div>
+                <div class="outlook-header-cell">W5 · 22 Jun</div>
+                <div class="outlook-header-cell">W6 · 29 Jun</div>
+                <div class="outlook-label">Operate</div>
+                <div class="outlook-cell"><span class="outlook-task ot-on-track">Calabrio session 1</span></div>
+                <div class="outlook-cell"><span class="outlook-task ot-on-track">Calabrio session 2</span></div>
+                <div class="outlook-cell"><span class="outlook-task ot-upcoming">WFM tooling shortlist</span></div>
+                <div class="outlook-cell"><span class="outlook-task ot-upcoming">Scheduling tooling sign-off</span></div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-label">Perform</div>
+                <div class="outlook-cell"><span class="outlook-task ot-at-risk">Culture baseline fieldwork</span></div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-cell"><span class="outlook-task ot-upcoming">Culture baseline report</span></div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-cell"><span class="outlook-task ot-upcoming">Psych safety kickoff</span></div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-label">Innovate</div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-cell"><span class="outlook-task ot-on-track">MVB Asana board live</span></div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-cell"><span class="outlook-task ot-upcoming">First innovation sprint planning</span></div>
+                <div class="outlook-label">Prog Mgmt</div>
+                <div class="outlook-cell"><span class="outlook-task ot-on-track">Asana board review</span></div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-cell"></div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="mig-sub-label">Risk Register</div>
+            <div class="risk-tbl-wrap">
+              <table class="risk-tbl">
+                <thead><tr><th>Risk</th><th>Category</th><th>Likelihood</th><th>Impact</th><th>Owner</th><th>Mitigation</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr><td>Culture baseline fieldwork delayed 2 weeks</td><td>People</td><td><span class="lik-m">M</span></td><td><span class="lik-h">H</span></td><td>Safiyah Iqbal</td><td>Reschedule to w/c 1 Jun</td><td><span class="pill pill-high">Open</span></td></tr>
+                  <tr><td>Calabrio integration complexity higher than scoped</td><td>Tech</td><td><span class="lik-m">M</span></td><td><span class="lik-m">M</span></td><td>Client IT Lead</td><td>Parallel-track manual scheduling</td><td><span class="pill pill-waiting">Monitored</span></td></tr>
+                  <tr><td>Client engagement declining post-TOM</td><td>People</td><td><span class="lik-l">L</span></td><td><span class="lik-h">H</span></td><td>Safiyah Iqbal</td><td>Bi-weekly exec touchpoint</td><td><span class="pill pill-waiting">Monitored</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div><!-- /mig-pge-steerco -->
+
       </div>
     </div>
 
@@ -2603,6 +2731,12 @@
         <span class="mig-chevron" id="mig-chev-natgrid">▼</span>
       </div>
       <div class="mig-body hidden" id="mig-body-natgrid">
+        <div class="mig-view-bar">
+          <button class="mig-view-btn active" onclick="migSetView('natgrid','worklist',this)">Current Worklist</button>
+          <button class="mig-view-btn" onclick="migSetView('natgrid','steerco',this)">Beta SteerCo Reporting</button>
+        </div>
+
+        <div id="mig-natgrid-worklist">
         <div class="mig-asana-source">Live tasks from Asana board · 91 incomplete · <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1213186730741960" target="_blank">Open board ↗</a></div>
         <div class="task-board">
 
@@ -2706,6 +2840,113 @@
           </div>
 
         </div>
+        </div><!-- /mig-natgrid-worklist -->
+
+        <div id="mig-natgrid-steerco" class="hidden">
+          <div>
+            <div class="mig-sub-label">Outcome Milestones</div>
+            <div class="outcome-grid">
+              <div class="outcome-panel op-operate">
+                <div class="outcome-panel-title">Operate</div>
+                <div class="outcome-statement">Client's Universal Agents are trained, confident, and handling customer queries end-to-end</div>
+                <ul class="ms-list">
+                  <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">TOM designed</span></li>
+                  <li class="ms-item"><span class="ms-dot">⚠️</span><span style="color:#fb923c;">FTE ratios (HR freeze)</span></li>
+                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">WFM discovery</span></li>
+                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Scheduling tooling</span></li>
+                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Performance tracking</span></li>
+                </ul>
+              </div>
+              <div class="outcome-panel op-perform">
+                <div class="outcome-panel-title">Perform</div>
+                <div class="outcome-statement">Client's culture is measurably improving, with rising engagement and psychological safety</div>
+                <ul class="ms-list">
+                  <li class="ms-item"><span class="ms-dot">⚠️</span><span style="color:#fb923c;">Culture baseline (3wks overdue)</span></li>
+                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Psychological safety programme</span></li>
+                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Leadership coaching</span></li>
+                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Engagement pulse</span></li>
+                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Performance culture framework</span></li>
+                </ul>
+              </div>
+              <div class="outcome-panel op-innovate">
+                <div class="outcome-panel-title">Innovate</div>
+                <div class="outcome-statement">Client's MVB team is live, performing, and scaling</div>
+                <ul class="ms-list">
+                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">MVB team identified</span></li>
+                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">MVB team onboarded</span></li>
+                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">First sprint</span></li>
+                </ul>
+              </div>
+              <div class="outcome-panel op-progmgmt">
+                <div class="outcome-panel-title">Programme Mgmt</div>
+                <div class="outcome-statement">Migration set up for success with the right team, tools, and ways of working from day one</div>
+                <ul class="ms-list">
+                  <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">Governance structure live</span></li>
+                  <li class="ms-item"><span class="ms-dot">⚠️</span><span style="color:#fb923c;">CDL capacity at 40%</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="mig-sub-label">6-Week Outlook</div>
+            <div class="outlook-wrap">
+              <div class="outlook-grid">
+                <div class="outlook-header-cell">Workstream</div>
+                <div class="outlook-header-cell">W1 · 25 May</div>
+                <div class="outlook-header-cell">W2 · 1 Jun</div>
+                <div class="outlook-header-cell">W3 · 8 Jun</div>
+                <div class="outlook-header-cell">W4 · 15 Jun</div>
+                <div class="outlook-header-cell">W5 · 22 Jun</div>
+                <div class="outlook-header-cell">W6 · 29 Jun</div>
+                <div class="outlook-label">Operate</div>
+                <div class="outlook-cell"><span class="outlook-task ot-at-risk">FTE ratios escalation to SteerCo</span></div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-cell"><span class="outlook-task ot-upcoming">WFM discovery session 1</span></div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-cell"><span class="outlook-task ot-upcoming">Scheduling tooling agreed</span></div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-label">Perform</div>
+                <div class="outlook-cell"><span class="outlook-task ot-at-risk">Culture baseline reschedule</span></div>
+                <div class="outlook-cell"><span class="outlook-task ot-upcoming">Culture baseline fieldwork</span></div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-cell"><span class="outlook-task ot-upcoming">Culture baseline report</span></div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-label">Innovate</div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-cell"><span class="outlook-task ot-upcoming">MVB team kick-off</span></div>
+                <div class="outlook-label">Prog Mgmt</div>
+                <div class="outlook-cell"><span class="outlook-task ot-at-risk">CDL capacity review</span></div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-cell"></div>
+                <div class="outlook-cell"></div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="mig-sub-label">Risk Register</div>
+            <div class="risk-tbl-wrap">
+              <table class="risk-tbl">
+                <thead><tr><th>Risk</th><th>Category</th><th>Likelihood</th><th>Impact</th><th>Owner</th><th>Mitigation</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr><td>CDL capacity at 40% of requirement</td><td>People</td><td><span class="lik-h">H</span></td><td><span class="lik-h">H</span></td><td>HOD Lead</td><td>Identify interim CDL support this week</td><td><span class="pill pill-high">Open</span></td></tr>
+                  <tr><td>Culture baseline 3 weeks overdue</td><td>Delivery</td><td><span class="lik-h">H</span></td><td><span class="lik-m">M</span></td><td>Amy Mason</td><td>Reschedule fieldwork for w/c 1 Jun</td><td><span class="pill pill-high">Open</span></td></tr>
+                  <tr><td>Client exec sponsor changed</td><td>People</td><td><span class="lik-h">H</span></td><td><span class="lik-h">H</span></td><td>Regional Lead</td><td>New sponsor briefing in week 1</td><td><span class="pill pill-high">Open</span></td></tr>
+                  <tr><td>FTE ratios blocked by HR freeze</td><td>Process</td><td><span class="lik-m">M</span></td><td><span class="lik-h">H</span></td><td>Client HR</td><td>Escalation to SteerCo this week</td><td><span class="pill pill-waiting">Monitored</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div><!-- /mig-natgrid-steerco -->
+
       </div>
     </div>
 
@@ -2993,6 +3234,15 @@
     const chev = document.getElementById('mig-chev-' + id);
     body.classList.toggle('hidden');
     chev.classList.toggle('rotated');
+  }
+
+  function migSetView(client, view, btn) {
+    const worklist = document.getElementById('mig-' + client + '-worklist');
+    const steerco  = document.getElementById('mig-' + client + '-steerco');
+    worklist.classList.toggle('hidden', view !== 'worklist');
+    steerco.classList.toggle('hidden',  view !== 'steerco');
+    btn.closest('.mig-view-bar').querySelectorAll('.mig-view-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
   }
 
   // ── Slide Generator ──────────────────────────────────────────────
