@@ -1210,6 +1210,41 @@
 
   .mig-chevron.rotated { transform: rotate(-90deg); }
 
+  /* ── Task board (real Asana tasks) ── */
+  .task-board { display: flex; flex-direction: column; gap: 10px; }
+  .task-sg { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .task-sg-head {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 14px;
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.72em; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.07em; color: var(--text-muted);
+  }
+  .task-sg-count {
+    background: rgba(255,255,255,0.08); border-radius: 10px;
+    padding: 1px 7px; font-size: 0.9em; color: var(--text-muted);
+  }
+  .task-row {
+    display: grid; grid-template-columns: 1fr auto auto;
+    align-items: center; gap: 10px;
+    padding: 7px 14px; border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 0.8em;
+  }
+  .task-row:last-child { border-bottom: none; }
+  .task-name { color: var(--text); }
+  .task-due { font-size: 0.85em; font-weight: 600; white-space: nowrap; padding: 2px 8px; border-radius: 4px; }
+  .t-overdue { background: rgba(248,113,113,0.14); color: #f87171; }
+  .t-soon    { background: rgba(251,146,60,0.14);  color: #fb923c; }
+  .t-upcoming { background: rgba(96,165,250,0.10); color: #60a5fa; }
+  .t-pending  { background: rgba(255,255,255,0.05); color: var(--text-muted); }
+  .task-who { font-size: 0.82em; color: var(--text-muted); white-space: nowrap; min-width: 80px; text-align: right; }
+  .mig-asana-source {
+    font-size: 0.72em; color: var(--text-muted);
+    display: flex; align-items: center; gap: 6px;
+    margin-bottom: 10px;
+  }
+
   @media (max-width: 960px) {
     .outcome-grid { grid-template-columns: repeat(2, 1fr); }
   }
@@ -2400,44 +2435,36 @@
   <div id="tab-migrations" class="tab-panel">
 
     <div class="section-heading">Migration Delivery Reporting</div>
-    <p class="section-sub">Outcome-focused delivery view across all active migrations — tracking the Operate, Perform, Innovate, and Programme Mgmt outcomes from the NAm Asana pilot model.</p>
+    <p class="section-sub">North America · Tasks live from Asana boards — PGE (NAm Pilot) and National Grid.</p>
 
     <div class="stat-row">
       <div class="stat-card">
-        <div class="label">Total Migrations</div>
-        <div class="value" style="color:var(--indigo-light);">10</div>
+        <div class="label">NAm Migrations</div>
+        <div class="value" style="color:var(--indigo-light);">2</div>
       </div>
       <div class="stat-card">
         <div class="label">On Track</div>
-        <div class="value" style="color:#34CD71;">5</div>
+        <div class="value" style="color:#34CD71;">1</div>
       </div>
       <div class="stat-card">
         <div class="label">At Risk</div>
-        <div class="value" style="color:#fb923c;">3</div>
+        <div class="value" style="color:#fb923c;">1</div>
       </div>
       <div class="stat-card">
         <div class="label">Not Started</div>
-        <div class="value" style="color:var(--text-muted);">2</div>
+        <div class="value" style="color:var(--text-muted);">0</div>
       </div>
     </div>
 
-    <div class="mig-filters" id="mig-filters">
-      <button class="mig-filter-btn active" onclick="filterMigs('all', this)">All regions</button>
-      <button class="mig-filter-btn" onclick="filterMigs('nam', this)">North America</button>
-      <button class="mig-filter-btn" onclick="filterMigs('n-europe', this)">N Europe</button>
-      <button class="mig-filter-btn" onclick="filterMigs('uki', this)">UK &amp; Ireland</button>
-      <button class="mig-filter-btn" onclick="filterMigs('s-europe', this)">S Europe</button>
-    </div>
-
     <!-- ══════════════════════
-         1. PGE (NAm) — pilot
+         1. PGE (NAm) — Pilot
     ══════════════════════ -->
     <div class="mig-section" data-region="nam">
       <div class="mig-header" onclick="toggleMig('pge')">
-        <span class="mig-client">PGE</span>
+        <span class="mig-client">Portland General Electric</span>
         <span class="pilot-badge">🧪 NAm Pilot</span>
         <div class="mig-meta">
-          <span>CDL: Safiyah Wilson</span>
+          <span>CDL: Safiyah Iqbal</span>
           <span>North America</span>
           <span class="health-on-track">● On Track</span>
           <span>Go-live: 12 Sep 2026</span>
@@ -2446,125 +2473,128 @@
         <span class="mig-chevron" id="mig-chev-pge">▼</span>
       </div>
       <div class="mig-body hidden" id="mig-body-pge">
+        <div class="mig-asana-source">Live tasks from Asana board · 85 incomplete · <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1213640858621108" target="_blank">Open board ↗</a></div>
+        <div class="task-board">
 
-        <div>
-          <div class="mig-sub-label">Outcome Milestones</div>
-          <div class="outcome-grid">
-            <div class="outcome-panel op-operate">
-              <div class="outcome-panel-title">Operate</div>
-              <div class="outcome-statement">Client's Universal Agents are trained, confident, and handling customer queries end-to-end</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">TOM designed</span></li>
-                <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">FTE ratios agreed</span></li>
-                <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">WFM discovery sessions</span></li>
-                <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">Scheduling tooling (Calabrio) agreed</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Performance tracking live</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-perform">
-              <div class="outcome-panel-title">Perform</div>
-              <div class="outcome-statement">Client's culture is measurably improving, with rising engagement and psychological safety</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">Culture baseline designed</span></li>
-                <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">Culture baseline fieldwork</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Psychological safety programme</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Leadership coaching schedule</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Engagement pulse cadence</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-innovate">
-              <div class="outcome-panel-title">Innovate</div>
-              <div class="outcome-statement">Client's MVB team is live, performing, and scaling</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">MVB team identified</span></li>
-                <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">MVB team onboarded to Kraken</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">First innovation sprint</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-progmgmt">
-              <div class="outcome-panel-title">Programme Mgmt</div>
-              <div class="outcome-statement">Migration set up for success with the right team, tools, and ways of working from day one</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">Governance structure live</span></li>
-                <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">Asana board restructured to outcome format</span></li>
-              </ul>
-            </div>
+          <div class="task-sg">
+            <div class="task-sg-head">Admin <span class="task-sg-count">3</span></div>
+            <div class="task-row"><span class="task-name">Human Design Workshop</span><span class="task-due t-overdue">9 Apr</span><span class="task-who">Ross Crosby</span></div>
+            <div class="task-row"><span class="task-name">Sales team handover to BOT team</span><span class="task-due t-soon">30 May</span><span class="task-who">Safiyah Iqbal</span></div>
+            <div class="task-row"><span class="task-name">Handover to Customer Success</span><span class="task-due t-upcoming">5 Aug 2027</span><span class="task-who">Safiyah Iqbal</span></div>
           </div>
-        </div>
 
-        <div>
-          <div class="mig-sub-label">6-Week Outlook</div>
-          <div class="outlook-wrap">
-            <div class="outlook-grid">
-              <div class="outlook-header-cell">Workstream</div>
-              <div class="outlook-header-cell">W1 · 25 May</div>
-              <div class="outlook-header-cell">W2 · 1 Jun</div>
-              <div class="outlook-header-cell">W3 · 8 Jun</div>
-              <div class="outlook-header-cell">W4 · 15 Jun</div>
-              <div class="outlook-header-cell">W5 · 22 Jun</div>
-              <div class="outlook-header-cell">W6 · 29 Jun</div>
-              <!-- Operate row -->
-              <div class="outlook-label">Operate</div>
-              <div class="outlook-cell"><span class="outlook-task ot-on-track">Calabrio session 1</span></div>
-              <div class="outlook-cell"><span class="outlook-task ot-on-track">Calabrio session 2</span></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">WFM tooling shortlist</span></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">Scheduling tooling sign-off</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <!-- Perform row -->
-              <div class="outlook-label">Perform</div>
-              <div class="outlook-cell"><span class="outlook-task ot-at-risk">Culture baseline fieldwork</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">Culture baseline report</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">Psych safety kickoff</span></div>
-              <div class="outlook-cell"></div>
-              <!-- Innovate row -->
-              <div class="outlook-label">Innovate</div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-on-track">MVB Asana board live</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">First innovation sprint planning</span></div>
-              <!-- Prog Mgmt row -->
-              <div class="outlook-label">Prog Mgmt</div>
-              <div class="outlook-cell"><span class="outlook-task ot-on-track">Asana board review</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-            </div>
+          <div class="task-sg">
+            <div class="task-sg-head">Kick off <span class="task-sg-count">4</span></div>
+            <div class="task-row"><span class="task-name">Pre-Kick off intro pack WIP</span><span class="task-due t-overdue">11 May</span><span class="task-who">Safiyah Iqbal</span></div>
+            <div class="task-row"><span class="task-name">Create Kick off deck (WIP)</span><span class="task-due t-overdue">11 May</span><span class="task-who">Safiyah Iqbal</span></div>
+            <div class="task-row"><span class="task-name">Kick off complete</span><span class="task-due t-soon">30 May</span><span class="task-who">Safiyah Iqbal</span></div>
+            <div class="task-row"><span class="task-name">(optional) Immersion session with TDO's WIP</span><span class="task-due t-soon">4 Jun</span><span class="task-who">—</span></div>
           </div>
-        </div>
 
-        <div>
-          <div class="mig-sub-label">Risk Register</div>
-          <div class="risk-tbl-wrap">
-            <table class="risk-tbl">
-              <thead><tr><th>Risk</th><th>Category</th><th>Likelihood</th><th>Impact</th><th>Owner</th><th>Mitigation</th><th>Status</th></tr></thead>
-              <tbody>
-                <tr><td>Culture baseline fieldwork delayed 2 weeks</td><td>People</td><td><span class="lik-m">M</span></td><td><span class="lik-h">H</span></td><td>Safiyah Wilson</td><td>Reschedule to w/c 1 Jun</td><td><span class="pill pill-high">Open</span></td></tr>
-                <tr><td>Calabrio integration complexity higher than scoped</td><td>Tech</td><td><span class="lik-m">M</span></td><td><span class="lik-m">M</span></td><td>Client IT Lead</td><td>Parallel-track manual scheduling</td><td><span class="pill pill-waiting">Monitored</span></td></tr>
-                <tr><td>Client engagement declining post-TOM</td><td>People</td><td><span class="lik-l">L</span></td><td><span class="lik-h">H</span></td><td>Safiyah Wilson</td><td>Bi-weekly exec touchpoint</td><td><span class="pill pill-waiting">Monitored</span></td></tr>
-              </tbody>
-            </table>
+          <div class="task-sg">
+            <div class="task-sg-head">OTO <span class="task-sg-count">6</span></div>
+            <div class="task-row"><span class="task-name">Choose OTO Team</span><span class="task-due t-soon">28 May</span><span class="task-who">Safiyah Iqbal</span></div>
+            <div class="task-row"><span class="task-name">OTO Onboarding plan</span><span class="task-due t-upcoming">1 Jul</span><span class="task-who">Safiyah Iqbal</span></div>
+            <div class="task-row"><span class="task-name">Organise immersion session &amp; provide agenda</span><span class="task-due t-upcoming">16 Jul</span><span class="task-who">Safiyah Iqbal</span></div>
+            <div class="task-row"><span class="task-name">London office tour (immersion) WIP</span><span class="task-due t-upcoming">23 Jul</span><span class="task-who">Safiyah Iqbal</span></div>
+            <div class="task-row"><span class="task-name">Coaching &amp; Mentoring (WIP)</span><span class="task-due t-upcoming">30 Jul</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">OTO Onboarded</span><span class="task-due t-upcoming">1 Sep</span><span class="task-who">Safiyah Iqbal</span></div>
           </div>
-        </div>
 
+          <div class="task-sg">
+            <div class="task-sg-head">First team <span class="task-sg-count">4</span></div>
+            <div class="task-row"><span class="task-name">Define UA selection process and criteria</span><span class="task-due t-soon">4 Jun</span><span class="task-who">Safiyah Iqbal</span></div>
+            <div class="task-row"><span class="task-name">Select first team</span><span class="task-due t-upcoming">18 Jun</span><span class="task-who">Safiyah Iqbal</span></div>
+            <div class="task-row"><span class="task-name">Plan activities for post-training waiting period</span><span class="task-due t-upcoming">2 Jul</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">First team Onboarded</span><span class="task-due t-upcoming">30 Oct</span><span class="task-who">Safiyah Iqbal</span></div>
+          </div>
+
+          <div class="task-sg">
+            <div class="task-sg-head">TOM <span class="task-sg-count">11</span></div>
+            <div class="task-row"><span class="task-name">OTO &amp; OTO recruitment</span><span class="task-due t-soon">28 May</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Remuneration</span><span class="task-due t-soon">4 Jun</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Domains Deeper Dive</span><span class="task-due t-upcoming">11 Jun</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Ratios in the model</span><span class="task-due t-upcoming">11 Jun</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">TOM success Metrics</span><span class="task-due t-upcoming">11 Jun</span><span class="task-who">Safiyah Iqbal</span></div>
+            <div class="task-row"><span class="task-name">Job descriptions</span><span class="task-due t-upcoming">15 Jun</span><span class="task-who">Safiyah Iqbal</span></div>
+            <div class="task-row"><span class="task-name">TOM Ready Programme complete Resi</span><span class="task-due t-upcoming">22 Jun</span><span class="task-who">Safiyah Iqbal</span></div>
+            <div class="task-row"><span class="task-name">TOM Ready Programme complete B2B</span><span class="task-due t-upcoming">22 Jun</span><span class="task-who">Safiyah Iqbal</span></div>
+            <div class="task-row"><span class="task-name">Create Operations ramp up plan</span><span class="task-due t-upcoming">22 Jun</span><span class="task-who">Safiyah Iqbal</span></div>
+            <div class="task-row"><span class="task-name">Review &amp; confirm operating hours WIP</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Model Teams</span><span class="task-due t-upcoming">25 Feb 2027</span><span class="task-who">—</span></div>
+          </div>
+
+          <div class="task-sg">
+            <div class="task-sg-head">Learning &amp; Recruitment <span class="task-sg-count">7</span></div>
+            <div class="task-row"><span class="task-name">Intro to Training (WIP)</span><span class="task-due t-overdue">7 May</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Prepare &amp; determine Non-Ops training</span><span class="task-due t-overdue">7 May</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Skills Matrix for Ops</span><span class="task-due t-overdue">21 May</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Design SA Framework (WIP)</span><span class="task-due t-soon">4 Jun</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Discovery Days</span><span class="task-due t-upcoming">16 Jul</span><span class="task-who">Safiyah Iqbal</span></div>
+            <div class="task-row"><span class="task-name">Localize UA Training Programme</span><span class="task-due t-upcoming">31 Jul</span><span class="task-who">Safiyah Iqbal</span></div>
+            <div class="task-row"><span class="task-name">Build SA content (WIP)</span><span class="task-due t-upcoming">5 Aug 2027</span><span class="task-who">—</span></div>
+          </div>
+
+          <div class="task-sg">
+            <div class="task-sg-head">Culture <span class="task-sg-count">17</span></div>
+            <div class="task-row"><span class="task-name">Line of Sight</span><span class="task-due t-overdue">7 May</span><span class="task-who">Ross Crosby</span></div>
+            <div class="task-row"><span class="task-name">Introduction to Kraken Culture Assessment</span><span class="task-due t-overdue">14 May</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Prep &amp; Run Cultural Assessment</span><span class="task-due t-overdue">21 May</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Exec &amp; Director LDPs WIP</span><span class="task-due t-overdue">7 May</span><span class="task-who">Ross Crosby</span></div>
+            <div class="task-row"><span class="task-name">Analyse Culture Assessment results</span><span class="task-due t-soon">28 May</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Change Mapping</span><span class="task-due t-soon">4 Jun</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Golden Guidelines workshop WIP</span><span class="task-due t-upcoming">18 Jun</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Define Personas journey WIP</span><span class="task-due t-upcoming">30 Jul</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">How to run good meetings</span><span class="task-due t-upcoming">30 Jul</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">How to create a good management pack</span><span class="task-due t-upcoming">30 Jul</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">How to run Family Dinner</span><span class="task-due t-upcoming">30 Jul</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">How to manage team sentiment</span><span class="task-due t-upcoming">30 Jul</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Launch Ops rituals</span><span class="task-due t-upcoming">6 Aug</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Enterprise Transformation</span><span class="task-due t-upcoming">6 May 2027</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Customer Ops Transformation WIP</span><span class="task-due t-upcoming">5 Aug 2027</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Track KBIs through and post migration WIP</span><span class="task-due t-upcoming">5 Aug 2027</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Final Delivery review</span><span class="task-due t-upcoming">5 Aug 2027</span><span class="task-who">Safiyah Iqbal</span></div>
+          </div>
+
+          <div class="task-sg">
+            <div class="task-sg-head">LDP <span class="task-sg-count">7</span></div>
+            <div class="task-row"><span class="task-name">Launch LDP for Directors &amp; Heads of WIP</span><span class="task-due t-overdue">7 May</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Launch LDP for Execs WIP</span><span class="task-due t-overdue">7 May</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Intro to / The Why of LDP WIP</span><span class="task-due t-soon">30 May</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">"The How" of LDP WIP</span><span class="task-due t-soon">30 May</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Analyze current vs new LDP WIP</span><span class="task-due t-soon">4 Jun</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Launch LDP for TLs</span><span class="task-due t-upcoming">10 Sep</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Launch LDP for OMs</span><span class="task-due t-upcoming">10 Sep</span><span class="task-who">—</span></div>
+          </div>
+
+          <div class="task-sg">
+            <div class="task-sg-head">Data <span class="task-sg-count">3</span></div>
+            <div class="task-row"><span class="task-name">Organise baselining workshop</span><span class="task-due t-overdue">18 May</span><span class="task-who">Safiyah Iqbal</span></div>
+            <div class="task-row"><span class="task-name">Baselining Playback</span><span class="task-due t-soon">4 Jun</span><span class="task-who">Safiyah Iqbal</span></div>
+            <div class="task-row"><span class="task-name">Performance tracking</span><span class="task-due t-upcoming">30 Jul</span><span class="task-who">Safiyah Iqbal</span></div>
+          </div>
+
+          <div class="task-sg">
+            <div class="task-sg-head">Coaching <span class="task-sg-count">4</span></div>
+            <div class="task-row"><span class="task-name">Exec coaching</span><span class="task-due t-overdue">7 May</span><span class="task-who">Ross Crosby</span></div>
+            <div class="task-row"><span class="task-name">121's with Directors</span><span class="task-due t-overdue">18 May</span><span class="task-who">Safiyah Iqbal</span></div>
+            <div class="task-row"><span class="task-name">Launch TL &amp; OM Mentoring</span><span class="task-due t-upcoming">30 Jul</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">High Demand Coaching</span><span class="task-due t-upcoming">17 Dec</span><span class="task-who">—</span></div>
+          </div>
+
+        </div>
       </div>
     </div>
 
     <!-- ══════════════════════
-         2. National Grid (NAm) — pilot
+         2. National Grid (NAm)
     ══════════════════════ -->
     <div class="mig-section" data-region="nam">
       <div class="mig-header" onclick="toggleMig('natgrid')">
         <span class="mig-client">National Grid</span>
         <span class="pilot-badge">🧪 NAm Pilot</span>
         <div class="mig-meta">
-          <span>CDL: Amy Chen</span>
+          <span>CDL: Amy Mason</span>
           <span>North America</span>
           <span class="health-at-risk">● At Risk</span>
           <span>Go-live: 15 Aug 2026</span>
@@ -2573,1037 +2603,109 @@
         <span class="mig-chevron" id="mig-chev-natgrid">▼</span>
       </div>
       <div class="mig-body hidden" id="mig-body-natgrid">
+        <div class="mig-asana-source">Live tasks from Asana board · 91 incomplete · <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1213186730741960" target="_blank">Open board ↗</a></div>
+        <div class="task-board">
 
-        <div>
-          <div class="mig-sub-label">Outcome Milestones</div>
-          <div class="outcome-grid">
-            <div class="outcome-panel op-operate">
-              <div class="outcome-panel-title">Operate</div>
-              <div class="outcome-statement">Client's Universal Agents are trained, confident, and handling customer queries end-to-end</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">TOM designed</span></li>
-                <li class="ms-item"><span class="ms-dot">⚠️</span><span style="color:#fb923c;">FTE ratios (HR freeze)</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">WFM discovery</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Scheduling tooling</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Performance tracking</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-perform">
-              <div class="outcome-panel-title">Perform</div>
-              <div class="outcome-statement">Client's culture is measurably improving, with rising engagement and psychological safety</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">⚠️</span><span style="color:#fb923c;">Culture baseline (3wks overdue)</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Psychological safety programme</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Leadership coaching</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Engagement pulse</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Performance culture framework</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-innovate">
-              <div class="outcome-panel-title">Innovate</div>
-              <div class="outcome-statement">Client's MVB team is live, performing, and scaling</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">MVB team identified</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">MVB team onboarded</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">First sprint</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-progmgmt">
-              <div class="outcome-panel-title">Programme Mgmt</div>
-              <div class="outcome-statement">Migration set up for success with the right team, tools, and ways of working from day one</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">Governance structure live</span></li>
-                <li class="ms-item"><span class="ms-dot">⚠️</span><span style="color:#fb923c;">CDL capacity at 40%</span></li>
-              </ul>
-            </div>
+          <div class="task-sg">
+            <div class="task-sg-head">Admin <span class="task-sg-count">3</span></div>
+            <div class="task-row"><span class="task-name">Sales team handover to BOT team</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Recommendations for Clients Slack channels</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Handover to Customer Success</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
           </div>
-        </div>
 
-        <div>
-          <div class="mig-sub-label">6-Week Outlook</div>
-          <div class="outlook-wrap">
-            <div class="outlook-grid">
-              <div class="outlook-header-cell">Workstream</div>
-              <div class="outlook-header-cell">W1 · 25 May</div>
-              <div class="outlook-header-cell">W2 · 1 Jun</div>
-              <div class="outlook-header-cell">W3 · 8 Jun</div>
-              <div class="outlook-header-cell">W4 · 15 Jun</div>
-              <div class="outlook-header-cell">W5 · 22 Jun</div>
-              <div class="outlook-header-cell">W6 · 29 Jun</div>
-              <div class="outlook-label">Operate</div>
-              <div class="outlook-cell"><span class="outlook-task ot-at-risk">FTE ratios escalation to SteerCo</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">WFM discovery session 1</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">Scheduling tooling agreed</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-label">Perform</div>
-              <div class="outlook-cell"><span class="outlook-task ot-at-risk">Culture baseline reschedule</span></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">Culture baseline fieldwork</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">Culture baseline report</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-label">Innovate</div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">MVB team kick-off</span></div>
-              <div class="outlook-label">Prog Mgmt</div>
-              <div class="outlook-cell"><span class="outlook-task ot-at-risk">CDL capacity review</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-            </div>
+          <div class="task-sg">
+            <div class="task-sg-head">Kick off <span class="task-sg-count">4</span></div>
+            <div class="task-row"><span class="task-name">Pre-Kick off intro pack</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Create Kick off deck (WIP)</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Kick off complete</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">(optional) Immersion session with TDO's</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
           </div>
-        </div>
 
-        <div>
-          <div class="mig-sub-label">Risk Register</div>
-          <div class="risk-tbl-wrap">
-            <table class="risk-tbl">
-              <thead><tr><th>Risk</th><th>Category</th><th>Likelihood</th><th>Impact</th><th>Owner</th><th>Mitigation</th><th>Status</th></tr></thead>
-              <tbody>
-                <tr><td>CDL capacity at 40% of requirement</td><td>People</td><td><span class="lik-h">H</span></td><td><span class="lik-h">H</span></td><td>HOD Lead</td><td>Identify interim CDL support this week</td><td><span class="pill pill-high">Open</span></td></tr>
-                <tr><td>Culture baseline 3 weeks overdue</td><td>Delivery</td><td><span class="lik-h">H</span></td><td><span class="lik-m">M</span></td><td>Amy Chen</td><td>Reschedule fieldwork for w/c 1 Jun</td><td><span class="pill pill-high">Open</span></td></tr>
-                <tr><td>Client exec sponsor changed</td><td>People</td><td><span class="lik-h">H</span></td><td><span class="lik-h">H</span></td><td>Regional Lead</td><td>New sponsor briefing in week 1</td><td><span class="pill pill-high">Open</span></td></tr>
-                <tr><td>FTE ratios blocked by HR freeze</td><td>Process</td><td><span class="lik-m">M</span></td><td><span class="lik-h">H</span></td><td>Client HR</td><td>Escalation to SteerCo this week</td><td><span class="pill pill-waiting">Monitored</span></td></tr>
-              </tbody>
-            </table>
+          <div class="task-sg">
+            <div class="task-sg-head">OTO <span class="task-sg-count">8</span></div>
+            <div class="task-row"><span class="task-name">Intro To OTO</span><span class="task-due t-soon">1 Jun</span><span class="task-who">Amy Mason</span></div>
+            <div class="task-row"><span class="task-name">OTO Roadshow</span><span class="task-due t-soon">1 Jun</span><span class="task-who">Amy Mason</span></div>
+            <div class="task-row"><span class="task-name">OTO Discovery Day</span><span class="task-due t-soon">1 Jun</span><span class="task-who">Amy Mason</span></div>
+            <div class="task-row"><span class="task-name">Choose OTO Team</span><span class="task-due t-soon">1 Jun</span><span class="task-who">Amy Mason</span></div>
+            <div class="task-row"><span class="task-name">OTO Onboarding</span><span class="task-due t-soon">1 Jun</span><span class="task-who">Amy Mason</span></div>
+            <div class="task-row"><span class="task-name">Organise immersion session &amp; provide agenda</span><span class="task-due t-soon">1 Jun</span><span class="task-who">Amy Mason</span></div>
+            <div class="task-row"><span class="task-name">Coaching &amp; Mentoring (WIP)</span><span class="task-due t-soon">1 Jun</span><span class="task-who">Amy Mason</span></div>
+            <div class="task-row"><span class="task-name">London office tour (immersion) (WIP)</span><span class="task-due t-soon">1 Jun</span><span class="task-who">Amy Mason</span></div>
           </div>
-        </div>
 
-      </div>
-    </div>
-
-    <!-- ══════════════════════
-         3. Norlys (N Europe)
-    ══════════════════════ -->
-    <div class="mig-section" data-region="n-europe">
-      <div class="mig-header" onclick="toggleMig('norlys')">
-        <span class="mig-client">Norlys</span>
-        <div class="mig-meta">
-          <span>CDL: Emma Nield</span>
-          <span>N Europe</span>
-          <span class="health-on-track">● On Track</span>
-          <span>Go-live: 12 Jun 2027</span>
-          <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1213515399210476" target="_blank" onclick="event.stopPropagation()">Asana ↗</a>
-        </div>
-        <span class="mig-chevron" id="mig-chev-norlys">▼</span>
-      </div>
-      <div class="mig-body hidden" id="mig-body-norlys">
-
-        <div>
-          <div class="mig-sub-label">Outcome Milestones</div>
-          <div class="outcome-grid">
-            <div class="outcome-panel op-operate">
-              <div class="outcome-panel-title">Operate</div>
-              <div class="outcome-statement">Client's Universal Agents are trained, confident, and handling customer queries end-to-end</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">TOM designed</span></li>
-                <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">FTE ratios agreed</span></li>
-                <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">WFM discovery sessions</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Scheduling tooling</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Performance tracking</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-perform">
-              <div class="outcome-panel-title">Perform</div>
-              <div class="outcome-statement">Client's culture is measurably improving, with rising engagement and psychological safety</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">Culture baseline run</span></li>
-                <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">Psych safety programme</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Leadership coaching</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Engagement pulse</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Performance culture</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-innovate">
-              <div class="outcome-panel-title">Innovate</div>
-              <div class="outcome-statement">Client's MVB team is live, performing, and scaling</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">MVB team identified</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">MVB onboarded</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">First sprint</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-progmgmt">
-              <div class="outcome-panel-title">Programme Mgmt</div>
-              <div class="outcome-statement">Migration set up for success with the right team, tools, and ways of working from day one</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">Governance live</span></li>
-                <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">Asana board set up</span></li>
-              </ul>
-            </div>
+          <div class="task-sg">
+            <div class="task-sg-head">First team <span class="task-sg-count">3</span></div>
+            <div class="task-row"><span class="task-name">Define UA selection process and criteria</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Hire / select first team</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Plan activities for post-training waiting period</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
           </div>
-        </div>
 
-        <div>
-          <div class="mig-sub-label">6-Week Outlook</div>
-          <div class="outlook-wrap">
-            <div class="outlook-grid">
-              <div class="outlook-header-cell">Workstream</div>
-              <div class="outlook-header-cell">W1 · 25 May</div>
-              <div class="outlook-header-cell">W2 · 1 Jun</div>
-              <div class="outlook-header-cell">W3 · 8 Jun</div>
-              <div class="outlook-header-cell">W4 · 15 Jun</div>
-              <div class="outlook-header-cell">W5 · 22 Jun</div>
-              <div class="outlook-header-cell">W6 · 29 Jun</div>
-              <div class="outlook-label">Operate</div>
-              <div class="outlook-cell"><span class="outlook-task ot-on-track">WFM session 2</span></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">WFM session 3</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">Scheduling tooling shortlist</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-label">Perform</div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">Psych safety module 1</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">Psych safety module 2</span></div>
-              <div class="outlook-label">Innovate</div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">MVB team first workshop</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-label">Prog Mgmt</div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-            </div>
+          <div class="task-sg">
+            <div class="task-sg-head">TOM <span class="task-sg-count">7</span></div>
+            <div class="task-row"><span class="task-name">TOM Ready Programme complete</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">TOM Timeline</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Principles of the UA Model</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Send pre-TOM questionnaire</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">OTO &amp; OTO recruitment</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Intro to Roles &amp; Permissions WIP</span><span class="task-due t-soon">1 Jun</span><span class="task-who">Amy Mason</span></div>
+            <div class="task-row"><span class="task-name">Internal documentation (WIP)</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
           </div>
-        </div>
 
-        <div>
-          <div class="mig-sub-label">Risk Register</div>
-          <div class="risk-tbl-wrap">
-            <table class="risk-tbl">
-              <thead><tr><th>Risk</th><th>Category</th><th>Likelihood</th><th>Impact</th><th>Owner</th><th>Mitigation</th><th>Status</th></tr></thead>
-              <tbody>
-                <tr><td>Language barrier slowing WFM discovery</td><td>Process</td><td><span class="lik-m">M</span></td><td><span class="lik-m">M</span></td><td>Emma Nield</td><td>Translation support confirmed for sessions</td><td><span class="pill pill-waiting">Monitored</span></td></tr>
-                <tr><td>MVB team not yet identified by client</td><td>People</td><td><span class="lik-m">M</span></td><td><span class="lik-h">H</span></td><td>Client Ops Director</td><td>Agenda item at next SteerCo</td><td><span class="pill pill-high">Open</span></td></tr>
-              </tbody>
-            </table>
+          <div class="task-sg">
+            <div class="task-sg-head">Culture + Change Management <span class="task-sg-count">12</span></div>
+            <div class="task-row"><span class="task-name">Develop Pre-boarding / change journey for UAs</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Plan &amp; execute roadshows</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Visit client operations office</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Create comms plan for legacy team</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Promote Kraken Ready platform internally</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Plan PR / communications for first customer launch</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">20/50/80 assessment</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Define rituals</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Launch Ops rituals</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Launch reporting ritual</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Agree KPIs</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Review current BPO &amp; make recommendations</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
           </div>
-        </div>
 
-      </div>
-    </div>
-
-    <!-- ══════════════════════
-         4. VBD (N Europe)
-    ══════════════════════ -->
-    <div class="mig-section" data-region="n-europe">
-      <div class="mig-header" onclick="toggleMig('vbd')">
-        <span class="mig-client">VBD</span>
-        <div class="mig-meta">
-          <span>CDL: Sarah Grant</span>
-          <span>N Europe</span>
-          <span class="health-on-track">● On Track</span>
-          <span>Go-live: 9 Jul 2027</span>
-          <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1213265397762426" target="_blank" onclick="event.stopPropagation()">Asana ↗</a>
-        </div>
-        <span class="mig-chevron" id="mig-chev-vbd">▼</span>
-      </div>
-      <div class="mig-body hidden" id="mig-body-vbd">
-
-        <div>
-          <div class="mig-sub-label">Outcome Milestones</div>
-          <div class="outcome-grid">
-            <div class="outcome-panel op-operate">
-              <div class="outcome-panel-title">Operate</div>
-              <div class="outcome-statement">Client's Universal Agents are trained, confident, and handling customer queries end-to-end</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">TOM designed</span></li>
-                <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">FTE ratios</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">WFM discovery</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Scheduling tooling</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Performance tracking</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-perform">
-              <div class="outcome-panel-title">Perform</div>
-              <div class="outcome-statement">Client's culture is measurably improving, with rising engagement and psychological safety</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">Culture baseline designed</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Culture baseline run</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Psych safety</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Coaching</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Pulse</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-innovate">
-              <div class="outcome-panel-title">Innovate</div>
-              <div class="outcome-statement">Client's MVB team is live, performing, and scaling</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">MVB team identified</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">MVB onboarded</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">First sprint</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-progmgmt">
-              <div class="outcome-panel-title">Programme Mgmt</div>
-              <div class="outcome-statement">Migration set up for success with the right team, tools, and ways of working from day one</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">Governance live</span></li>
-                <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">Asana board set up</span></li>
-              </ul>
-            </div>
+          <div class="task-sg">
+            <div class="task-sg-head">LDP <span class="task-sg-count">5</span></div>
+            <div class="task-row"><span class="task-name">Launch LDP for TLs</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Launch LDP for OMs</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Launch LDP for Directors &amp; Heads of</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Launch LDP for Execs</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">"The How" of LDP</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
           </div>
-        </div>
 
-        <div>
-          <div class="mig-sub-label">6-Week Outlook</div>
-          <div class="outlook-wrap">
-            <div class="outlook-grid">
-              <div class="outlook-header-cell">Workstream</div>
-              <div class="outlook-header-cell">W1 · 25 May</div>
-              <div class="outlook-header-cell">W2 · 1 Jun</div>
-              <div class="outlook-header-cell">W3 · 8 Jun</div>
-              <div class="outlook-header-cell">W4 · 15 Jun</div>
-              <div class="outlook-header-cell">W5 · 22 Jun</div>
-              <div class="outlook-header-cell">W6 · 29 Jun</div>
-              <div class="outlook-label">Operate</div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">FTE ratios workshop</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">FTE ratios agreed</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-label">Perform</div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">Culture baseline fieldwork</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">Culture baseline report</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-label">Innovate</div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">MVB team identification session</span></div>
-              <div class="outlook-label">Prog Mgmt</div>
-              <div class="outlook-cell"><span class="outlook-task ot-on-track">Asana board review</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-            </div>
+          <div class="task-sg">
+            <div class="task-sg-head">Data <span class="task-sg-count">4</span></div>
+            <div class="task-row"><span class="task-name">Organise baselining workshop</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Performance tracking</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Baselining Playback</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Update internal reporting tool</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
           </div>
-        </div>
 
-        <div>
-          <div class="mig-sub-label">Risk Register</div>
-          <div class="risk-tbl-wrap">
-            <table class="risk-tbl">
-              <thead><tr><th>Risk</th><th>Category</th><th>Likelihood</th><th>Impact</th><th>Owner</th><th>Mitigation</th><th>Status</th></tr></thead>
-              <tbody>
-                <tr><td>FTE ratios complex due to multi-site structure</td><td>Process</td><td><span class="lik-m">M</span></td><td><span class="lik-m">M</span></td><td>Sarah Grant</td><td>Dedicated session with each site lead</td><td><span class="pill pill-waiting">Monitored</span></td></tr>
-              </tbody>
-            </table>
+          <div class="task-sg">
+            <div class="task-sg-head">Coaching <span class="task-sg-count">4</span></div>
+            <div class="task-row"><span class="task-name">121's with Directors</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Exec coaching</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Mentoring phase</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">High Demand Coaching</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
           </div>
-        </div>
 
-      </div>
-    </div>
-
-    <!-- ══════════════════════
-         5. EWI (UK)
-    ══════════════════════ -->
-    <div class="mig-section" data-region="uki">
-      <div class="mig-header" onclick="toggleMig('ewi')">
-        <span class="mig-client">EWI</span>
-        <div class="mig-meta">
-          <span>CDL: James Fletcher</span>
-          <span>UK</span>
-          <span class="health-on-track">● On Track</span>
-          <span>Go-live: 9 Jul 2027</span>
-          <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1213262654673708" target="_blank" onclick="event.stopPropagation()">Asana ↗</a>
-        </div>
-        <span class="mig-chevron" id="mig-chev-ewi">▼</span>
-      </div>
-      <div class="mig-body hidden" id="mig-body-ewi">
-
-        <div>
-          <div class="mig-sub-label">Outcome Milestones</div>
-          <div class="outcome-grid">
-            <div class="outcome-panel op-operate">
-              <div class="outcome-panel-title">Operate</div>
-              <div class="outcome-statement">Client's Universal Agents are trained, confident, and handling customer queries end-to-end</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">TOM designed</span></li>
-                <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">FTE ratios agreed</span></li>
-                <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">WFM discovery</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Scheduling tooling</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Performance tracking</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-perform">
-              <div class="outcome-panel-title">Perform</div>
-              <div class="outcome-statement">Client's culture is measurably improving, with rising engagement and psychological safety</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">Culture baseline</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Psych safety</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Coaching</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Pulse</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Performance culture</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-innovate">
-              <div class="outcome-panel-title">Innovate</div>
-              <div class="outcome-statement">Client's MVB team is live, performing, and scaling</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">MVB identified</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">MVB onboarded</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">First sprint</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-progmgmt">
-              <div class="outcome-panel-title">Programme Mgmt</div>
-              <div class="outcome-statement">Migration set up for success with the right team, tools, and ways of working from day one</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">Governance live</span></li>
-                <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">Asana board set up</span></li>
-              </ul>
-            </div>
+          <div class="task-sg">
+            <div class="task-sg-head">Tech + Governance <span class="task-sg-count">2</span></div>
+            <div class="task-row"><span class="task-name">Establish Hypercare and daily migration meeting cadence</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Establish meeting cadence and governance structure</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
           </div>
-        </div>
 
-        <div>
-          <div class="mig-sub-label">6-Week Outlook</div>
-          <div class="outlook-wrap">
-            <div class="outlook-grid">
-              <div class="outlook-header-cell">Workstream</div>
-              <div class="outlook-header-cell">W1 · 25 May</div>
-              <div class="outlook-header-cell">W2 · 1 Jun</div>
-              <div class="outlook-header-cell">W3 · 8 Jun</div>
-              <div class="outlook-header-cell">W4 · 15 Jun</div>
-              <div class="outlook-header-cell">W5 · 22 Jun</div>
-              <div class="outlook-header-cell">W6 · 29 Jun</div>
-              <div class="outlook-label">Operate</div>
-              <div class="outlook-cell"><span class="outlook-task ot-on-track">WFM discovery session 1</span></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">WFM session 2</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">Scheduling tooling shortlist</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">Scheduling tooling agreed</span></div>
-              <div class="outlook-label">Perform</div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">Culture baseline report</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-label">Innovate</div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">MVB team identification</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-label">Prog Mgmt</div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-            </div>
+          <div class="task-sg">
+            <div class="task-sg-head">Tools &amp; Systems <span class="task-sg-count">3</span></div>
+            <div class="task-row"><span class="task-name">Select Knowledge Base</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">Set up Asana for shared project management</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
+            <div class="task-row"><span class="task-name">ESAT</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
           </div>
+
         </div>
-
-        <div>
-          <div class="mig-sub-label">Risk Register</div>
-          <div class="risk-tbl-wrap">
-            <table class="risk-tbl">
-              <thead><tr><th>Risk</th><th>Category</th><th>Likelihood</th><th>Impact</th><th>Owner</th><th>Mitigation</th><th>Status</th></tr></thead>
-              <tbody>
-                <tr><td>Potential overlap with parallel internal restructure</td><td>People</td><td><span class="lik-m">M</span></td><td><span class="lik-h">H</span></td><td>James Fletcher</td><td>Alignment meeting with People Director scheduled</td><td><span class="pill pill-waiting">Monitored</span></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ══════════════════════
-         6. Electric Ireland (UKI)
-    ══════════════════════ -->
-    <div class="mig-section" data-region="uki">
-      <div class="mig-header" onclick="toggleMig('ei')">
-        <span class="mig-client">Electric Ireland</span>
-        <div class="mig-meta">
-          <span>CDL: Sam Webb</span>
-          <span>UKI</span>
-          <span class="health-at-risk">● At Risk</span>
-          <span>Go-live: 26 May 2027</span>
-          <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1213376440827196" target="_blank" onclick="event.stopPropagation()">Asana ↗</a>
-        </div>
-        <span class="mig-chevron" id="mig-chev-ei">▼</span>
-      </div>
-      <div class="mig-body hidden" id="mig-body-ei">
-
-        <div>
-          <div class="mig-sub-label">Outcome Milestones</div>
-          <div class="outcome-grid">
-            <div class="outcome-panel op-operate">
-              <div class="outcome-panel-title">Operate</div>
-              <div class="outcome-statement">Client's Universal Agents are trained, confident, and handling customer queries end-to-end</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">TOM designed</span></li>
-                <li class="ms-item"><span class="ms-dot">⚠️</span><span style="color:#fb923c;">FTE ratios (data gaps)</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">WFM discovery</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Scheduling</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Performance tracking</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-perform">
-              <div class="outcome-panel-title">Perform</div>
-              <div class="outcome-statement">Client's culture is measurably improving, with rising engagement and psychological safety</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Culture baseline designed</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Culture baseline run</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Psych safety</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Coaching</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Pulse</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-innovate">
-              <div class="outcome-panel-title">Innovate</div>
-              <div class="outcome-statement">Client's MVB team is live, performing, and scaling</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">MVB identified</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">MVB onboarded</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">First sprint</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-progmgmt">
-              <div class="outcome-panel-title">Programme Mgmt</div>
-              <div class="outcome-statement">Migration set up for success with the right team, tools, and ways of working from day one</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">Governance live</span></li>
-                <li class="ms-item"><span class="ms-dot">⚠️</span><span style="color:#fb923c;">Asana board not yet structured</span></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div class="mig-sub-label">6-Week Outlook</div>
-          <div class="outlook-wrap">
-            <div class="outlook-grid">
-              <div class="outlook-header-cell">Workstream</div>
-              <div class="outlook-header-cell">W1 · 25 May</div>
-              <div class="outlook-header-cell">W2 · 1 Jun</div>
-              <div class="outlook-header-cell">W3 · 8 Jun</div>
-              <div class="outlook-header-cell">W4 · 15 Jun</div>
-              <div class="outlook-header-cell">W5 · 22 Jun</div>
-              <div class="outlook-header-cell">W6 · 29 Jun</div>
-              <div class="outlook-label">Operate</div>
-              <div class="outlook-cell"><span class="outlook-task ot-on-track">TOM workshop 2</span></div>
-              <div class="outlook-cell"><span class="outlook-task ot-at-risk">FTE data collection</span></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">TOM sign-off</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">FTE ratios agreed</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-label">Perform</div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">Culture baseline design</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">Culture baseline fieldwork</span></div>
-              <div class="outlook-label">Innovate</div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-label">Prog Mgmt</div>
-              <div class="outlook-cell"><span class="outlook-task ot-at-risk">Asana board restructure</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div class="mig-sub-label">Risk Register</div>
-          <div class="risk-tbl-wrap">
-            <table class="risk-tbl">
-              <thead><tr><th>Risk</th><th>Category</th><th>Likelihood</th><th>Impact</th><th>Owner</th><th>Mitigation</th><th>Status</th></tr></thead>
-              <tbody>
-                <tr><td>Asana board not structured to outcome format</td><td>Delivery</td><td><span class="lik-h">H</span></td><td><span class="lik-m">M</span></td><td>Sam Webb</td><td>Restructure scheduled for week 1</td><td><span class="pill pill-high">Open</span></td></tr>
-                <tr><td>FTE data gaps in client HR system</td><td>Process</td><td><span class="lik-h">H</span></td><td><span class="lik-h">H</span></td><td>Client HR Director</td><td>Data audit initiated, escalated to SteerCo</td><td><span class="pill pill-high">Open</span></td></tr>
-                <tr><td>No Innovate workstream scoped yet</td><td>Delivery</td><td><span class="lik-m">M</span></td><td><span class="lik-m">M</span></td><td>Sam Webb</td><td>Include in next programme governance review</td><td><span class="pill pill-high">Open</span></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ══════════════════════
-         7. TotalEnergies ES (S Europe)
-    ══════════════════════ -->
-    <div class="mig-section" data-region="s-europe">
-      <div class="mig-header" onclick="toggleMig('te')">
-        <span class="mig-client">TotalEnergies ES</span>
-        <div class="mig-meta">
-          <span>CDL: María García</span>
-          <span>S Europe</span>
-          <span class="health-on-track">● On Track</span>
-          <span>Go-live: TBC</span>
-          <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1213709513907462" target="_blank" onclick="event.stopPropagation()">Asana ↗</a>
-        </div>
-        <span class="mig-chevron" id="mig-chev-te">▼</span>
-      </div>
-      <div class="mig-body hidden" id="mig-body-te">
-
-        <div>
-          <div class="mig-sub-label">Outcome Milestones</div>
-          <div class="outcome-grid">
-            <div class="outcome-panel op-operate">
-              <div class="outcome-panel-title">Operate</div>
-              <div class="outcome-statement">Client's Universal Agents are trained, confident, and handling customer queries end-to-end</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">TOM designed</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">FTE ratios</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">WFM discovery</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Scheduling</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Performance tracking</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-perform">
-              <div class="outcome-panel-title">Perform</div>
-              <div class="outcome-statement">Client's culture is measurably improving, with rising engagement and psychological safety</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Culture baseline designed</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Culture baseline run</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Psych safety</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Coaching</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Pulse</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-innovate">
-              <div class="outcome-panel-title">Innovate</div>
-              <div class="outcome-statement">Client's MVB team is live, performing, and scaling</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">MVB identified</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">MVB onboarded</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">First sprint</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-progmgmt">
-              <div class="outcome-panel-title">Programme Mgmt</div>
-              <div class="outcome-statement">Migration set up for success with the right team, tools, and ways of working from day one</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">Governance live</span></li>
-                <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">Asana board set up</span></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div class="mig-sub-label">6-Week Outlook</div>
-          <div class="outlook-wrap">
-            <div class="outlook-grid">
-              <div class="outlook-header-cell">Workstream</div>
-              <div class="outlook-header-cell">W1 · 25 May</div>
-              <div class="outlook-header-cell">W2 · 1 Jun</div>
-              <div class="outlook-header-cell">W3 · 8 Jun</div>
-              <div class="outlook-header-cell">W4 · 15 Jun</div>
-              <div class="outlook-header-cell">W5 · 22 Jun</div>
-              <div class="outlook-header-cell">W6 · 29 Jun</div>
-              <div class="outlook-label">Operate</div>
-              <div class="outlook-cell"><span class="outlook-task ot-on-track">TOM workshop 1</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">TOM workshop 2</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">TOM sign-off</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-label">Perform</div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-label">Innovate</div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-label">Prog Mgmt</div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">Outcome milestone mapping session</span></div>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div class="mig-sub-label">Risk Register</div>
-          <div class="risk-tbl-wrap">
-            <table class="risk-tbl">
-              <thead><tr><th>Risk</th><th>Category</th><th>Likelihood</th><th>Impact</th><th>Owner</th><th>Mitigation</th><th>Status</th></tr></thead>
-              <tbody>
-                <tr><td>Go-live date not yet confirmed</td><td>Delivery</td><td><span class="lik-m">M</span></td><td><span class="lik-m">M</span></td><td>María García</td><td>Date confirmation expected by end of Jun</td><td><span class="pill pill-waiting">Monitored</span></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ══════════════════════
-         8. Plenitude France (S Europe)
-    ══════════════════════ -->
-    <div class="mig-section" data-region="s-europe">
-      <div class="mig-header" onclick="toggleMig('plfr')">
-        <span class="mig-client">Plenitude France</span>
-        <div class="mig-meta">
-          <span style="color:var(--text-muted); font-style:italic;">CDL: TBC</span>
-          <span>S Europe</span>
-          <span class="health-not-started">● Not Started</span>
-          <span>Go-live: TBC</span>
-          <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1213697233502946" target="_blank" onclick="event.stopPropagation()">Asana ↗</a>
-        </div>
-        <span class="mig-chevron" id="mig-chev-plfr">▼</span>
-      </div>
-      <div class="mig-body hidden" id="mig-body-plfr">
-
-        <div>
-          <div class="mig-sub-label">Outcome Milestones</div>
-          <div class="outcome-grid">
-            <div class="outcome-panel op-operate">
-              <div class="outcome-panel-title">Operate</div>
-              <div class="outcome-statement">Client's Universal Agents are trained, confident, and handling customer queries end-to-end</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">TOM designed</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">FTE ratios agreed</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">WFM discovery</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Scheduling tooling</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Performance tracking</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-perform">
-              <div class="outcome-panel-title">Perform</div>
-              <div class="outcome-statement">Client's culture is measurably improving, with rising engagement and psychological safety</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Culture baseline designed</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Culture baseline run</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Psych safety</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Coaching</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Pulse</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-innovate">
-              <div class="outcome-panel-title">Innovate</div>
-              <div class="outcome-statement">Client's MVB team is live, performing, and scaling</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">MVB identified</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">MVB onboarded</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">First sprint</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-progmgmt">
-              <div class="outcome-panel-title">Programme Mgmt</div>
-              <div class="outcome-statement">Migration set up for success with the right team, tools, and ways of working from day one</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Governance live</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Asana board set up</span></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div class="mig-sub-label">6-Week Outlook</div>
-          <div class="outlook-wrap">
-            <div class="outlook-grid">
-              <div class="outlook-header-cell">Workstream</div>
-              <div class="outlook-header-cell">W1 · 25 May</div>
-              <div class="outlook-header-cell">W2 · 1 Jun</div>
-              <div class="outlook-header-cell">W3 · 8 Jun</div>
-              <div class="outlook-header-cell">W4 · 15 Jun</div>
-              <div class="outlook-header-cell">W5 · 22 Jun</div>
-              <div class="outlook-header-cell">W6 · 29 Jun</div>
-              <div class="outlook-label">Operate</div>
-              <div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div>
-              <div class="outlook-label">Perform</div>
-              <div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div>
-              <div class="outlook-label">Innovate</div>
-              <div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div>
-              <div class="outlook-label">Prog Mgmt</div>
-              <div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div class="mig-sub-label">Risk Register</div>
-          <div class="risk-tbl-wrap">
-            <table class="risk-tbl">
-              <thead><tr><th>Risk</th><th>Category</th><th>Likelihood</th><th>Impact</th><th>Owner</th><th>Mitigation</th><th>Status</th></tr></thead>
-              <tbody>
-                <tr><td>No CDL assigned</td><td>People</td><td><span class="lik-h">H</span></td><td><span class="lik-h">H</span></td><td>HOD Lead</td><td>CDL assignment target: Jun 2026</td><td><span class="pill pill-high">Open</span></td></tr>
-                <tr><td>Scope and go-live date not confirmed</td><td>Delivery</td><td><span class="lik-h">H</span></td><td><span class="lik-m">M</span></td><td>Regional Lead</td><td>Scoping workshop to be scheduled</td><td><span class="pill pill-high">Open</span></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ══════════════════════
-         9. Plenitude Iberia (S Europe)
-    ══════════════════════ -->
-    <div class="mig-section" data-region="s-europe">
-      <div class="mig-header" onclick="toggleMig('plit')">
-        <span class="mig-client">Plenitude Iberia</span>
-        <div class="mig-meta">
-          <span style="color:var(--text-muted); font-style:italic;">CDL: TBC</span>
-          <span>S Europe</span>
-          <span class="health-not-started">● Not Started</span>
-          <span>Go-live: TBC</span>
-          <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1213678879066631" target="_blank" onclick="event.stopPropagation()">Asana ↗</a>
-        </div>
-        <span class="mig-chevron" id="mig-chev-plit">▼</span>
-      </div>
-      <div class="mig-body hidden" id="mig-body-plit">
-
-        <div>
-          <div class="mig-sub-label">Outcome Milestones</div>
-          <div class="outcome-grid">
-            <div class="outcome-panel op-operate">
-              <div class="outcome-panel-title">Operate</div>
-              <div class="outcome-statement">Client's Universal Agents are trained, confident, and handling customer queries end-to-end</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">TOM designed</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">FTE ratios agreed</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">WFM discovery</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Scheduling tooling</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Performance tracking</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-perform">
-              <div class="outcome-panel-title">Perform</div>
-              <div class="outcome-statement">Client's culture is measurably improving, with rising engagement and psychological safety</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Culture baseline designed</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Culture baseline run</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Psych safety</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Coaching</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Pulse</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-innovate">
-              <div class="outcome-panel-title">Innovate</div>
-              <div class="outcome-statement">Client's MVB team is live, performing, and scaling</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">MVB identified</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">MVB onboarded</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">First sprint</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-progmgmt">
-              <div class="outcome-panel-title">Programme Mgmt</div>
-              <div class="outcome-statement">Migration set up for success with the right team, tools, and ways of working from day one</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Governance live</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Asana board set up</span></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div class="mig-sub-label">6-Week Outlook</div>
-          <div class="outlook-wrap">
-            <div class="outlook-grid">
-              <div class="outlook-header-cell">Workstream</div>
-              <div class="outlook-header-cell">W1 · 25 May</div>
-              <div class="outlook-header-cell">W2 · 1 Jun</div>
-              <div class="outlook-header-cell">W3 · 8 Jun</div>
-              <div class="outlook-header-cell">W4 · 15 Jun</div>
-              <div class="outlook-header-cell">W5 · 22 Jun</div>
-              <div class="outlook-header-cell">W6 · 29 Jun</div>
-              <div class="outlook-label">Operate</div>
-              <div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div>
-              <div class="outlook-label">Perform</div>
-              <div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div>
-              <div class="outlook-label">Innovate</div>
-              <div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div>
-              <div class="outlook-label">Prog Mgmt</div>
-              <div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div><div class="outlook-cell"></div>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div class="mig-sub-label">Risk Register</div>
-          <div class="risk-tbl-wrap">
-            <table class="risk-tbl">
-              <thead><tr><th>Risk</th><th>Category</th><th>Likelihood</th><th>Impact</th><th>Owner</th><th>Mitigation</th><th>Status</th></tr></thead>
-              <tbody>
-                <tr><td>No CDL assigned</td><td>People</td><td><span class="lik-h">H</span></td><td><span class="lik-h">H</span></td><td>HOD Lead</td><td>CDL assignment target: Jun 2026</td><td><span class="pill pill-high">Open</span></td></tr>
-                <tr><td>Scope not defined</td><td>Delivery</td><td><span class="lik-m">M</span></td><td><span class="lik-h">H</span></td><td>Regional Lead</td><td>Dependent on Plenitude France scoping</td><td><span class="pill pill-high">Open</span></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ══════════════════════
-         10. MAINGAU (N Europe)
-    ══════════════════════ -->
-    <div class="mig-section" data-region="n-europe">
-      <div class="mig-header" onclick="toggleMig('meg')">
-        <span class="mig-client">MAINGAU</span>
-        <div class="mig-meta">
-          <span>CDL: Lars Fischer</span>
-          <span>N Europe</span>
-          <span class="health-at-risk">● At Risk</span>
-          <span>Go-live: TBC</span>
-          <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1209246035664069" target="_blank" onclick="event.stopPropagation()">Asana ↗</a>
-        </div>
-        <span class="mig-chevron" id="mig-chev-meg">▼</span>
-      </div>
-      <div class="mig-body hidden" id="mig-body-meg">
-
-        <div>
-          <div class="mig-sub-label">Outcome Milestones</div>
-          <div class="outcome-grid">
-            <div class="outcome-panel op-operate">
-              <div class="outcome-panel-title">Operate</div>
-              <div class="outcome-statement">Client's Universal Agents are trained, confident, and handling customer queries end-to-end</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">TOM designed</span></li>
-                <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">FTE ratios</span></li>
-                <li class="ms-item"><span class="ms-dot">⚠️</span><span style="color:#fb923c;">WFM discovery (delayed)</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Scheduling</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Performance tracking</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-perform">
-              <div class="outcome-panel-title">Perform</div>
-              <div class="outcome-statement">Client's culture is measurably improving, with rising engagement and psychological safety</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">Culture baseline designed</span></li>
-                <li class="ms-item"><span class="ms-dot">⚠️</span><span style="color:#fb923c;">Culture baseline run (participant no-shows)</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Psych safety</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Coaching</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Pulse</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-innovate">
-              <div class="outcome-panel-title">Innovate</div>
-              <div class="outcome-statement">Client's MVB team is live, performing, and scaling</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">MVB identified</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">MVB onboarded</span></li>
-                <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">First sprint</span></li>
-              </ul>
-            </div>
-            <div class="outcome-panel op-progmgmt">
-              <div class="outcome-panel-title">Programme Mgmt</div>
-              <div class="outcome-statement">Migration set up for success with the right team, tools, and ways of working from day one</div>
-              <ul class="ms-list">
-                <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">Governance live</span></li>
-                <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">Asana board set up</span></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div class="mig-sub-label">6-Week Outlook</div>
-          <div class="outlook-wrap">
-            <div class="outlook-grid">
-              <div class="outlook-header-cell">Workstream</div>
-              <div class="outlook-header-cell">W1 · 25 May</div>
-              <div class="outlook-header-cell">W2 · 1 Jun</div>
-              <div class="outlook-header-cell">W3 · 8 Jun</div>
-              <div class="outlook-header-cell">W4 · 15 Jun</div>
-              <div class="outlook-header-cell">W5 · 22 Jun</div>
-              <div class="outlook-header-cell">W6 · 29 Jun</div>
-              <div class="outlook-label">Operate</div>
-              <div class="outlook-cell"><span class="outlook-task ot-at-risk">WFM discovery reschedule</span></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">WFM session 1</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">FTE ratios agreed</span></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">Scheduling tooling shortlist</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-label">Perform</div>
-              <div class="outlook-cell"><span class="outlook-task ot-at-risk">Culture baseline re-run</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">Culture baseline report</span></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"><span class="outlook-task ot-upcoming">Psych safety kickoff</span></div>
-              <div class="outlook-label">Innovate</div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-label">Prog Mgmt</div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-              <div class="outlook-cell"></div>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div class="mig-sub-label">Risk Register</div>
-          <div class="risk-tbl-wrap">
-            <table class="risk-tbl">
-              <thead><tr><th>Risk</th><th>Category</th><th>Likelihood</th><th>Impact</th><th>Owner</th><th>Mitigation</th><th>Status</th></tr></thead>
-              <tbody>
-                <tr><td>WFM discovery sessions cancelled twice</td><td>Delivery</td><td><span class="lik-h">H</span></td><td><span class="lik-h">H</span></td><td>Lars Fischer</td><td>Rescheduled with client ops director directly</td><td><span class="pill pill-high">Open</span></td></tr>
-                <tr><td>Culture baseline participant engagement low</td><td>People</td><td><span class="lik-h">H</span></td><td><span class="lik-m">M</span></td><td>Lars Fischer</td><td>Exec sponsor to mandate participation</td><td><span class="pill pill-high">Open</span></td></tr>
-                <tr><td>Go-live date unconfirmed — planning horizon unclear</td><td>Delivery</td><td><span class="lik-m">M</span></td><td><span class="lik-h">H</span></td><td>Regional Lead</td><td>Go-live confirmation target: Jul 2026</td><td><span class="pill pill-waiting">Monitored</span></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
       </div>
     </div>
 
