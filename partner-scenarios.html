@@ -428,9 +428,7 @@
     <button class="nav-dot active" onclick="goTo(0)">1</button>
     <button class="nav-dot" onclick="goTo(1)">2</button>
     <button class="nav-dot" onclick="goTo(2)">3</button>
-    <button class="nav-dot" onclick="goTo(3)">R</button>
-    <button class="nav-dot" onclick="goTo(4)">P</button>
-    <button class="nav-dot" onclick="goTo(5)">C</button>
+    <button class="nav-dot" onclick="goTo(3)">C</button>
   </div>
 </header>
 
@@ -454,7 +452,7 @@
     <div class="metric-card">
       <div class="metric-value">2.1%</div>
       <div class="metric-label">Peak competency loss</div>
-      <div class="metric-note">Dec 26 peak · 3-month lead time means hires already ramping at exit start · recovers Mar 27</div>
+      <div class="metric-note">Dec 26 peak · 3-month lead time means hires already ramping at exit start · residual gap to Oct 27</div>
     </div>
     <div class="metric-card">
       <div class="metric-value">0.6%</div>
@@ -931,306 +929,7 @@
   </div>
 </div>
 
-<!-- ═══ SLIDE 4: Risk Heatmap ═══ -->
 <div class="slide" id="slide-3">
-  <div class="scenario-label">Risk View</div>
-  <div class="slide-title">Delivery Risk by Phase</div>
-  <div class="slide-desc">Key risks across the three transition phases. Each risk has a severity rating, a named owner decision, and a client at stake. Red = requires action before the phase runs. Amber = monitor closely. Green = manageable with current plan.</div>
-
-  <div class="hm-legend">
-    <div class="hm-legend-item"><div class="hm-legend-dot" style="background:#FF7070"></div>High — action required before phase</div>
-    <div class="hm-legend-item"><div class="hm-legend-dot" style="background:#F0B429"></div>Amber — monitor closely</div>
-    <div class="hm-legend-item"><div class="hm-legend-dot" style="background:#4CAF7D"></div>Low — manageable</div>
-  </div>
-
-  <div class="heatmap-grid">
-    <!-- Header row -->
-    <div></div>
-    <div class="hm-col-header">Phase 1<br><span style="font-weight:400;font-size:9px">Jul–Oct 26</span></div>
-    <div class="hm-col-header">Phase 2<br><span style="font-weight:400;font-size:9px">Oct 26–Jan 27</span></div>
-    <div class="hm-col-header">Phase 3<br><span style="font-weight:400;font-size:9px">Jan–Jun 27</span></div>
-
-    <!-- High row -->
-    <div class="hm-row-label high">High</div>
-    <div class="hm-cell has-high">
-      <div class="hm-risk r">
-        <div class="hm-risk-title">National Grid — Operating Model gap</div>
-        <div class="hm-risk-detail">Matt Hard exit exposes OM on National Grid. Kraken CDL must be in role before exit — non-negotiable.</div>
-      </div>
-    </div>
-    <div class="hm-cell has-high">
-      <div class="hm-risk r">
-        <div class="hm-risk-title">Nov 26 double exit</div>
-        <div class="hm-risk-detail">TOM (Springhetti + Czychon) and Culture (Nielsen + Brandhuber) exit same month. Highest risk month. Handovers must be signed off Oct 26.</div>
-      </div>
-      <div class="hm-risk r">
-        <div class="hm-risk-title">Total France — HD gap</div>
-        <div class="hm-risk-detail">Valeria exits Jan 27. Total France launches Sep 26. 4-month window. S Europe Kraken HDL hire must land before Jan 27.</div>
-      </div>
-    </div>
-    <div class="hm-cell has-high">
-      <div class="hm-risk r">
-        <div class="hm-risk-title">Kyuden full engagement</div>
-        <div class="hm-risk-detail">Step change from 2-slot pilot to 6-slot full. 3 internal Japan Kraken hires must be in role. Hiring decision must start Phase 2.</div>
-      </div>
-    </div>
-
-    <!-- Amber row -->
-    <div class="hm-row-label med">Amber</div>
-    <div class="hm-cell has-med">
-      <div class="hm-risk a">
-        <div class="hm-risk-title">N Europe Innovation — solo cover</div>
-        <div class="hm-risk-detail">Diederick is sole Innovation SCDL in N Europe. Explicit cover plan required before exit.</div>
-      </div>
-    </div>
-    <div class="hm-cell has-med">
-      <div class="hm-risk a">
-        <div class="hm-risk-title">UK&I Learning sequencing</div>
-        <div class="hm-risk-detail">Exits must track TalkTalk wind-down. Octopus model must be live before UK&I Learning CDLs fully exit. Do not accelerate.</div>
-      </div>
-      <div class="hm-risk a">
-        <div class="hm-risk-title">ANZ CDL hires</div>
-        <div class="hm-risk-detail">Hires must land Jan 27. If delayed, Nicola Harrison exposed on Meridian + Red Energy simultaneously.</div>
-      </div>
-    </div>
-    <div class="hm-cell has-med">
-      <div class="hm-risk a">
-        <div class="hm-risk-title">PSE / Portland — NAm capacity</div>
-        <div class="hm-risk-detail">National Grid still active. Dietz + Francisco cannot carry both without additional resource. Confirm CDL capacity before PSE onboards.</div>
-      </div>
-      <div class="hm-risk a">
-        <div class="hm-risk-title">Karin Yardy — S Europe single point</div>
-        <div class="hm-risk-detail">Total France in steady delivery. Successor planning must start this phase. Karin is single point of failure for S Europe.</div>
-      </div>
-    </div>
-
-    <!-- Low row -->
-    <div class="hm-row-label low">Low</div>
-    <div class="hm-cell has-low">
-      <div class="hm-risk g">
-        <div class="hm-risk-title">Japan TG delivery</div>
-        <div class="hm-risk-detail">Continues with 3 retained EY partners through Phase 1. Stable.</div>
-      </div>
-    </div>
-    <div class="hm-cell" style="background:rgba(76,175,125,0.03);border:1px solid rgba(76,175,125,0.08)">
-      <div style="font-size:10px;color:var(--muted);padding:4px 0;font-style:italic">No low-severity risks identified in this phase.</div>
-    </div>
-    <div class="hm-cell has-low">
-      <div class="hm-risk g">
-        <div class="hm-risk-title">Red Energy — ANZ</div>
-        <div class="hm-risk-detail">ANZ CDL hires landed Jan 27. Nicola + 3 is the right structure. Low risk if hires land on time.</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══ SLIDE 5: Partner Dependency by Project ═══ -->
-<div class="slide" id="slide-4">
-  <div class="scenario-label">Reference</div>
-  <div class="slide-title">Partner Dependency by Project</div>
-  <div class="slide-desc">Which partners are active on each project, and their planned exit month under each transition scenario. <span style="color:#FF7070;font-weight:700">Red</span> = exits before Oct 26 &nbsp;·&nbsp; <span style="color:#F0B429;font-weight:700">Amber</span> = Oct–Dec 26 &nbsp;·&nbsp; <span style="color:#4CAF7D;font-weight:700">Green</span> = Jan 27 or later.</div>
-  <div class="proj-table-wrap">
-    <table class="proj-table">
-      <thead>
-        <tr>
-          <th style="width:22%">Partner</th>
-          <th style="width:8%">Role</th>
-          <th style="width:18%">Practice</th>
-          <th style="width:17%">S1 exit<br><span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:9px">Exits from Oct 26</span></th>
-          <th style="width:17%">S2 exit<br><span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:9px">Exits from Jul 26</span></th>
-          <th style="width:17%">S3 exit<br><span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:9px">All out Sep 26</span></th>
-        </tr>
-      </thead>
-      <tbody>
-
-        <tr class="proj-header"><td colspan="6">PGE <span>· 2 partners · USA</span></td></tr>
-        <tr>
-          <td>Matt Hard</td>
-          <td><span class="proj-badge">SCDL</span></td>
-          <td>Operating Model</td>
-          <td class="exit-mid">Oct 26</td>
-          <td class="exit-early">Jul 26</td>
-          <td class="exit-early">Jul 26</td>
-        </tr>
-        <tr>
-          <td>Keijan Martin</td>
-          <td><span class="proj-badge">CDL</span></td>
-          <td>—</td>
-          <td class="exit-mid">Oct 26</td>
-          <td class="exit-early">Aug 26</td>
-          <td class="exit-early">Jul 26</td>
-        </tr>
-
-        <tr class="proj-header"><td colspan="6">Norlys <span>· 4 partners · N Europe</span></td></tr>
-        <tr>
-          <td>Diederick Theunissen</td>
-          <td><span class="proj-badge">SCDL</span></td>
-          <td>Innovation</td>
-          <td class="exit-mid">Oct 26</td>
-          <td class="exit-early">Sep 26</td>
-          <td class="exit-early">Aug 26</td>
-        </tr>
-        <tr>
-          <td>Sandra Nielsen</td>
-          <td><span class="proj-badge">SCDL</span></td>
-          <td>Culture</td>
-          <td class="exit-mid">Nov 26</td>
-          <td class="exit-mid">Oct 26</td>
-          <td class="exit-early">Aug 26</td>
-        </tr>
-        <tr>
-          <td>Sanne Foekens</td>
-          <td><span class="proj-badge">CDL</span></td>
-          <td>L&amp;LDP</td>
-          <td class="exit-mid">Dec 26</td>
-          <td class="exit-mid">Nov 26</td>
-          <td class="exit-early">Sep 26</td>
-        </tr>
-        <tr>
-          <td>Sanne Jongeling</td>
-          <td><span class="proj-badge">CDL</span></td>
-          <td>L&amp;LDP</td>
-          <td class="exit-mid">Dec 26</td>
-          <td class="exit-mid">Nov 26</td>
-          <td class="exit-early">Sep 26</td>
-        </tr>
-
-        <tr class="proj-header"><td colspan="6">EWIE <span>· 4 partners · N &amp; S Europe</span></td></tr>
-        <tr>
-          <td>David Springhetti</td>
-          <td><span class="proj-badge">SCDL</span></td>
-          <td>Operating Model</td>
-          <td class="exit-mid">Nov 26</td>
-          <td class="exit-mid">Oct 26</td>
-          <td class="exit-early">Aug 26</td>
-        </tr>
-        <tr>
-          <td>Mirjam Brandhuber</td>
-          <td><span class="proj-badge">CDL</span></td>
-          <td>Culture</td>
-          <td class="exit-mid">Nov 26</td>
-          <td class="exit-mid">Oct 26</td>
-          <td class="exit-early">Aug 26</td>
-        </tr>
-        <tr>
-          <td>Karoline Czychon</td>
-          <td><span class="proj-badge">CDL</span></td>
-          <td>Operating Model</td>
-          <td class="exit-mid">Nov 26</td>
-          <td class="exit-mid">Oct 26</td>
-          <td class="exit-early">Aug 26</td>
-        </tr>
-        <tr>
-          <td>Valeria Winkworth</td>
-          <td><span class="proj-badge">HD Lead</span></td>
-          <td>Human Design</td>
-          <td class="exit-late">Jan 27</td>
-          <td class="exit-mid">Dec 26</td>
-          <td class="exit-early">Sep 26</td>
-        </tr>
-
-        <tr class="proj-header"><td colspan="6">Maingau <span>· 1 partner · S Europe (shared with EWIE)</span></td></tr>
-        <tr>
-          <td>Valeria Winkworth</td>
-          <td><span class="proj-badge">HD Lead</span></td>
-          <td>Human Design</td>
-          <td class="exit-late">Jan 27</td>
-          <td class="exit-mid">Dec 26</td>
-          <td class="exit-early">Sep 26</td>
-        </tr>
-
-        <tr class="proj-header"><td colspan="6">Kyuden <span>· 3 partners · Japan</span></td></tr>
-        <tr>
-          <td>Takahiro Sawai</td>
-          <td><span class="proj-badge">CDL</span></td>
-          <td>Innovation</td>
-          <td class="exit-late">Feb 27</td>
-          <td class="exit-late">Jan 27</td>
-          <td class="exit-early">Sep 26</td>
-        </tr>
-        <tr>
-          <td>Natsuki Oyama</td>
-          <td><span class="proj-badge">CDL</span></td>
-          <td>Culture</td>
-          <td class="exit-mid">Oct 26</td>
-          <td class="exit-early">Jul 26</td>
-          <td class="exit-early">Jul 26</td>
-        </tr>
-        <tr>
-          <td>Toshihito Kakizaki</td>
-          <td><span class="proj-badge">SCDL</span></td>
-          <td>Operating Model</td>
-          <td class="exit-late">Apr 27</td>
-          <td class="exit-late">Mar 27</td>
-          <td class="exit-early">Sep 26</td>
-        </tr>
-
-        <tr class="proj-header"><td colspan="6">Tokyo Gas <span>· 2 partners · Japan</span></td></tr>
-        <tr>
-          <td>Issei Matsumiya</td>
-          <td><span class="proj-badge">CDL</span></td>
-          <td>Org Design</td>
-          <td class="exit-late">Mar 27</td>
-          <td class="exit-late">Feb 27</td>
-          <td class="exit-early">Sep 26</td>
-        </tr>
-        <tr>
-          <td>Ippei Kito</td>
-          <td><span class="proj-badge">CDL</span></td>
-          <td>Culture</td>
-          <td class="exit-mid">Oct 26</td>
-          <td class="exit-early">Aug 26</td>
-          <td class="exit-early">Jul 26</td>
-        </tr>
-
-        <tr class="proj-header"><td colspan="6">No active client <span>· 5 partners · internal / bench</span></td></tr>
-        <tr>
-          <td>Jane Fennelly</td>
-          <td><span class="proj-badge">GPL</span></td>
-          <td>Operating Model</td>
-          <td class="exit-late">Jan 27</td>
-          <td class="exit-mid">Dec 26</td>
-          <td class="exit-early">Aug 26</td>
-        </tr>
-        <tr>
-          <td>Katie Wiggins</td>
-          <td><span class="proj-badge">CDL</span></td>
-          <td>L&amp;LDP</td>
-          <td class="exit-mid">Nov 26</td>
-          <td class="exit-mid">Oct 26</td>
-          <td class="exit-early">Aug 26</td>
-        </tr>
-        <tr>
-          <td>Meghan Brady</td>
-          <td><span class="proj-badge">CDL</span></td>
-          <td>L&amp;LDP</td>
-          <td class="exit-mid">Nov 26</td>
-          <td class="exit-mid">Oct 26</td>
-          <td class="exit-early">Aug 26</td>
-        </tr>
-        <tr>
-          <td>Juliet Destrade</td>
-          <td><span class="proj-badge">CDL</span></td>
-          <td>L&amp;LDP</td>
-          <td class="exit-mid">Dec 26</td>
-          <td class="exit-mid">Nov 26</td>
-          <td class="exit-early">Sep 26</td>
-        </tr>
-        <tr>
-          <td>Marika Sato</td>
-          <td><span class="proj-badge">CDL</span></td>
-          <td>Human Design</td>
-          <td class="exit-mid">Oct 26</td>
-          <td class="exit-early">Jul 26</td>
-          <td class="exit-early">Jul 26</td>
-        </tr>
-
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<div class="slide" id="slide-5">
   <div class="scenario-label">Reference</div>
   <div class="slide-title">Partners by Client</div>
   <div class="slide-desc">All partners in the register grouped by active client assignment. Partners on multiple clients appear in each group. Decision colour: <span style="color:#4CAF7D;font-weight:700">Keep</span> &nbsp;·&nbsp; <span style="color:#F0B429;font-weight:700">Backfill</span> &nbsp;·&nbsp; <span style="color:#FF7070;font-weight:700">Roll off</span> &nbsp;·&nbsp; <span style="color:#CBA3C9;font-weight:700">Client Pays</span> &nbsp;·&nbsp; <span style="color:#DE1C80;font-weight:700">Hire</span></div>
@@ -1364,7 +1063,7 @@
   // ── Navigation ─────────────────────────────────────────────────────────────
   let current = 0;
 
-  const TOTAL = 6;
+  const TOTAL = 4;
 
   function goTo(n) {
     document.querySelectorAll('.slide').forEach((s, i) => s.classList.toggle('active', i === n));
@@ -1373,7 +1072,7 @@
     document.getElementById('btn-next').disabled = n === TOTAL - 1;
     document.getElementById('btn-prev').style.opacity = n === 0 ? '0.3' : '1';
     document.getElementById('btn-next').style.opacity = n === TOTAL - 1 ? '0.3' : '1';
-    const label = n < 3 ? `Scenario ${n + 1} of 3` : n === 3 ? 'Risk View' : n === 4 ? 'Projects View' : 'By Client';
+    const label = n < 3 ? `Scenario ${n + 1} of 3` : 'By Client';
     document.getElementById('counter').textContent = label;
     current = n;
   }
@@ -1381,7 +1080,7 @@
   function prev() { if (current > 0) goTo(current - 1); }
   function next() { if (current < TOTAL - 1) goTo(current + 1); }
 
-  // ── By Client (Slide 5) ───────────────────────────────────────────────────
+  // ── By Client (Slide 3) ───────────────────────────────────────────────────
   // <PARTNERS-AUTOGEN>
   const PARTNERS = [
     { name:"Sagar Kokare", dec:"Backfill w/ FTE", project:"AU - Origin Energy", tenure:null, role:null, clients:["Origin Energy"], phase:2 },
