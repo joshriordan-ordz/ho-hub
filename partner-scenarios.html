@@ -455,9 +455,9 @@
       <div class="metric-note">Dec 26 peak · 3-month lead time means hires already ramping at exit start · residual gap to Oct 27</div>
     </div>
     <div class="metric-card">
-      <div class="metric-value">0.6%</div>
-      <div class="metric-label">Active pipeline accumulates in persistent backlog</div>
-      <div class="metric-note">Backlog builds each gap month · does not self-clear · only surplus headcount above replacement target clears it · migrating + preparing clients</div>
+      <div class="metric-value">1.0%</div>
+      <div class="metric-label">Agreements delayed as % of constrained-period pipeline</div>
+      <div class="metric-note">% of agreements in capacity-shortage months that were delayed · does not self-clear · only surplus headcount above target clears it</div>
     </div>
   </div>
 
@@ -621,9 +621,9 @@
       <div class="metric-note">Oct 26 peak · no lead time means exits and hires start simultaneously · recovers Mar 27</div>
     </div>
     <div class="metric-card">
-      <div class="metric-value">1.4%</div>
-      <div class="metric-label">Active pipeline accumulates in persistent backlog</div>
-      <div class="metric-note">2.3× more than S1 · backlog builds each gap month · does not self-clear · only surplus headcount above replacement target clears it</div>
+      <div class="metric-value">4.2%</div>
+      <div class="metric-label">Agreements delayed as % of constrained-period pipeline</div>
+      <div class="metric-note">4.2× more than S1 · % of agreements in capacity-shortage months that were delayed · does not self-clear</div>
     </div>
   </div>
 
@@ -789,9 +789,9 @@
       <div class="metric-note">Sep 26 peak · all 95 exits in 3 months + all hires at 0 competency · recovers Apr 27</div>
     </div>
     <div class="metric-card">
-      <div class="metric-value" style="color:#E05555">4.4%</div>
-      <div class="metric-label">Active pipeline accumulates in persistent backlog</div>
-      <div class="metric-note">7.3× more than S1 · backlog builds each gap month · does not self-clear · only surplus headcount above replacement target clears it</div>
+      <div class="metric-value" style="color:#E05555">11.8%</div>
+      <div class="metric-label">Agreements delayed as % of constrained-period pipeline</div>
+      <div class="metric-note">11.8× more than S1 · % of agreements in capacity-shortage months that were delayed · does not self-clear</div>
     </div>
   </div>
 
@@ -933,7 +933,8 @@
   <div class="scenario-label">Reference</div>
   <div class="slide-title">Partners by Client</div>
   <div class="slide-desc">All partners in the register grouped by active client assignment. Partners on multiple clients appear in each group. Decision colour: <span style="color:#4CAF7D;font-weight:700">Keep</span> &nbsp;·&nbsp; <span style="color:#F0B429;font-weight:700">Backfill</span> &nbsp;·&nbsp; <span style="color:#FF7070;font-weight:700">Roll off</span> &nbsp;·&nbsp; <span style="color:#CBA3C9;font-weight:700">Client Pays</span> &nbsp;·&nbsp; <span style="color:#DE1C80;font-weight:700">Hire</span></div>
-  <div id="by-client-content" style="margin-top:16px"></div>
+  <div id="client-heatmap" style="margin-bottom:4px"></div>
+  <div id="by-client-content" style="margin-top:20px"></div>
 </div>
 
 <!-- ── Nav row ── -->
@@ -1217,6 +1218,29 @@
     { name:"Ryan Levine", dec:null, project:"", tenure:null, role:"Partner Oversight", clients:[], phase:2 }
   ];
   // </PARTNERS-AUTOGEN>
+  const CLIENT_STATUS = {
+    'E.ON EWIE': 'Migrating', 'E.ON Vanderbron': 'Migrating',
+    'Essential Energy': 'Migrating', 'Maingau': 'Migrating',
+    'Meridian': 'Migrating', 'Norlys': 'Migrating',
+    'Plenitude Spain': 'Migrating', 'Talk Talk': 'Migrating',
+    'Tokyo Gas': 'Migrating', 'Tokyo Gas Dual Fuel': 'Migrating',
+    'Tokyo Gas Phase 2': 'Migrating', 'Tokyo Gas Single Fuel': 'Migrating',
+    'TTE ES': 'Migrating', 'TTE ES B2B': 'Migrating',
+    'TTE ES Dual Fuel': 'Migrating', 'TTE UK B2B': 'Migrating',
+    'ESB': 'Preparing', 'Hafren Dyfrdwy': 'Preparing',
+    'Kyuden': 'Preparing', 'National Grid': 'Preparing',
+    'Plenitude Portugal': 'Preparing', 'Portland General': 'Preparing',
+    'Red Energy': 'Preparing', 'Saudi Energy': 'Preparing',
+  };
+
+  function statusBadge(client) {
+    const s = CLIENT_STATUS[client];
+    if (!s) return '';
+    const st = s === 'Migrating'
+      ? 'background:rgba(76,175,125,0.15);color:#4CAF7D'
+      : 'background:rgba(240,180,41,0.15);color:#F0B429';
+    return `<span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:2px 7px;border-radius:3px;${st}">${s}</span>`;
+  }
 
   function decBadge(dec) {
     const map = {
@@ -1248,6 +1272,81 @@
     )];
   }
 
+
+  function renderClientHeatmap() {
+    const impact = calcClientImpactLive();
+    const rows = Object.entries(impact)
+      .filter(([,v]) => v.agr > 0)
+      .sort((a,b) => b[1].agr - a[1].agr);
+
+    const el = document.getElementById('client-heatmap');
+    if (!el) return;
+    if (rows.length === 0) { el.innerHTML = ''; return; }
+
+    const maxAgr = rows[0][1].agr;
+
+    // Count all partners and exiting partners per client
+    const pTotal = {}, pExit = {};
+    const EXIT_DEC = new Set(['Roll off', "Don't renew", 'Backfill w/ FTE']);
+    PARTNERS.forEach(p => {
+      (p.clients || []).forEach(c => {
+        pTotal[c] = (pTotal[c] || 0) + 1;
+        if (EXIT_DEC.has(p.dec)) pExit[c] = (pExit[c] || 0) + 1;
+      });
+    });
+
+    const rowHtml = rows.map(([c, v], rank) => {
+      const pct = v.agr / maxAgr;
+      const heat = pct > 0.7 ? 'rgba(224,85,85,0.10)' : pct > 0.35 ? 'rgba(232,160,32,0.08)' : 'rgba(146,80,143,0.05)';
+      const col  = pct > 0.7 ? '#E05555' : pct > 0.35 ? '#E8A020' : '#CBA3C9';
+      const barW = Math.round(pct * 100);
+      const st   = CLIENT_STATUS[c];
+      const stCol = st === 'Migrating' ? '#4CAF7D' : st === 'Preparing' ? '#F0B429' : 'var(--muted)';
+      const tot  = pTotal[c] || 0;
+      const exit = pExit[c] || 0;
+      return `<tr style="background:${heat};border-bottom:1px solid rgba(255,255,255,0.04)">
+        <td style="padding:5px 10px;color:var(--muted);font-size:10px;font-weight:700;text-align:right;width:28px">${rank+1}</td>
+        <td style="padding:5px 10px;min-width:160px">
+          <span style="font-size:11px;font-weight:600;color:var(--text)">${c}</span>
+          ${st ? `<span style="margin-left:6px;font-size:9px;font-weight:700;color:${stCol};text-transform:uppercase;letter-spacing:.04em">${st}</span>` : ''}
+        </td>
+        <td style="padding:5px 10px;text-align:center;width:80px;font-size:10px">
+          <span style="color:${exit > 0 ? '#FF7070' : 'var(--muted)';font-weight:${exit > 0 ? 700 : 400}">${exit}</span><span style="color:var(--muted)"> / ${tot}</span>
+        </td>
+        <td style="padding:5px 10px;width:120px">
+          <div style="height:5px;background:rgba(255,255,255,0.07);border-radius:2px;overflow:hidden">
+            <div style="width:${barW}%;height:100%;background:${col};border-radius:2px"></div>
+          </div>
+        </td>
+        <td style="padding:5px 10px;color:${col};font-weight:600;font-size:11px;text-align:right;white-space:nowrap;width:100px">${v.agr.toLocaleString()}</td>
+        <td style="padding:5px 10px;color:${col};font-size:11px;text-align:right;white-space:nowrap;width:90px">£${(v.rev/1000).toFixed(0)}k</td>
+        <td style="padding:5px 10px;color:${col};font-size:10px;text-align:center;width:60px">${(v.max_ci*100).toFixed(1)}%</td>
+      </tr>`;
+    }).join('');
+
+    el.innerHTML = `
+      <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden">
+        <div style="padding:10px 14px 9px;background:rgba(146,80,143,0.10);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px">
+          <span style="font-size:11px;font-weight:700;color:var(--text)">Client Exposure Heatmap</span>
+          <span style="font-size:10px;color:var(--muted)">Ranked by agreements at risk · updates live with phase changes</span>
+        </div>
+        <table style="width:100%;border-collapse:collapse">
+          <thead>
+            <tr style="background:rgba(0,0,0,0.15)">
+              <th style="padding:5px 10px;text-align:right;font-size:9px;color:var(--muted);font-weight:700;letter-spacing:.05em">#</th>
+              <th style="padding:5px 10px;text-align:left;font-size:9px;color:var(--muted);font-weight:700;letter-spacing:.05em">CLIENT</th>
+              <th style="padding:5px 10px;text-align:center;font-size:9px;color:var(--muted);font-weight:700;letter-spacing:.05em">EXITS / PTRS</th>
+              <th style="padding:5px 10px;font-size:9px;color:var(--muted);font-weight:700;letter-spacing:.05em">EXPOSURE</th>
+              <th style="padding:5px 10px;text-align:right;font-size:9px;color:var(--muted);font-weight:700;letter-spacing:.05em">AGRS AT RISK</th>
+              <th style="padding:5px 10px;text-align:right;font-size:9px;color:var(--muted);font-weight:700;letter-spacing:.05em">REV AT RISK</th>
+              <th style="padding:5px 10px;text-align:center;font-size:9px;color:var(--muted);font-weight:700;letter-spacing:.05em">COMP IMPACT</th>
+            </tr>
+          </thead>
+          <tbody>${rowHtml}</tbody>
+        </table>
+      </div>`;
+  }
+
   function renderByClient() {
     const grouped = {};
     const unassigned = [];
@@ -1272,6 +1371,7 @@
       html += `<div style="margin-bottom:20px">
         <div style="display:flex;align-items:center;gap:8px;background:rgba(146,80,143,0.18);padding:8px 12px;border-top:5px solid var(--dark);border-bottom:1px solid var(--border)">
           <span style="font-size:11px;font-weight:700;color:var(--text)">${label}</span>
+          ${statusBadge(label)}
           <span style="font-size:10px;color:var(--muted);font-weight:400">&nbsp;· ${partners.length} partner${partners.length !== 1 ? 's' : ''}</span>
         </div>
         <table class="proj-table">
@@ -1444,6 +1544,7 @@
       if (ciEl)  ciEl.textContent  = (maxCI * 100).toFixed(1) + '%';
       if (tbody) tbody.innerHTML = tbodyHtml;
     });
+    renderClientHeatmap();
   }
 
   function renderPhaseControls() {
@@ -1479,6 +1580,7 @@
 
   renderImpact();
   renderPhaseControls();
+  renderClientHeatmap();
 </script>
 
 </body>
