@@ -1659,19 +1659,94 @@
 
   .hidden { display: none !important; }
 
-  /* sub-tab toggle */
-  .dev-subtab-bar {
-    display: flex; gap: 0; border: 1px solid var(--border);
-    border-radius: 8px; overflow: hidden; margin-top: 14px; align-self: flex-start;
+  /* ── Process stepper ── */
+  .dev-stepper {
+    display: flex; align-items: flex-start; gap: 0;
+    margin-top: 20px; width: 100%;
   }
-  .dev-subtab-btn {
-    background: transparent; color: var(--text-muted); border: none;
-    padding: 8px 22px; font-family: inherit; font-size: 0.82em; font-weight: 700;
-    cursor: pointer; transition: all 0.15s;
+  .dev-step {
+    display: flex; flex-direction: column; align-items: center; flex: 1; position: relative; cursor: pointer;
   }
-  .dev-subtab-btn:not(:last-child) { border-right: 1px solid var(--border); }
-  .dev-subtab-btn.active { background: rgba(240,80,248,0.14); color: #F050F8; }
-  .dev-subtab-btn:hover:not(.active) { background: var(--surface-hover); color: var(--text); }
+  .dev-step:not(:last-child)::after {
+    content: ''; position: absolute; top: 14px; left: 50%; right: -50%;
+    height: 2px; background: var(--border); z-index: 0;
+  }
+  .dev-step.completed:not(:last-child)::after { background: #F050F8; }
+  .dev-step-circle {
+    width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--border);
+    background: var(--dark-2); display: flex; align-items: center; justify-content: center;
+    font-size: 0.72em; font-weight: 800; color: var(--text-muted); z-index: 1;
+    transition: all 0.2s; flex-shrink: 0;
+  }
+  .dev-step.active .dev-step-circle {
+    border-color: #F050F8; background: rgba(240,80,248,0.15); color: #F050F8;
+    box-shadow: 0 0 12px rgba(240,80,248,0.3);
+  }
+  .dev-step.completed .dev-step-circle {
+    border-color: #34CD71; background: rgba(52,205,113,0.15); color: #34CD71;
+  }
+  .dev-step-label {
+    font-size: 0.65em; font-weight: 700; color: var(--text-muted); text-align: center;
+    margin-top: 6px; letter-spacing: 0.03em; line-height: 1.3; max-width: 80px;
+  }
+  .dev-step.active .dev-step-label { color: #F050F8; }
+  .dev-step.completed .dev-step-label { color: #34CD71; }
+
+  /* step nav buttons */
+  .dev-step-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border);
+  }
+  .dev-nav-btn {
+    font-family: inherit; font-size: 0.82em; font-weight: 700;
+    padding: 9px 22px; border-radius: 7px; cursor: pointer; transition: all 0.15s;
+    border: 1px solid var(--border); background: none; color: var(--text-muted);
+  }
+  .dev-nav-btn:hover { background: var(--surface-hover); color: var(--text); }
+  .dev-nav-btn.primary {
+    background: rgba(240,80,248,0.15); border-color: rgba(240,80,248,0.4); color: #F050F8;
+  }
+  .dev-nav-btn.primary:hover { background: rgba(240,80,248,0.28); }
+  .dev-nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  /* step 3 — validate */
+  .dev-validate-intro { font-size: 0.85em; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6; }
+  .dev-validate-grid { display: flex; flex-direction: column; gap: 10px; }
+  .dev-validate-row {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 14px 18px; display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 16px;
+  }
+  .dev-validate-name { font-size: 0.85em; font-weight: 700; }
+  .dev-validate-current { font-size: 0.75em; color: var(--text-muted); }
+  .dev-validate-badge { font-size: 0.72em; font-weight: 700; padding: 3px 10px; border-radius: 4px; white-space: nowrap; }
+  .dev-validate-comment {
+    margin-top: 8px; grid-column: 1 / -1;
+    background: var(--dark-3); border: 1px solid var(--border); border-radius: 6px;
+    padding: 8px 12px; font-family: inherit; font-size: 0.8em; color: var(--text);
+    width: 100%; resize: vertical; min-height: 52px;
+  }
+  .dev-validate-comment:focus { outline: none; border-color: rgba(240,80,248,0.4); }
+
+  /* step 4 — compile */
+  .dev-compile-intro { font-size: 0.85em; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6; }
+  .dev-compile-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 18px 22px; margin-bottom: 12px;
+  }
+  .dev-compile-name { font-size: 0.92em; font-weight: 800; margin-bottom: 4px; }
+  .dev-compile-scores { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+  .dev-compile-score { font-size: 0.72em; font-weight: 700; padding: 3px 10px; border-radius: 4px; }
+  .dev-compile-score.self { background: rgba(126,212,249,0.12); color: var(--indigo-light); border: 1px solid rgba(126,212,249,0.25); }
+  .dev-compile-score.r360 { background: rgba(240,80,248,0.1); color: #F050F8; border: 1px solid rgba(240,80,248,0.25); }
+  .dev-compile-score.validated { background: rgba(52,205,113,0.1); color: #34CD71; border: 1px solid rgba(52,205,113,0.25); }
+  .dev-compile-comment-label { font-size: 0.68em; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 5px; }
+  .dev-compile-comment-input {
+    background: var(--dark-3); border: 1px solid var(--border); border-radius: 6px;
+    padding: 8px 12px; font-family: inherit; font-size: 0.8em; color: var(--text);
+    width: 100%; resize: vertical; min-height: 52px;
+  }
+  .dev-compile-comment-input:focus { outline: none; border-color: rgba(240,80,248,0.4); }
+  .dev-compile-note { font-size: 0.75em; color: var(--text-muted); font-style: italic; margin-top: 6px; }
 
   /* 360 results */
   .dev-360-empty { padding: 28px 0; color: var(--text-muted); font-size: 0.85em; }
@@ -1938,22 +2013,193 @@
   .rs-sched-pill { padding: 2px 10px; border-radius: 10px; font-size: 0.77em; font-weight: 700; white-space: nowrap; }
   .rs-sched-pill.certified { background: rgba(52,205,113,0.2); color: #34CD71; border: 1px solid rgba(52,205,113,0.4); }
   .rs-sched-pill.training  { background: rgba(251,146,60,0.12); color: #fb923c; border: 1px solid rgba(251,146,60,0.35); }
+
+  /* ── PIN modal ── */
+  .pin-overlay {
+    position: fixed; inset: 0; z-index: 9000;
+    background: var(--dark);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pin-overlay.hidden { display: none; }
+  .pin-card {
+    background: var(--dark-3); border: 1px solid var(--indigo-border);
+    border-radius: 16px; padding: 44px 48px; max-width: 380px; width: 100%;
+    text-align: center;
+  }
+  .pin-title { font-size: 1.1em; font-weight: 800; margin-bottom: 6px; }
+  .pin-sub   { font-size: 0.82em; color: var(--text-muted); margin-bottom: 28px; }
+  .pin-input {
+    width: 100%; background: var(--dark-2); border: 1px solid var(--indigo-border);
+    border-radius: 8px; color: var(--text); font-family: inherit; font-size: 1.1em;
+    font-weight: 700; letter-spacing: 0.2em; padding: 12px 16px; text-align: center;
+    margin-bottom: 12px;
+  }
+  .pin-input:focus { outline: none; border-color: var(--indigo); }
+  .pin-error { font-size: 0.8em; color: #f87171; min-height: 1.2em; margin-bottom: 12px; }
+  .pin-btn {
+    width: 100%; background: var(--indigo); color: var(--dark);
+    border: none; border-radius: 8px; padding: 12px; font-family: inherit;
+    font-size: 0.9em; font-weight: 800; cursor: pointer; letter-spacing: 0.04em;
+  }
+  .pin-btn:hover { opacity: 0.88; }
+
+  /* ── Reviewer mode ── */
+  .reviewer-overlay {
+    position: fixed; inset: 0; z-index: 8000; overflow-y: auto;
+    background: var(--dark);
+  }
+  .reviewer-overlay.hidden { display: none; }
+  .reviewer-wrap { max-width: 680px; margin: 0 auto; padding: 32px 24px 80px; }
+  .reviewer-brand { font-size: 0.78em; font-weight: 700; color: var(--indigo-light); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 28px; }
+  .reviewer-intro { font-size: 1.25em; font-weight: 800; margin-bottom: 6px; }
+  .reviewer-sub   { font-size: 0.85em; color: var(--text-muted); margin-bottom: 32px; line-height: 1.6; }
+  .reviewer-section-title { font-size: 0.65em; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin: 28px 0 10px; }
+  .reviewer-meta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+  .reviewer-meta-input {
+    flex: 1; min-width: 200px; background: var(--dark-2); border: 1px solid var(--indigo-border);
+    border-radius: 8px; color: var(--text); font-family: inherit; font-size: 0.88em;
+    padding: 10px 14px;
+  }
+  .reviewer-meta-input:focus { outline: none; border-color: var(--indigo); }
+  .reviewer-dim-block { background: var(--dark-3); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; margin-bottom: 12px; }
+  .reviewer-dim-q    { font-size: 0.88em; font-weight: 700; margin-bottom: 10px; line-height: 1.5; }
+  .reviewer-dim-bullets { font-size: 0.78em; color: var(--text-muted); margin: 0 0 12px 16px; line-height: 1.7; }
+  .reviewer-scale    { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+  .reviewer-scale-btn {
+    width: 38px; height: 38px; border-radius: 6px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text-muted); font-family: inherit;
+    font-size: 0.88em; font-weight: 700; cursor: pointer; transition: all 0.15s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .reviewer-scale-btn:hover { border-color: var(--indigo); color: var(--indigo); }
+  .reviewer-scale-btn.selected { background: var(--indigo-dim); border-color: var(--indigo); color: var(--indigo-light); }
+  .reviewer-scale-labels { display: flex; justify-content: space-between; font-size: 0.7em; color: var(--text-muted); margin-bottom: 10px; }
+  .reviewer-comment-input {
+    width: 100%; background: var(--dark-2); border: 1px solid var(--border);
+    border-radius: 6px; color: var(--text); font-family: inherit; font-size: 0.82em;
+    padding: 8px 12px; resize: vertical; min-height: 56px;
+  }
+  .reviewer-comment-input:focus { outline: none; border-color: rgba(240,80,248,0.4); }
+  .reviewer-qual-input {
+    width: 100%; background: var(--dark-2); border: 1px solid var(--border);
+    border-radius: 8px; color: var(--text); font-family: inherit; font-size: 0.85em;
+    padding: 10px 14px; resize: vertical; min-height: 70px; margin-bottom: 12px;
+  }
+  .reviewer-qual-input:focus { outline: none; border-color: rgba(240,80,248,0.4); }
+  .reviewer-submit-btn {
+    background: #F050F8; color: #100030; border: none; border-radius: 8px;
+    padding: 14px 32px; font-family: inherit; font-size: 0.92em; font-weight: 800;
+    cursor: pointer; margin-top: 24px; width: 100%;
+  }
+  .reviewer-submit-btn:hover { opacity: 0.88; }
+  .reviewer-code-box {
+    background: var(--dark-2); border: 1px solid var(--indigo-border); border-radius: 10px;
+    padding: 20px 24px; margin-top: 24px;
+  }
+  .reviewer-code-title { font-size: 0.85em; font-weight: 800; margin-bottom: 8px; }
+  .reviewer-code-sub   { font-size: 0.8em; color: var(--text-muted); margin-bottom: 12px; line-height: 1.5; }
+  .reviewer-code-text  {
+    font-family: monospace; font-size: 0.72em; word-break: break-all; color: var(--indigo-light);
+    background: var(--dark); border-radius: 6px; padding: 12px; margin-bottom: 12px;
+    max-height: 80px; overflow-y: auto;
+  }
+  .reviewer-copy-btn {
+    background: var(--indigo-dim); color: var(--indigo-light); border: 1px solid var(--indigo-border);
+    border-radius: 6px; padding: 8px 20px; font-family: inherit; font-size: 0.82em;
+    font-weight: 700; cursor: pointer;
+  }
+  .reviewer-copy-btn:hover { background: rgba(126,212,249,0.2); }
+
+  /* ── Step 2 import section ── */
+  .dev-import-section {
+    background: var(--dark-3); border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px 20px; margin: 16px 0;
+  }
+  .dev-import-label { font-size: 0.68em; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 8px; }
+  .dev-import-row   { display: flex; gap: 10px; align-items: flex-start; }
+  .dev-import-input {
+    flex: 1; background: var(--dark-2); border: 1px solid var(--indigo-border);
+    border-radius: 6px; color: var(--text); font-family: monospace; font-size: 0.78em;
+    padding: 8px 12px; min-height: 38px; resize: none;
+  }
+  .dev-import-input:focus { outline: none; border-color: var(--indigo); }
+  .dev-import-btn {
+    background: var(--indigo-dim); color: var(--indigo-light); border: 1px solid var(--indigo-border);
+    border-radius: 6px; padding: 8px 16px; font-family: inherit; font-size: 0.82em;
+    font-weight: 700; cursor: pointer; white-space: nowrap;
+  }
+  .dev-import-btn:hover { background: rgba(126,212,249,0.2); }
+  .dev-copylink-btn {
+    background: rgba(240,80,248,0.1); color: #F050F8; border: 1px solid rgba(240,80,248,0.3);
+    border-radius: 6px; padding: 7px 14px; font-family: inherit; font-size: 0.8em;
+    font-weight: 700; cursor: pointer; margin-bottom: 12px;
+  }
+  .dev-copylink-btn:hover { background: rgba(240,80,248,0.2); }
+  /* ── Team Mix view ── */
+  .rs-mix-table { width: 100%; border-collapse: collapse; font-size: 0.82em; }
+  .rs-mix-table th { padding: 8px 12px; text-align: left; font-weight: 700; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  .rs-mix-table th:not(:first-child) { text-align: center; }
+  .rs-mix-table td { padding: 7px 10px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: top; }
+  .rs-mix-table tr:hover td { background: rgba(250,250,250,0.03); }
+  .rs-mix-table tfoot td { border-top: 2px solid var(--border); font-weight: 800; padding-top: 10px; }
+  .rs-mix-practice-name { font-weight: 700; font-size: 0.92em; }
+  .rs-mix-cell { display: flex; flex-direction: column; gap: 3px; align-items: flex-start; }
+  .rs-mix-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 10px; font-size: 0.78em; font-weight: 700; border: 1px solid; white-space: nowrap; cursor: default; }
+  .rs-mix-nil { color: rgba(250,250,250,0.18); font-size: 0.85em; }
+  .rs-mix-total-bar { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+  .rs-mix-total-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 18px; min-width: 100px; text-align: center; }
+  .rs-mix-tc-num { font-size: 2em; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+  .rs-mix-tc-lbl { font-size: 0.72em; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
   </style>
 </head>
 <body>
 
+
+<!-- ── PIN gate ── -->
+<div id="pin-overlay" class="pin-overlay hidden">
+  <div class="pin-card">
+    <div class="pin-title">H&amp;O Hub</div>
+    <div class="pin-sub">Enter your access PIN to continue</div>
+    <input class="pin-input" id="pin-input" type="password" placeholder="· · · ·" maxlength="10"
+      onkeydown="if(event.key==='Enter')checkPin()">
+    <div class="pin-error" id="pin-error"></div>
+    <button class="pin-btn" onclick="checkPin()">Unlock</button>
+  </div>
+</div>
+
+<!-- ── Reviewer mode (shown when ?review=... is in URL) ── -->
+<div id="reviewer-overlay" class="reviewer-overlay hidden">
+  <div class="reviewer-wrap">
+    <div class="reviewer-brand">H&amp;O Hub · 360 Feedback</div>
+    <div class="reviewer-intro" id="rv-title">Provide feedback</div>
+    <div class="reviewer-sub">Rate each dimension 1 (low) to 5 (high). Add comments where it helps. Your name is required; all other fields are optional.</div>
+    <div class="reviewer-meta-row">
+      <input class="reviewer-meta-input" id="rv-reviewer" placeholder="Your name (required)" />
+      <input class="reviewer-meta-input" id="rv-relationship" placeholder="Your relationship (e.g. Peer, Manager, Direct report)" />
+    </div>
+    <div id="rv-dims"></div>
+    <div class="reviewer-section-title">Open feedback</div>
+    <textarea class="reviewer-qual-input" id="rv-strengths" placeholder="What are this person's biggest strengths?"></textarea>
+    <textarea class="reviewer-qual-input" id="rv-improve" placeholder="What should they focus on to develop further?"></textarea>
+    <textarea class="reviewer-qual-input" id="rv-other" placeholder="Anything else? (optional)"></textarea>
+    <button class="reviewer-submit-btn" onclick="rvSubmit()">Submit feedback</button>
+    <div id="rv-result" class="hidden">
+      <div class="reviewer-code-box">
+        <div class="reviewer-code-title">Thank you — feedback submitted!</div>
+        <div class="reviewer-code-sub">Copy the code below and send it to your manager. They'll paste it into the hub to add your response.</div>
+        <div class="reviewer-code-text" id="rv-code-text"></div>
+        <button class="reviewer-copy-btn" onclick="rvCopyCode()">Copy code</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <header>
   <a class="wordmark" href="#">
-    <span class="wordmark-title">H&amp;O Hub</span>
-    <span class="wordmark-sub">Human &amp; Org</span>
+    <span class="wordmark-title">Resourcing Snapshot</span>
+    <span class="wordmark-sub">Resourcing Snapshot</span>
   </a>
-  <nav>
-    <button class="tab-btn active" onclick="showTab('transformation', this)">HOT Transformation Progress Status</button>
-    <button class="tab-btn" onclick="showTab('migrations', this)">Human and Org Migration Status</button>
-    <button class="tab-btn" onclick="showTab('development', this)">Development Tool</button>
-    <button class="tab-btn" onclick="showTab('resourcing', this)">Resourcing Snapshot</button>
-  </nav>
-  <button id="noise-btn" class="noise-btn quiet" onclick="toggleNoise()">Unleash the Chaos</button>
   <a class="board-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854" target="_blank">
     HO Leadership Board ↗
   </a>
@@ -1961,1077 +2207,7 @@
 
 <main>
 
-  <!-- ══════════════════════════════════
-       TAB 1: TRANSFORMATION
-  ══════════════════════════════════ -->
-  <div id="tab-transformation" class="tab-panel active noise-killed">
-
-    <div class="section-heading">HOT Transformation Progress Status</div>
-    <p class="section-sub">A dose of our own potent medicine — status of the Human &amp; Org transformation across all six dimensions.</p>
-
-    <div class="stat-row">
-      <div class="stat-card">
-        <div class="label">Outcomes Achieved</div>
-        <div class="value green" id="stat-achieved">0</div>
-      </div>
-      <div class="stat-card">
-        <div class="label">🍷 Bottles of Wine</div>
-        <div class="value magenta" id="stat-wine">0</div>
-      </div>
-    </div>
-
-    <!-- ── In Progress Now ── -->
-    <p class="now-hero-label" id="now-hero-label">In Progress Now</p>
-    <p style="font-size:0.75em; color:var(--text-muted); margin-bottom:12px; margin-top:-4px;">Click each tile to understand what the focus is.</p>
-    <div class="now-hero" id="now-hero">
-
-      <div class="now-card dim-north-star" onclick="this.classList.toggle('flipped')">
-        <div class="now-card-inner">
-          <div class="now-card-front">
-            <div class="now-card-dimension">🧭 North Star</div>
-            <div class="now-card-milestone">North star defined</div>
-            <div class="now-card-owner"><span class="avatar">NW</span> Natasha</div>
-            <div class="now-card-footer">
-              <span class="pill pill-high">High</span>
-              <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214923985034709" target="_blank" onclick="event.stopPropagation()">Open in Asana ↗</a>
-            </div>
-          </div>
-          <div class="now-card-back">
-            <div class="now-card-back-label">🧭 North Star</div>
-            <div class="now-card-back-desc">Create a compelling narrative on our ambition to create a world class transformation experience and be renowned for doing so — focused on multiplying the inner genius of everyone in our teams.</div>
-            <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214923985034709" target="_blank" onclick="event.stopPropagation()">Open in Asana ↗</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="now-card dim-north-star" onclick="this.classList.toggle('flipped')">
-        <div class="now-card-inner">
-          <div class="now-card-front">
-            <div class="now-card-dimension">🧭 North Star</div>
-            <div class="now-card-milestone">Internal high-level narrative</div>
-            <div class="now-card-owner"><span class="avatar">KF</span> Kristina</div>
-            <div class="now-card-footer">
-              <span class="pill pill-high">High</span>
-              <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214812019558857" target="_blank" onclick="event.stopPropagation()">Open in Asana ↗</a>
-            </div>
-          </div>
-          <div class="now-card-back">
-            <div class="now-card-back-label">🧭 North Star</div>
-            <div class="now-card-back-desc">A narrative that tells our internal story on why we have our new global structure and how we work together as an H&O team.</div>
-            <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214812019558857" target="_blank" onclick="event.stopPropagation()">Open in Asana ↗</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="now-card dim-north-star" onclick="this.classList.toggle('flipped')">
-        <div class="now-card-inner">
-          <div class="now-card-front">
-            <div class="now-card-dimension">🧭 North Star</div>
-            <div class="now-card-milestone">HO Global Offsite in NYC</div>
-            <div class="now-card-owner"><span class="avatar">RC</span> Ross</div>
-            <div class="now-card-footer">
-              <span class="pill pill-high">High</span>
-              <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214982127607823" target="_blank" onclick="event.stopPropagation()">Open in Asana ↗</a>
-            </div>
-          </div>
-          <div class="now-card-back">
-            <div class="now-card-back-label">🧭 North Star</div>
-            <div class="now-card-back-desc">Global H&O Leadership gathering in NYC on June 30th and July 1st.</div>
-            <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214982127607823" target="_blank" onclick="event.stopPropagation()">Open in Asana ↗</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="now-card dim-tech" onclick="this.classList.toggle('flipped')">
-        <div class="now-card-inner">
-          <div class="now-card-front">
-            <div class="now-card-dimension">🤖 Tech &amp; AI</div>
-            <div class="now-card-milestone">Asana</div>
-            <div class="now-card-owner"><span class="avatar">KF</span> Kristina</div>
-            <div class="now-card-footer">
-              <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214811980115503" target="_blank" onclick="event.stopPropagation()">Open in Asana ↗</a>
-            </div>
-          </div>
-          <div class="now-card-back">
-            <div class="now-card-back-label">🤖 Tech &amp; AI</div>
-            <div class="now-card-back-desc">Getting Asana to a place that delivers what different roles need for different audiences.</div>
-            <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214811980115503" target="_blank" onclick="event.stopPropagation()">Open in Asana ↗</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="now-card dim-tech" onclick="this.classList.toggle('flipped')">
-        <div class="now-card-inner">
-          <div class="now-card-front">
-            <div class="now-card-dimension">🤖 Tech &amp; AI</div>
-            <div class="now-card-milestone">Content management</div>
-            <div class="now-card-owner"><span class="avatar">KF</span> Kristina</div>
-            <div class="now-card-footer">
-              <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214811980115505" target="_blank" onclick="event.stopPropagation()">Open in Asana ↗</a>
-            </div>
-          </div>
-          <div class="now-card-back">
-            <div class="now-card-back-label">🤖 Tech &amp; AI</div>
-            <div class="now-card-back-desc">A system that makes it easy to find GPL, regional, and client content — creating a two-way knowledge street between GPL, Regional Leads, and CDLs.</div>
-            <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214811980115505" target="_blank" onclick="event.stopPropagation()">Open in Asana ↗</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="now-card dim-best" onclick="this.classList.toggle('flipped')">
-        <div class="now-card-inner">
-          <div class="now-card-front">
-            <div class="now-card-dimension">⭐ Best Practices</div>
-            <div class="now-card-milestone">Operations Practice top 2 problems to solve</div>
-            <div class="now-card-owner"><span class="avatar">SW</span> Sam</div>
-            <div class="now-card-footer">
-              <span class="pill pill-high">High</span>
-              <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214949843364662" target="_blank" onclick="event.stopPropagation()">Open in Asana ↗</a>
-            </div>
-          </div>
-          <div class="now-card-back">
-            <div class="now-card-back-label">⭐ Best Practices</div>
-            <div class="now-card-back-desc">Identifying and solving the top 2 problems facing the Operations Practice. Open in Asana to see latest details.</div>
-            <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214949843364662" target="_blank" onclick="event.stopPropagation()">Open in Asana ↗</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="now-card dim-best" onclick="this.classList.toggle('flipped')">
-        <div class="now-card-inner">
-          <div class="now-card-front">
-            <div class="now-card-dimension">⭐ Best Practices</div>
-            <div class="now-card-milestone">Org Design diagnostic</div>
-            <div class="now-card-owner"><span class="avatar">NH</span> Nicola</div>
-            <div class="now-card-footer">
-              <span class="pill pill-high">High</span>
-              <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214811980115537" target="_blank" onclick="event.stopPropagation()">Open in Asana ↗</a>
-            </div>
-          </div>
-          <div class="now-card-back">
-            <div class="now-card-back-label">⭐ Best Practices</div>
-            <div class="now-card-back-desc">A diagnostic to understand what our client is aiming for — feeding into which type of blueprint to push for.</div>
-            <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214811980115537" target="_blank" onclick="event.stopPropagation()">Open in Asana ↗</a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- ── All Dimensions ── -->
-    <p class="now-hero-label" style="margin-top:8px;">All Dimensions</p>
-    <div class="dimensions-list">
-
-      <!-- North Star -->
-      <div class="milestone-section">
-        <div class="section-header" onclick="toggleSection('north-star')">
-          <div class="section-title">
-            <span class="section-icon">🧭</span>
-            <span class="section-name">North Star</span>
-          </div>
-          <div class="section-progress">
-            <div class="progress-track"><div class="progress-fill green" style="width:25%"></div></div>
-            <span class="progress-count">1 / 4 done</span>
-          </div>
-          <span class="section-chevron" id="chev-north-star">▼</span>
-        </div>
-        <div class="section-rows hidden" id="rows-north-star">
-          <table class="milestone-inner">
-            <thead><tr>
-              <th>Deliverable</th>
-              <th style="width:48px;">Owner</th>
-              <th style="width:120px;">Status</th>
-              <th style="width:90px;">Priority</th>
-              <th style="width:80px;">Due</th>
-              <th style="width:40px;"></th>
-            </tr></thead>
-            <tbody>
-              <tr>
-                <td>North star defined</td>
-                <td><span class="avatar">NW</span></td>
-                <td><span class="pill pill-progress">In Progress</span></td>
-                <td><span class="pill pill-high">High</span></td>
-                <td>—</td>
-                <td><a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214923985034709" target="_blank">↗</a></td>
-              </tr>
-              <tr>
-                <td>Internal high-level narrative</td>
-                <td><span class="avatar">KF</span></td>
-                <td><span class="pill pill-progress">In Progress</span></td>
-                <td><span class="pill pill-high">High</span></td>
-                <td>—</td>
-                <td><a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214812019558857" target="_blank">↗</a></td>
-              </tr>
-              <tr>
-                <td>Agnostic client-facing narrative of what we offer</td>
-                <td><span class="avatar">KY</span></td>
-                <td><span class="pill pill-done">Done</span></td>
-                <td><span class="pill pill-high">High</span></td>
-                <td>—</td>
-                <td><a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214811980115491" target="_blank">↗</a></td>
-              </tr>
-              <tr>
-                <td>HO Global Offsite in NYC</td>
-                <td><span class="avatar">RC</span></td>
-                <td><span class="pill pill-progress">In Progress</span></td>
-                <td><span class="pill pill-high">High</span></td>
-                <td style="font-size:0.82em; color:var(--text-muted);">26 Jun</td>
-                <td><a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214982127607823" target="_blank">↗</a></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Structure -->
-      <div class="milestone-section">
-        <div class="section-header" onclick="toggleSection('structure')">
-          <div class="section-title">
-            <span class="section-icon">🏗️</span>
-            <span class="section-name">Structure</span>
-          </div>
-          <div class="section-progress">
-            <div class="progress-track"><div class="progress-fill" style="width:0%"></div></div>
-            <span class="progress-count">0 / 3 done</span>
-          </div>
-          <span class="section-chevron" id="chev-structure">▼</span>
-        </div>
-        <div class="section-rows hidden" id="rows-structure">
-          <table class="milestone-inner">
-            <thead><tr>
-              <th>Deliverable</th>
-              <th style="width:48px;">Owner</th>
-              <th style="width:120px;">Status</th>
-              <th style="width:90px;">Priority</th>
-              <th style="width:80px;">Due</th>
-              <th style="width:40px;"></th>
-            </tr></thead>
-            <tbody>
-              <tr>
-                <td>All GPLs are hired</td>
-                <td><span class="avatar">JR</span></td>
-                <td><span class="pill pill-not-started">—</span></td>
-                <td>—</td>
-                <td style="font-size:0.82em; color:var(--text-muted);">30 Jul</td>
-                <td><a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214977115101650" target="_blank">↗</a></td>
-              </tr>
-              <tr>
-                <td>Every migration has a Human, Org and Tech Lead with TDS bought in</td>
-                <td><span class="avatar">MM</span></td>
-                <td><span class="pill pill-not-started">—</span></td>
-                <td>—</td>
-                <td style="font-size:0.82em; color:var(--text-muted);">29 May</td>
-                <td><a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214977115101653" target="_blank">↗</a></td>
-              </tr>
-              <tr>
-                <td>Every migration has a risk register for H&amp;O</td>
-                <td><span class="avatar">MM</span></td>
-                <td><span class="pill pill-not-started">—</span></td>
-                <td>—</td>
-                <td>—</td>
-                <td><a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214977115101661" target="_blank">↗</a></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Ways of Working -->
-      <div class="milestone-section">
-        <div class="section-header" onclick="toggleSection('wow')">
-          <div class="section-title">
-            <span class="section-icon">⚡</span>
-            <span class="section-name">Ways of Working</span>
-          </div>
-          <div class="section-progress">
-            <div class="progress-track"><div class="progress-fill" style="width:0%"></div></div>
-            <span class="progress-count">0 / 2 done</span>
-          </div>
-          <span class="section-chevron" id="chev-wow">▼</span>
-        </div>
-        <div class="section-rows hidden" id="rows-wow">
-          <table class="milestone-inner">
-            <thead><tr>
-              <th>Deliverable</th>
-              <th style="width:48px;">Owner</th>
-              <th style="width:120px;">Status</th>
-              <th style="width:90px;">Priority</th>
-              <th style="width:40px;"></th>
-            </tr></thead>
-            <tbody>
-              <tr>
-                <td>Drivers are assigned to our cross functional topics</td>
-                <td><span class="avatar">KF</span></td>
-                <td><span class="pill pill-not-started">—</span></td>
-                <td>—</td>
-                <td><a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214977115101648" target="_blank">↗</a></td>
-              </tr>
-              <tr>
-                <td>Outcomes way of working live with clients</td>
-                <td><span class="avatar">JF</span></td>
-                <td><span class="pill pill-not-started">—</span></td>
-                <td>—</td>
-                <td><a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214977115013199" target="_blank">↗</a></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- People -->
-      <div class="milestone-section">
-        <div class="section-header" onclick="toggleSection('people')">
-          <div class="section-title">
-            <span class="section-icon">🔥</span>
-            <span class="section-name">People</span>
-          </div>
-          <div class="section-progress">
-            <div class="progress-track"><div class="progress-fill" style="width:0%"></div></div>
-            <span class="progress-count">0 / 4 done</span>
-          </div>
-          <span class="section-chevron" id="chev-people">▼</span>
-        </div>
-        <div class="section-rows hidden" id="rows-people">
-          <table class="milestone-inner">
-            <thead><tr>
-              <th>Deliverable</th>
-              <th style="width:48px;">Owner</th>
-              <th style="width:120px;">Status</th>
-              <th style="width:90px;">Priority</th>
-              <th style="width:40px;"></th>
-            </tr></thead>
-            <tbody>
-              <tr>
-                <td>Ops Compass</td>
-                <td><span class="avatar">EN</span></td>
-                <td><span class="pill pill-not-started">—</span></td>
-                <td>—</td>
-                <td><a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214977115013202" target="_blank">↗</a></td>
-              </tr>
-              <tr>
-                <td>Internal resourcing narrative</td>
-                <td><span class="avatar">SN</span></td>
-                <td><span class="pill pill-not-started">—</span></td>
-                <td>—</td>
-                <td><a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214914359273055" target="_blank">↗</a></td>
-              </tr>
-              <tr>
-                <td>Skills matrix rolled out and live for all</td>
-                <td><span class="avatar">EN</span></td>
-                <td><span class="pill pill-not-started">—</span></td>
-                <td>—</td>
-                <td><a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214977115101643" target="_blank">↗</a></td>
-              </tr>
-              <tr>
-                <td>Leadership development</td>
-                <td><span class="avatar avatar-unassigned">—</span></td>
-                <td><span class="pill pill-not-started">—</span></td>
-                <td>—</td>
-                <td><a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214977115101646" target="_blank">↗</a></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Tech & AI -->
-      <div class="milestone-section">
-        <div class="section-header" onclick="toggleSection('tech')">
-          <div class="section-title">
-            <span class="section-icon">🤖</span>
-            <span class="section-name">Tech &amp; AI</span>
-          </div>
-          <div class="section-progress">
-            <div class="progress-track"><div class="progress-fill" style="width:0%"></div></div>
-            <span class="progress-count">0 / 2 done</span>
-          </div>
-          <span class="section-chevron" id="chev-tech">▼</span>
-        </div>
-        <div class="section-rows hidden" id="rows-tech">
-          <table class="milestone-inner">
-            <thead><tr>
-              <th>Deliverable</th>
-              <th style="width:48px;">Owner</th>
-              <th style="width:120px;">Status</th>
-              <th style="width:90px;">Priority</th>
-              <th style="width:40px;"></th>
-            </tr></thead>
-            <tbody>
-              <tr>
-                <td>Asana</td>
-                <td><span class="avatar">KF</span></td>
-                <td><span class="pill pill-progress">In Progress</span></td>
-                <td>—</td>
-                <td><a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214811980115503" target="_blank">↗</a></td>
-              </tr>
-              <tr>
-                <td>Content management</td>
-                <td><span class="avatar">KF</span></td>
-                <td><span class="pill pill-progress">In Progress</span></td>
-                <td>—</td>
-                <td><a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214811980115505" target="_blank">↗</a></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Best Practices -->
-      <div class="milestone-section">
-        <div class="section-header" onclick="toggleSection('best')">
-          <div class="section-title">
-            <span class="section-icon">⭐</span>
-            <span class="section-name">Best Practices</span>
-          </div>
-          <div class="section-progress">
-            <div class="progress-track"><div class="progress-fill green" style="width:25%"></div></div>
-            <span class="progress-count">1 / 4 done</span>
-          </div>
-          <span class="section-chevron" id="chev-best">▼</span>
-        </div>
-        <div class="section-rows hidden" id="rows-best">
-          <table class="milestone-inner">
-            <thead><tr>
-              <th>Deliverable</th>
-              <th style="width:48px;">Owner</th>
-              <th style="width:120px;">Status</th>
-              <th style="width:90px;">Priority</th>
-              <th style="width:80px;">Due</th>
-              <th style="width:40px;"></th>
-            </tr></thead>
-            <tbody>
-              <tr>
-                <td>Internal OD "product" blueprints</td>
-                <td><span class="avatar avatar-unassigned">—</span></td>
-                <td><span class="pill pill-not-started">—</span></td>
-                <td>—</td>
-                <td>—</td>
-                <td><a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214811980115514" target="_blank">↗</a></td>
-              </tr>
-              <tr>
-                <td>Update OE org model</td>
-                <td><span class="avatar">SW</span></td>
-                <td><span class="pill pill-done">Done</span></td>
-                <td><span class="pill pill-medium">Medium</span></td>
-                <td>—</td>
-                <td><a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214811980115529" target="_blank">↗</a></td>
-              </tr>
-              <tr>
-                <td>Operations Practice top 2 problems to solve</td>
-                <td><span class="avatar">SW</span></td>
-                <td><span class="pill pill-progress">In Progress</span></td>
-                <td><span class="pill pill-high">High</span></td>
-                <td>—</td>
-                <td><a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214949843364662" target="_blank">↗</a></td>
-              </tr>
-              <tr>
-                <td>Org Design diagnostic</td>
-                <td><span class="avatar">NH</span></td>
-                <td><span class="pill pill-progress">In Progress</span></td>
-                <td><span class="pill pill-high">High</span></td>
-                <td style="font-size:0.82em; color:var(--text-muted);">29 May</td>
-                <td><a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1214812019558854/task/1214811980115537" target="_blank">↗</a></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- ══════════════════════════════════
-       TAB 2: MIGRATIONS (was TAB 3)
-  ══════════════════════════════════ -->
-  <!-- Products moved to products.html -->
-
-  <!-- ══════════════════════════════════
-       TAB 3: MIGRATIONS
-  ══════════════════════════════════ -->
-  <div id="tab-migrations" class="tab-panel">
-
-    <div class="section-heading">Migration Delivery Reporting</div>
-    <p class="section-sub">North America · Tasks live from Asana boards — PGE (NAm Pilot) and National Grid.</p>
-
-    <div class="stat-row">
-      <div class="stat-card">
-        <div class="label">NAm Migrations</div>
-        <div class="value" style="color:var(--indigo-light);">2</div>
-      </div>
-      <div class="stat-card">
-        <div class="label">On Track</div>
-        <div class="value" style="color:#34CD71;">1</div>
-      </div>
-      <div class="stat-card">
-        <div class="label">At Risk</div>
-        <div class="value" style="color:#fb923c;">1</div>
-      </div>
-      <div class="stat-card">
-        <div class="label">Not Started</div>
-        <div class="value" style="color:var(--text-muted);">0</div>
-      </div>
-    </div>
-
-    <!-- ══════════════════════
-         1. PGE (NAm) — Pilot
-    ══════════════════════ -->
-    <div class="mig-section" data-region="nam">
-      <div class="mig-header" onclick="toggleMig('pge')">
-        <span class="mig-client">Portland General Electric</span>
-        <span class="pilot-badge">🧪 NAm Pilot</span>
-        <div class="mig-meta">
-          <span>CDL: Safiyah Iqbal</span>
-          <span>North America</span>
-          <span class="health-on-track">● On Track</span>
-          <span>Go-live: 12 Sep 2026</span>
-          <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1213640858621108" target="_blank" onclick="event.stopPropagation()">Asana ↗</a>
-        </div>
-        <span class="mig-chevron" id="mig-chev-pge">▼</span>
-      </div>
-      <div class="mig-body hidden" id="mig-body-pge">
-        <div class="mig-view-bar">
-          <button class="mig-view-btn active" onclick="migSetView('pge','worklist',this)">Current Worklist</button>
-          <button class="mig-view-btn" onclick="migSetView('pge','steerco',this)">Beta SteerCo Reporting</button>
-        </div>
-
-        <div id="mig-pge-worklist">
-        <div class="mig-asana-source">Live tasks from Asana board · 85 incomplete · <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1213640858621108" target="_blank">Open board ↗</a></div>
-        <div class="task-board">
-
-          <div class="task-sg">
-            <div class="task-sg-head">Admin <span class="task-sg-count">3</span></div>
-            <div class="task-row"><span class="task-name">Human Design Workshop</span><span class="task-due t-overdue">9 Apr</span><span class="task-who">Ross Crosby</span></div>
-            <div class="task-row"><span class="task-name">Sales team handover to BOT team</span><span class="task-due t-soon">30 May</span><span class="task-who">Safiyah Iqbal</span></div>
-            <div class="task-row"><span class="task-name">Handover to Customer Success</span><span class="task-due t-upcoming">5 Aug 2027</span><span class="task-who">Safiyah Iqbal</span></div>
-          </div>
-
-          <div class="task-sg">
-            <div class="task-sg-head">Kick off <span class="task-sg-count">4</span></div>
-            <div class="task-row"><span class="task-name">Pre-Kick off intro pack WIP</span><span class="task-due t-overdue">11 May</span><span class="task-who">Safiyah Iqbal</span></div>
-            <div class="task-row"><span class="task-name">Create Kick off deck (WIP)</span><span class="task-due t-overdue">11 May</span><span class="task-who">Safiyah Iqbal</span></div>
-            <div class="task-row"><span class="task-name">Kick off complete</span><span class="task-due t-soon">30 May</span><span class="task-who">Safiyah Iqbal</span></div>
-            <div class="task-row"><span class="task-name">(optional) Immersion session with TDO's WIP</span><span class="task-due t-soon">4 Jun</span><span class="task-who">—</span></div>
-          </div>
-
-          <div class="task-sg">
-            <div class="task-sg-head">OTO <span class="task-sg-count">6</span></div>
-            <div class="task-row"><span class="task-name">Choose OTO Team</span><span class="task-due t-soon">28 May</span><span class="task-who">Safiyah Iqbal</span></div>
-            <div class="task-row"><span class="task-name">OTO Onboarding plan</span><span class="task-due t-upcoming">1 Jul</span><span class="task-who">Safiyah Iqbal</span></div>
-            <div class="task-row"><span class="task-name">Organise immersion session &amp; provide agenda</span><span class="task-due t-upcoming">16 Jul</span><span class="task-who">Safiyah Iqbal</span></div>
-            <div class="task-row"><span class="task-name">London office tour (immersion) WIP</span><span class="task-due t-upcoming">23 Jul</span><span class="task-who">Safiyah Iqbal</span></div>
-            <div class="task-row"><span class="task-name">Coaching &amp; Mentoring (WIP)</span><span class="task-due t-upcoming">30 Jul</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">OTO Onboarded</span><span class="task-due t-upcoming">1 Sep</span><span class="task-who">Safiyah Iqbal</span></div>
-          </div>
-
-          <div class="task-sg">
-            <div class="task-sg-head">First team <span class="task-sg-count">4</span></div>
-            <div class="task-row"><span class="task-name">Define UA selection process and criteria</span><span class="task-due t-soon">4 Jun</span><span class="task-who">Safiyah Iqbal</span></div>
-            <div class="task-row"><span class="task-name">Select first team</span><span class="task-due t-upcoming">18 Jun</span><span class="task-who">Safiyah Iqbal</span></div>
-            <div class="task-row"><span class="task-name">Plan activities for post-training waiting period</span><span class="task-due t-upcoming">2 Jul</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">First team Onboarded</span><span class="task-due t-upcoming">30 Oct</span><span class="task-who">Safiyah Iqbal</span></div>
-          </div>
-
-          <div class="task-sg">
-            <div class="task-sg-head">TOM <span class="task-sg-count">11</span></div>
-            <div class="task-row"><span class="task-name">OTO &amp; OTO recruitment</span><span class="task-due t-soon">28 May</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Remuneration</span><span class="task-due t-soon">4 Jun</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Domains Deeper Dive</span><span class="task-due t-upcoming">11 Jun</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Ratios in the model</span><span class="task-due t-upcoming">11 Jun</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">TOM success Metrics</span><span class="task-due t-upcoming">11 Jun</span><span class="task-who">Safiyah Iqbal</span></div>
-            <div class="task-row"><span class="task-name">Job descriptions</span><span class="task-due t-upcoming">15 Jun</span><span class="task-who">Safiyah Iqbal</span></div>
-            <div class="task-row"><span class="task-name">TOM Ready Programme complete Resi</span><span class="task-due t-upcoming">22 Jun</span><span class="task-who">Safiyah Iqbal</span></div>
-            <div class="task-row"><span class="task-name">TOM Ready Programme complete B2B</span><span class="task-due t-upcoming">22 Jun</span><span class="task-who">Safiyah Iqbal</span></div>
-            <div class="task-row"><span class="task-name">Create Operations ramp up plan</span><span class="task-due t-upcoming">22 Jun</span><span class="task-who">Safiyah Iqbal</span></div>
-            <div class="task-row"><span class="task-name">Review &amp; confirm operating hours WIP</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Model Teams</span><span class="task-due t-upcoming">25 Feb 2027</span><span class="task-who">—</span></div>
-          </div>
-
-          <div class="task-sg">
-            <div class="task-sg-head">Learning &amp; Recruitment <span class="task-sg-count">7</span></div>
-            <div class="task-row"><span class="task-name">Intro to Training (WIP)</span><span class="task-due t-overdue">7 May</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Prepare &amp; determine Non-Ops training</span><span class="task-due t-overdue">7 May</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Skills Matrix for Ops</span><span class="task-due t-overdue">21 May</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Design SA Framework (WIP)</span><span class="task-due t-soon">4 Jun</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Discovery Days</span><span class="task-due t-upcoming">16 Jul</span><span class="task-who">Safiyah Iqbal</span></div>
-            <div class="task-row"><span class="task-name">Localize UA Training Programme</span><span class="task-due t-upcoming">31 Jul</span><span class="task-who">Safiyah Iqbal</span></div>
-            <div class="task-row"><span class="task-name">Build SA content (WIP)</span><span class="task-due t-upcoming">5 Aug 2027</span><span class="task-who">—</span></div>
-          </div>
-
-          <div class="task-sg">
-            <div class="task-sg-head">Culture <span class="task-sg-count">17</span></div>
-            <div class="task-row"><span class="task-name">Line of Sight</span><span class="task-due t-overdue">7 May</span><span class="task-who">Ross Crosby</span></div>
-            <div class="task-row"><span class="task-name">Introduction to Kraken Culture Assessment</span><span class="task-due t-overdue">14 May</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Prep &amp; Run Cultural Assessment</span><span class="task-due t-overdue">21 May</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Exec &amp; Director LDPs WIP</span><span class="task-due t-overdue">7 May</span><span class="task-who">Ross Crosby</span></div>
-            <div class="task-row"><span class="task-name">Analyse Culture Assessment results</span><span class="task-due t-soon">28 May</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Change Mapping</span><span class="task-due t-soon">4 Jun</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Golden Guidelines workshop WIP</span><span class="task-due t-upcoming">18 Jun</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Define Personas journey WIP</span><span class="task-due t-upcoming">30 Jul</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">How to run good meetings</span><span class="task-due t-upcoming">30 Jul</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">How to create a good management pack</span><span class="task-due t-upcoming">30 Jul</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">How to run Family Dinner</span><span class="task-due t-upcoming">30 Jul</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">How to manage team sentiment</span><span class="task-due t-upcoming">30 Jul</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Launch Ops rituals</span><span class="task-due t-upcoming">6 Aug</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Enterprise Transformation</span><span class="task-due t-upcoming">6 May 2027</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Customer Ops Transformation WIP</span><span class="task-due t-upcoming">5 Aug 2027</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Track KBIs through and post migration WIP</span><span class="task-due t-upcoming">5 Aug 2027</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Final Delivery review</span><span class="task-due t-upcoming">5 Aug 2027</span><span class="task-who">Safiyah Iqbal</span></div>
-          </div>
-
-          <div class="task-sg">
-            <div class="task-sg-head">LDP <span class="task-sg-count">7</span></div>
-            <div class="task-row"><span class="task-name">Launch LDP for Directors &amp; Heads of WIP</span><span class="task-due t-overdue">7 May</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Launch LDP for Execs WIP</span><span class="task-due t-overdue">7 May</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Intro to / The Why of LDP WIP</span><span class="task-due t-soon">30 May</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">"The How" of LDP WIP</span><span class="task-due t-soon">30 May</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Analyze current vs new LDP WIP</span><span class="task-due t-soon">4 Jun</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Launch LDP for TLs</span><span class="task-due t-upcoming">10 Sep</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Launch LDP for OMs</span><span class="task-due t-upcoming">10 Sep</span><span class="task-who">—</span></div>
-          </div>
-
-          <div class="task-sg">
-            <div class="task-sg-head">Data <span class="task-sg-count">3</span></div>
-            <div class="task-row"><span class="task-name">Organise baselining workshop</span><span class="task-due t-overdue">18 May</span><span class="task-who">Safiyah Iqbal</span></div>
-            <div class="task-row"><span class="task-name">Baselining Playback</span><span class="task-due t-soon">4 Jun</span><span class="task-who">Safiyah Iqbal</span></div>
-            <div class="task-row"><span class="task-name">Performance tracking</span><span class="task-due t-upcoming">30 Jul</span><span class="task-who">Safiyah Iqbal</span></div>
-          </div>
-
-          <div class="task-sg">
-            <div class="task-sg-head">Coaching <span class="task-sg-count">4</span></div>
-            <div class="task-row"><span class="task-name">Exec coaching</span><span class="task-due t-overdue">7 May</span><span class="task-who">Ross Crosby</span></div>
-            <div class="task-row"><span class="task-name">121's with Directors</span><span class="task-due t-overdue">18 May</span><span class="task-who">Safiyah Iqbal</span></div>
-            <div class="task-row"><span class="task-name">Launch TL &amp; OM Mentoring</span><span class="task-due t-upcoming">30 Jul</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">High Demand Coaching</span><span class="task-due t-upcoming">17 Dec</span><span class="task-who">—</span></div>
-          </div>
-
-        </div>
-        </div><!-- /mig-pge-worklist -->
-
-        <div id="mig-pge-steerco" class="hidden">
-          <div>
-            <div class="mig-sub-label">Outcome Milestones</div>
-            <div class="outcome-grid">
-              <div class="outcome-panel op-operate">
-                <div class="outcome-panel-title">Operate</div>
-                <div class="outcome-statement">Client's Universal Agents are trained, confident, and handling customer queries end-to-end</div>
-                <ul class="ms-list">
-                  <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">TOM designed</span></li>
-                  <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">FTE ratios agreed</span></li>
-                  <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">WFM discovery sessions</span></li>
-                  <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">Scheduling tooling (Calabrio) agreed</span></li>
-                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Performance tracking live</span></li>
-                </ul>
-              </div>
-              <div class="outcome-panel op-perform">
-                <div class="outcome-panel-title">Perform</div>
-                <div class="outcome-statement">Client's culture is measurably improving, with rising engagement and psychological safety</div>
-                <ul class="ms-list">
-                  <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">Culture baseline designed</span></li>
-                  <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">Culture baseline fieldwork</span></li>
-                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Psychological safety programme</span></li>
-                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Leadership coaching schedule</span></li>
-                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Engagement pulse cadence</span></li>
-                </ul>
-              </div>
-              <div class="outcome-panel op-innovate">
-                <div class="outcome-panel-title">Innovate</div>
-                <div class="outcome-statement">Client's MVB team is live, performing, and scaling</div>
-                <ul class="ms-list">
-                  <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">MVB team identified</span></li>
-                  <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">MVB team onboarded to Kraken</span></li>
-                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">First innovation sprint</span></li>
-                </ul>
-              </div>
-              <div class="outcome-panel op-progmgmt">
-                <div class="outcome-panel-title">Programme Mgmt</div>
-                <div class="outcome-statement">Migration set up for success with the right team, tools, and ways of working from day one</div>
-                <ul class="ms-list">
-                  <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">Governance structure live</span></li>
-                  <li class="ms-item"><span class="ms-dot">🔵</span><span style="color:var(--indigo-light);">Asana board restructured to outcome format</span></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <div class="mig-sub-label">6-Week Outlook</div>
-            <div class="outlook-wrap">
-              <div class="outlook-grid">
-                <div class="outlook-header-cell">Workstream</div>
-                <div class="outlook-header-cell">W1 · 25 May</div>
-                <div class="outlook-header-cell">W2 · 1 Jun</div>
-                <div class="outlook-header-cell">W3 · 8 Jun</div>
-                <div class="outlook-header-cell">W4 · 15 Jun</div>
-                <div class="outlook-header-cell">W5 · 22 Jun</div>
-                <div class="outlook-header-cell">W6 · 29 Jun</div>
-                <div class="outlook-label">Operate</div>
-                <div class="outlook-cell"><span class="outlook-task ot-on-track">Calabrio session 1</span></div>
-                <div class="outlook-cell"><span class="outlook-task ot-on-track">Calabrio session 2</span></div>
-                <div class="outlook-cell"><span class="outlook-task ot-upcoming">WFM tooling shortlist</span></div>
-                <div class="outlook-cell"><span class="outlook-task ot-upcoming">Scheduling tooling sign-off</span></div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-label">Perform</div>
-                <div class="outlook-cell"><span class="outlook-task ot-at-risk">Culture baseline fieldwork</span></div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-cell"><span class="outlook-task ot-upcoming">Culture baseline report</span></div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-cell"><span class="outlook-task ot-upcoming">Psych safety kickoff</span></div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-label">Innovate</div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-cell"><span class="outlook-task ot-on-track">MVB Asana board live</span></div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-cell"><span class="outlook-task ot-upcoming">First innovation sprint planning</span></div>
-                <div class="outlook-label">Prog Mgmt</div>
-                <div class="outlook-cell"><span class="outlook-task ot-on-track">Asana board review</span></div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-cell"></div>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <div class="mig-sub-label">Risk Register</div>
-            <div class="risk-tbl-wrap">
-              <table class="risk-tbl">
-                <thead><tr><th>Risk</th><th>Category</th><th>Likelihood</th><th>Impact</th><th>Owner</th><th>Mitigation</th><th>Status</th></tr></thead>
-                <tbody>
-                  <tr><td>Culture baseline fieldwork delayed 2 weeks</td><td>People</td><td><span class="lik-m">M</span></td><td><span class="lik-h">H</span></td><td>Safiyah Iqbal</td><td>Reschedule to w/c 1 Jun</td><td><span class="pill pill-high">Open</span></td></tr>
-                  <tr><td>Calabrio integration complexity higher than scoped</td><td>Tech</td><td><span class="lik-m">M</span></td><td><span class="lik-m">M</span></td><td>Client IT Lead</td><td>Parallel-track manual scheduling</td><td><span class="pill pill-waiting">Monitored</span></td></tr>
-                  <tr><td>Client engagement declining post-TOM</td><td>People</td><td><span class="lik-l">L</span></td><td><span class="lik-h">H</span></td><td>Safiyah Iqbal</td><td>Bi-weekly exec touchpoint</td><td><span class="pill pill-waiting">Monitored</span></td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div><!-- /mig-pge-steerco -->
-
-      </div>
-    </div>
-
-    <!-- ══════════════════════
-         2. National Grid (NAm)
-    ══════════════════════ -->
-    <div class="mig-section" data-region="nam">
-      <div class="mig-header" onclick="toggleMig('natgrid')">
-        <span class="mig-client">National Grid</span>
-        <span class="pilot-badge">🧪 NAm Pilot</span>
-        <div class="mig-meta">
-          <span>CDL: Amy Mason</span>
-          <span>North America</span>
-          <span class="health-at-risk">● At Risk</span>
-          <span>Go-live: 15 Aug 2026</span>
-          <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1213186730741960" target="_blank" onclick="event.stopPropagation()">Asana ↗</a>
-        </div>
-        <span class="mig-chevron" id="mig-chev-natgrid">▼</span>
-      </div>
-      <div class="mig-body hidden" id="mig-body-natgrid">
-        <div class="mig-view-bar">
-          <button class="mig-view-btn active" onclick="migSetView('natgrid','worklist',this)">Current Worklist</button>
-          <button class="mig-view-btn" onclick="migSetView('natgrid','steerco',this)">Beta SteerCo Reporting</button>
-        </div>
-
-        <div id="mig-natgrid-worklist">
-        <div class="mig-asana-source">Live tasks from Asana board · 91 incomplete · <a class="asana-link" href="https://app.asana.com/1/696560454032998/project/1213186730741960" target="_blank">Open board ↗</a></div>
-        <div class="task-board">
-
-          <div class="task-sg">
-            <div class="task-sg-head">Admin <span class="task-sg-count">3</span></div>
-            <div class="task-row"><span class="task-name">Sales team handover to BOT team</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Recommendations for Clients Slack channels</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Handover to Customer Success</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-          </div>
-
-          <div class="task-sg">
-            <div class="task-sg-head">Kick off <span class="task-sg-count">4</span></div>
-            <div class="task-row"><span class="task-name">Pre-Kick off intro pack</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Create Kick off deck (WIP)</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Kick off complete</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">(optional) Immersion session with TDO's</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-          </div>
-
-          <div class="task-sg">
-            <div class="task-sg-head">OTO <span class="task-sg-count">8</span></div>
-            <div class="task-row"><span class="task-name">Intro To OTO</span><span class="task-due t-soon">1 Jun</span><span class="task-who">Amy Mason</span></div>
-            <div class="task-row"><span class="task-name">OTO Roadshow</span><span class="task-due t-soon">1 Jun</span><span class="task-who">Amy Mason</span></div>
-            <div class="task-row"><span class="task-name">OTO Discovery Day</span><span class="task-due t-soon">1 Jun</span><span class="task-who">Amy Mason</span></div>
-            <div class="task-row"><span class="task-name">Choose OTO Team</span><span class="task-due t-soon">1 Jun</span><span class="task-who">Amy Mason</span></div>
-            <div class="task-row"><span class="task-name">OTO Onboarding</span><span class="task-due t-soon">1 Jun</span><span class="task-who">Amy Mason</span></div>
-            <div class="task-row"><span class="task-name">Organise immersion session &amp; provide agenda</span><span class="task-due t-soon">1 Jun</span><span class="task-who">Amy Mason</span></div>
-            <div class="task-row"><span class="task-name">Coaching &amp; Mentoring (WIP)</span><span class="task-due t-soon">1 Jun</span><span class="task-who">Amy Mason</span></div>
-            <div class="task-row"><span class="task-name">London office tour (immersion) (WIP)</span><span class="task-due t-soon">1 Jun</span><span class="task-who">Amy Mason</span></div>
-          </div>
-
-          <div class="task-sg">
-            <div class="task-sg-head">First team <span class="task-sg-count">3</span></div>
-            <div class="task-row"><span class="task-name">Define UA selection process and criteria</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Hire / select first team</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Plan activities for post-training waiting period</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-          </div>
-
-          <div class="task-sg">
-            <div class="task-sg-head">TOM <span class="task-sg-count">7</span></div>
-            <div class="task-row"><span class="task-name">TOM Ready Programme complete</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">TOM Timeline</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Principles of the UA Model</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Send pre-TOM questionnaire</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">OTO &amp; OTO recruitment</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Intro to Roles &amp; Permissions WIP</span><span class="task-due t-soon">1 Jun</span><span class="task-who">Amy Mason</span></div>
-            <div class="task-row"><span class="task-name">Internal documentation (WIP)</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-          </div>
-
-          <div class="task-sg">
-            <div class="task-sg-head">Culture + Change Management <span class="task-sg-count">12</span></div>
-            <div class="task-row"><span class="task-name">Develop Pre-boarding / change journey for UAs</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Plan &amp; execute roadshows</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Visit client operations office</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Create comms plan for legacy team</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Promote Kraken Ready platform internally</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Plan PR / communications for first customer launch</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">20/50/80 assessment</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Define rituals</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Launch Ops rituals</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Launch reporting ritual</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Agree KPIs</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Review current BPO &amp; make recommendations</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-          </div>
-
-          <div class="task-sg">
-            <div class="task-sg-head">LDP <span class="task-sg-count">5</span></div>
-            <div class="task-row"><span class="task-name">Launch LDP for TLs</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Launch LDP for OMs</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Launch LDP for Directors &amp; Heads of</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Launch LDP for Execs</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">"The How" of LDP</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-          </div>
-
-          <div class="task-sg">
-            <div class="task-sg-head">Data <span class="task-sg-count">4</span></div>
-            <div class="task-row"><span class="task-name">Organise baselining workshop</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Performance tracking</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Baselining Playback</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Update internal reporting tool</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-          </div>
-
-          <div class="task-sg">
-            <div class="task-sg-head">Coaching <span class="task-sg-count">4</span></div>
-            <div class="task-row"><span class="task-name">121's with Directors</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Exec coaching</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Mentoring phase</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">High Demand Coaching</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-          </div>
-
-          <div class="task-sg">
-            <div class="task-sg-head">Tech + Governance <span class="task-sg-count">2</span></div>
-            <div class="task-row"><span class="task-name">Establish Hypercare and daily migration meeting cadence</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Establish meeting cadence and governance structure</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-          </div>
-
-          <div class="task-sg">
-            <div class="task-sg-head">Tools &amp; Systems <span class="task-sg-count">3</span></div>
-            <div class="task-row"><span class="task-name">Select Knowledge Base</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">Set up Asana for shared project management</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-            <div class="task-row"><span class="task-name">ESAT</span><span class="task-due t-pending">No date</span><span class="task-who">—</span></div>
-          </div>
-
-        </div>
-        </div><!-- /mig-natgrid-worklist -->
-
-        <div id="mig-natgrid-steerco" class="hidden">
-          <div>
-            <div class="mig-sub-label">Outcome Milestones</div>
-            <div class="outcome-grid">
-              <div class="outcome-panel op-operate">
-                <div class="outcome-panel-title">Operate</div>
-                <div class="outcome-statement">Client's Universal Agents are trained, confident, and handling customer queries end-to-end</div>
-                <ul class="ms-list">
-                  <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">TOM designed</span></li>
-                  <li class="ms-item"><span class="ms-dot">⚠️</span><span style="color:#fb923c;">FTE ratios (HR freeze)</span></li>
-                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">WFM discovery</span></li>
-                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Scheduling tooling</span></li>
-                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Performance tracking</span></li>
-                </ul>
-              </div>
-              <div class="outcome-panel op-perform">
-                <div class="outcome-panel-title">Perform</div>
-                <div class="outcome-statement">Client's culture is measurably improving, with rising engagement and psychological safety</div>
-                <ul class="ms-list">
-                  <li class="ms-item"><span class="ms-dot">⚠️</span><span style="color:#fb923c;">Culture baseline (3wks overdue)</span></li>
-                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Psychological safety programme</span></li>
-                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Leadership coaching</span></li>
-                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Engagement pulse</span></li>
-                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">Performance culture framework</span></li>
-                </ul>
-              </div>
-              <div class="outcome-panel op-innovate">
-                <div class="outcome-panel-title">Innovate</div>
-                <div class="outcome-statement">Client's MVB team is live, performing, and scaling</div>
-                <ul class="ms-list">
-                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">MVB team identified</span></li>
-                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">MVB team onboarded</span></li>
-                  <li class="ms-item"><span class="ms-dot">○</span><span style="color:var(--text-muted);">First sprint</span></li>
-                </ul>
-              </div>
-              <div class="outcome-panel op-progmgmt">
-                <div class="outcome-panel-title">Programme Mgmt</div>
-                <div class="outcome-statement">Migration set up for success with the right team, tools, and ways of working from day one</div>
-                <ul class="ms-list">
-                  <li class="ms-item"><span class="ms-dot">✅</span><span style="color:#34CD71;">Governance structure live</span></li>
-                  <li class="ms-item"><span class="ms-dot">⚠️</span><span style="color:#fb923c;">CDL capacity at 40%</span></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <div class="mig-sub-label">6-Week Outlook</div>
-            <div class="outlook-wrap">
-              <div class="outlook-grid">
-                <div class="outlook-header-cell">Workstream</div>
-                <div class="outlook-header-cell">W1 · 25 May</div>
-                <div class="outlook-header-cell">W2 · 1 Jun</div>
-                <div class="outlook-header-cell">W3 · 8 Jun</div>
-                <div class="outlook-header-cell">W4 · 15 Jun</div>
-                <div class="outlook-header-cell">W5 · 22 Jun</div>
-                <div class="outlook-header-cell">W6 · 29 Jun</div>
-                <div class="outlook-label">Operate</div>
-                <div class="outlook-cell"><span class="outlook-task ot-at-risk">FTE ratios escalation to SteerCo</span></div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-cell"><span class="outlook-task ot-upcoming">WFM discovery session 1</span></div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-cell"><span class="outlook-task ot-upcoming">Scheduling tooling agreed</span></div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-label">Perform</div>
-                <div class="outlook-cell"><span class="outlook-task ot-at-risk">Culture baseline reschedule</span></div>
-                <div class="outlook-cell"><span class="outlook-task ot-upcoming">Culture baseline fieldwork</span></div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-cell"><span class="outlook-task ot-upcoming">Culture baseline report</span></div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-label">Innovate</div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-cell"><span class="outlook-task ot-upcoming">MVB team kick-off</span></div>
-                <div class="outlook-label">Prog Mgmt</div>
-                <div class="outlook-cell"><span class="outlook-task ot-at-risk">CDL capacity review</span></div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-cell"></div>
-                <div class="outlook-cell"></div>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <div class="mig-sub-label">Risk Register</div>
-            <div class="risk-tbl-wrap">
-              <table class="risk-tbl">
-                <thead><tr><th>Risk</th><th>Category</th><th>Likelihood</th><th>Impact</th><th>Owner</th><th>Mitigation</th><th>Status</th></tr></thead>
-                <tbody>
-                  <tr><td>CDL capacity at 40% of requirement</td><td>People</td><td><span class="lik-h">H</span></td><td><span class="lik-h">H</span></td><td>HOD Lead</td><td>Identify interim CDL support this week</td><td><span class="pill pill-high">Open</span></td></tr>
-                  <tr><td>Culture baseline 3 weeks overdue</td><td>Delivery</td><td><span class="lik-h">H</span></td><td><span class="lik-m">M</span></td><td>Amy Mason</td><td>Reschedule fieldwork for w/c 1 Jun</td><td><span class="pill pill-high">Open</span></td></tr>
-                  <tr><td>Client exec sponsor changed</td><td>People</td><td><span class="lik-h">H</span></td><td><span class="lik-h">H</span></td><td>Regional Lead</td><td>New sponsor briefing in week 1</td><td><span class="pill pill-high">Open</span></td></tr>
-                  <tr><td>FTE ratios blocked by HR freeze</td><td>Process</td><td><span class="lik-m">M</span></td><td><span class="lik-h">H</span></td><td>Client HR</td><td>Escalation to SteerCo this week</td><td><span class="pill pill-waiting">Monitored</span></td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div><!-- /mig-natgrid-steerco -->
-
-      </div>
-    </div>
-
-  </div>
-
-  <!-- ── Development Tool Tab ── -->
-  <div id="tab-development" class="tab-panel">
-    <div class="dev-hero">
-      <h2>Development Tool</h2>
-      <p>Assess capability levels against the H&amp;O Development Matrix · Ratings are saved in your browser</p>
-      <div class="dev-subtab-bar">
-        <button class="dev-subtab-btn active" id="dev-st-matrix" onclick="devShowSubtab('matrix')">Development Matrix</button>
-        <button class="dev-subtab-btn" id="dev-st-360" onclick="devShowSubtab('360')">360 Review</button>
-      </div>
-    </div>
-
-    <div id="dev-subtab-matrix">
-    <div class="dev-filter-bar">
-      <input class="dev-search-input" id="dev-search" type="search" placeholder="Search by name, role, practice, region…" oninput="devApplyFilters()">
-      <div class="dev-filter-group">
-        <span class="dev-filter-label">Region</span>
-        <div class="dev-filter-chips" id="dev-region-chips">
-          <button class="dev-filter-chip active" onclick="devSetFilterRegion('All',this)">All</button>
-          <button class="dev-filter-chip" onclick="devSetFilterRegion('UK&amp;I',this)">UK&amp;I</button>
-          <button class="dev-filter-chip" onclick="devSetFilterRegion('N Europe',this)">N Europe</button>
-          <button class="dev-filter-chip" onclick="devSetFilterRegion('S Europe',this)">S Europe</button>
-          <button class="dev-filter-chip" onclick="devSetFilterRegion('ME',this)">ME</button>
-          <button class="dev-filter-chip" onclick="devSetFilterRegion('USA',this)">USA</button>
-          <button class="dev-filter-chip" onclick="devSetFilterRegion('Aus/NZ',this)">Aus/NZ</button>
-          <button class="dev-filter-chip" onclick="devSetFilterRegion('Japan',this)">Japan</button>
-        </div>
-      </div>
-      <div class="dev-filter-group">
-        <span class="dev-filter-label">Role</span>
-        <div class="dev-filter-chips" id="dev-role-chips">
-          <button class="dev-filter-chip active" onclick="devSetFilterRole('All',this)">All</button>
-          <button class="dev-filter-chip" onclick="devSetFilterRole('GPL',this)">GPL</button>
-          <button class="dev-filter-chip" onclick="devSetFilterRole('OD Lead',this)">OD Lead</button>
-          <button class="dev-filter-chip" onclick="devSetFilterRole('HD Lead',this)">HD Lead</button>
-          <button class="dev-filter-chip" onclick="devSetFilterRole('OD&amp;HD Lead',this)">OD&amp;HD Lead</button>
-          <button class="dev-filter-chip" onclick="devSetFilterRole('SCDL',this)">SCDL</button>
-          <button class="dev-filter-chip" onclick="devSetFilterRole('CDL',this)">CDL</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="dev-select-bar">
-      <div class="dev-select-group">
-        <label>Assessing</label>
-        <select class="dev-person-select" id="dev-person-select" onchange="devSelectPerson(this.value)">
-          <option value="">— Select a person —</option>
-        </select>
-      </div>
-      <div class="dev-select-group">
-        <label>You are</label>
-        <div class="dev-role-toggle">
-          <button class="dev-role-btn active" id="dev-role-self" onclick="devSetRole('self')">Self</button>
-          <button class="dev-role-btn" id="dev-role-leader" onclick="devSetRole('leader')">Leader / Assessor</button>
-        </div>
-      </div>
-      <div class="dev-select-group" style="flex-direction:row; align-items:flex-end; gap:8px">
-        <button class="dev-save-btn" onclick="devSave()">Save</button>
-        <button class="dev-compare-btn" id="dev-compare-btn" onclick="devToggleCompare()">Compare</button>
-        <button class="dev-slides-btn" id="dev-slides-btn" onclick="devGenerateSlides()">📊 Slides</button>
-      </div>
-      <div class="dev-person-info" id="dev-person-info"></div>
-    </div>
-
-    <div id="dev-assessment"></div>
-    <div id="dev-training"></div>
-    <div id="dev-output"></div>
-    </div><!-- /dev-subtab-matrix -->
-
-    <div id="dev-subtab-360" class="hidden">
-      <div id="dev-360-body"></div>
-    </div>
-
-    <div class="dev-saved-toast" id="dev-toast">Assessment saved</div>
-  </div>
-
-  <!-- ══════════════════════════════════
-       TAB 5: RESOURCING SNAPSHOT
-  ══════════════════════════════════ -->
-  <div id="tab-resourcing" class="tab-panel">
+  <div id="tab-resourcing" class="tab-panel active">
 
     <div class="rs-hero">
       <h2>Resourcing Snapshot</h2>
@@ -3066,6 +2242,7 @@
       <button class="rs-subtab-btn" onclick="rsShowSubtab('clients',this)">Clients</button>
       <button class="rs-subtab-btn" onclick="rsShowSubtab('utilisation',this)">Utilisation</button>
       <button class="rs-subtab-btn" onclick="rsShowSubtab('people-clients',this)">People &amp; Clients</button>
+      <button class="rs-subtab-btn" onclick="rsShowSubtab('mix',this)">Team Mix</button>
     </div>
 
     <!-- ── Clients ── -->
@@ -3162,7 +2339,20 @@
       <div id="rs-pc-regions"></div>
     </div>
 
+    <!-- ── Team Mix ── -->
+    <div id="rs-st-mix" class="hidden">
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap;justify-content:space-between">
+        <div class="rs-chips">
+          <button class="rs-chip rs-status-chip" id="rs-mix-kraken-btn" onclick="rsMixSetFilter('kraken',this)">Kraken only</button>
+          <button class="rs-chip rs-status-chip active" id="rs-mix-all-btn" onclick="rsMixSetFilter('all',this)">Include Partners</button>
+        </div>
+        <button class="slide-gen-btn" onclick="generateTeamMixSlide()">📊 Slides</button>
+      </div>
+      <div id="rs-mix-matrix"></div>
+    </div>
+
   </div><!-- /tab-resourcing -->
+
 
 </main>
 
@@ -3191,8 +2381,10 @@
 
   function updateWine() {
     const achieved = document.querySelectorAll('#tab-transformation .pill-done').length;
-    document.getElementById('stat-achieved').textContent = achieved;
-    document.getElementById('stat-wine').textContent = achieved * 2;
+    const el1 = document.getElementById('stat-achieved');
+    const el2 = document.getElementById('stat-wine');
+    if (el1) el1.textContent = achieved;
+    if (el2) el2.textContent = achieved * 2;
   }
 
   document.addEventListener('DOMContentLoaded', updateWine);
@@ -3511,8 +2703,8 @@
       chev.parentElement.insertBefore(btn, chev);
     });
     updateWine();
-    devInit();
-    rsInit();
+    if (document.getElementById('dev-person-select')) devInit();
+    if (document.getElementById('rs-stat-active')) rsInit();
   });
 
   // ── Development Tool ──────────────────────────────────────────────
@@ -3633,13 +2825,177 @@
     }
   }
 
+  let devCurrentStep = 1;
+
+  function devGoToStep(step) {
+    // Update panels
+    [1,2,3,4].forEach(s => {
+      const panel = document.getElementById('dev-step-panel-' + s);
+      if (panel) panel.classList.toggle('hidden', s !== step);
+    });
+    // Update stepper indicators
+    [1,2,3,4].forEach(s => {
+      const el = document.getElementById('dev-step-' + s);
+      if (!el) return;
+      el.classList.remove('active','completed');
+      if (s === step) el.classList.add('active');
+      else if (s < step) el.classList.add('completed');
+    });
+    devCurrentStep = step;
+    if (step === 2) dev360Render();
+    if (step === 3) devBuildValidate();
+    if (step === 4) devBuildCompile();
+  }
+
+  function devBuildValidate() {
+    const container = document.getElementById('dev-validate-grid');
+    if (!container) return;
+    const person = devCurrentPerson;
+    if (!person) {
+      container.innerHTML = '<div style="color:var(--text-muted);font-size:0.85em;padding:20px 0;">Select a person in Step 1 to validate their capability here.</div>';
+      return;
+    }
+    const t = getTraining(person);
+    const validateNotes = JSON.parse(localStorage.getItem('devValidateNotes') || '{}');
+    const personNotes   = validateNotes[person] || {};
+
+    let html = '';
+    PRACTICES.forEach(prac => {
+      const color = PRACTICE_COLORS[prac] || '#7ED4F9';
+      const held  = !!t.practices[prac];
+      const mods  = MODULE_LIST.filter(([p]) => p === prac).map(([,m]) => m);
+      const certCount = held ? mods.filter(m => !!t.certs[m]).length : 0;
+      const note  = personNotes[prac] || '';
+
+      let statusLabel, statusBg, statusColor;
+      if (!held) {
+        statusLabel = 'Not assigned'; statusBg = 'rgba(255,255,255,0.06)'; statusColor = 'var(--text-muted)';
+      } else if (certCount === mods.length) {
+        statusLabel = 'Fully certified'; statusBg = 'rgba(52,205,113,0.15)'; statusColor = '#34CD71';
+      } else if (certCount > 0) {
+        statusLabel = certCount + '/' + mods.length + ' certified'; statusBg = 'rgba(251,146,60,0.15)'; statusColor = '#fb923c';
+      } else {
+        statusLabel = 'Assigned — not yet certified'; statusBg = 'rgba(126,212,249,0.1)'; statusColor = 'var(--indigo-light)';
+      }
+
+      const pills = mods.map(m => {
+        if (!held) return `<span class="dev-validate-badge" style="background:rgba(255,255,255,0.04);color:var(--text-muted);border:1px solid var(--border)">${m}</span>`;
+        const cert = !!t.certs[m];
+        const bg  = cert ? 'rgba(52,205,113,0.12)' : 'rgba(126,212,249,0.07)';
+        const col = cert ? '#34CD71' : 'var(--indigo-light)';
+        const bdr = cert ? 'rgba(52,205,113,0.3)'  : 'rgba(126,212,249,0.2)';
+        return `<span class="dev-validate-badge" style="background:${bg};color:${col};border:1px solid ${bdr}">${cert ? '✓ ' : ''}${m}</span>`;
+      }).join('');
+
+      html += `
+        <div class="dev-validate-row" style="flex-direction:column;gap:10px;padding:14px 16px">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <div class="dev-validate-name" style="color:${color}">${prac}</div>
+            <span class="dev-validate-badge" style="background:${statusBg};color:${statusColor};border:1px solid ${statusBg.replace('0.15','0.35').replace('0.1','0.25').replace('0.06','0.2')}">${statusLabel}</span>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">${pills}</div>
+          <textarea class="dev-validate-comment" placeholder="Is this person ready to deliver ${prac}? Note any gaps, development needs or concerns…" onchange="devSaveValidateNote('${person.replace(/'/g,"\\'")}','${prac.replace(/'/g,"\\'")}',this.value)">${note}</textarea>
+        </div>`;
+    });
+    container.innerHTML = html;
+  }
+
+  function devSaveValidateNote(person, capName, val) {
+    const all = JSON.parse(localStorage.getItem('devValidateNotes') || '{}');
+    if (!all[person]) all[person] = {};
+    all[person][capName] = val;
+    localStorage.setItem('devValidateNotes', JSON.stringify(all));
+  }
+
+  function devBuildCompile() {
+    const container = document.getElementById('dev-compile-cards');
+    if (!container) return;
+    const person = devCurrentPerson;
+    if (!person) {
+      container.innerHTML = '<div style="color:var(--text-muted);font-size:0.85em;padding:20px 0;">Select a person in Step 1 to compile their review here.</div>';
+      return;
+    }
+    const selfRatings    = JSON.parse(localStorage.getItem(devStorageKey(person, 'self'))   || '{}');
+    const leaderRatings  = JSON.parse(localStorage.getItem(devStorageKey(person, 'leader')) || '{}');
+    const validateNotes  = JSON.parse(localStorage.getItem('devValidateNotes')   || '{}');
+    const compileComments = JSON.parse(localStorage.getItem('devCompileComments') || '{}');
+    const personNotes    = validateNotes[person] || {};
+    const comment        = compileComments[person] || '';
+
+    const hasSelf     = Object.keys(selfRatings).length > 0;
+    const hasLeader   = Object.keys(leaderRatings).length > 0;
+    const hasValidate = Object.keys(personNotes).length > 0;
+
+    const levelLabels = ['Developing','Capable','Advanced','Expert'];
+
+    // DEV_MATRIX capability summary (group averages)
+    const selfAvgs   = devComputeGroupAverages(selfRatings);
+    const leaderAvgs = devComputeGroupAverages(leaderRatings);
+    let capHtml = '';
+    if (hasSelf || hasLeader) {
+      capHtml += `<div style="font-size:0.65em;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);padding:12px 0 6px;">Capability Group Averages (/ 4)</div>`;
+      DEV_MATRIX.forEach(group => {
+        const sv = selfAvgs[group.group] || 0;
+        const lv = leaderAvgs[group.group] || 0;
+        if (!sv && !lv) return;
+        const selfBadge   = sv ? `<span class="dev-validate-badge" style="background:rgba(240,80,248,0.1);color:#F050F8;border:1px solid rgba(240,80,248,0.25)">Self: ${sv}</span>` : '';
+        const leaderBadge = lv ? `<span class="dev-validate-badge" style="background:rgba(126,212,249,0.1);color:var(--indigo-light);border:1px solid rgba(126,212,249,0.25)">Leader: ${lv}</span>` : '';
+        capHtml += `<div class="dev-validate-row"><div class="dev-validate-name">${group.group}</div><div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">${selfBadge}${leaderBadge}</div></div>`;
+      });
+    }
+
+    // Practice readiness notes from Step 3
+    let pracHtml = '';
+    PRACTICES.forEach(prac => {
+      const note  = personNotes[prac] || '';
+      const t     = getTraining(person);
+      const held  = !!t.practices[prac];
+      const mods  = MODULE_LIST.filter(([p]) => p === prac).map(([,m]) => m);
+      const certCount = held ? mods.filter(m => !!t.certs[m]).length : 0;
+      const color = PRACTICE_COLORS[prac] || '#7ED4F9';
+      let statusLabel, statusBg, statusColor;
+      if (!held)                          { statusLabel = 'Not assigned';             statusBg = 'rgba(255,255,255,0.06)';   statusColor = 'var(--text-muted)'; }
+      else if (certCount === mods.length) { statusLabel = 'Fully certified';          statusBg = 'rgba(52,205,113,0.15)';    statusColor = '#34CD71'; }
+      else if (certCount > 0)             { statusLabel = certCount+'/'+mods.length+' certified'; statusBg = 'rgba(251,146,60,0.15)'; statusColor = '#fb923c'; }
+      else                                { statusLabel = 'Assigned — not certified'; statusBg = 'rgba(126,212,249,0.1)';   statusColor = 'var(--indigo-light)'; }
+      pracHtml += `<div class="dev-validate-row" style="flex-direction:column;gap:6px;padding:10px 14px">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span class="dev-validate-name" style="color:${color}">${prac}</span>
+          <span class="dev-validate-badge" style="background:${statusBg};color:${statusColor};border:1px solid ${statusBg}">${statusLabel}</span>
+        </div>
+        ${note ? `<div style="font-size:0.8em;color:rgba(250,250,250,0.75);line-height:1.5">${note}</div>` : ''}
+      </div>`;
+    });
+
+    container.innerHTML = `
+      <div class="dev-compile-card">
+        <div class="dev-compile-name">${person}</div>
+        <div class="dev-compile-scores">
+          ${hasSelf     ? '<span class="dev-compile-score self">Self assessment saved</span>' : ''}
+          ${hasLeader   ? '<span class="dev-compile-score r360">Leader assessment saved</span>' : ''}
+          ${hasValidate ? '<span class="dev-compile-score validated">Validation notes added</span>' : ''}
+        </div>
+        ${capHtml || ''}
+        ${pracHtml ? `<div style="font-size:0.65em;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);padding:12px 0 6px;">Practice Readiness</div>${pracHtml}` : ''}
+        ${!capHtml && !pracHtml ? '<div style="color:var(--text-muted);font-size:0.82em;padding:8px 0 16px;">No data yet — complete Steps 1–3 first.</div>' : ''}
+        <div class="dev-compile-comment-label" style="margin-top:16px;">Final assessment &amp; next steps</div>
+        <textarea class="dev-compile-comment-input" placeholder="Add your final assessment and recommended next steps for this person…" onchange="devSaveCompileComment('${person.replace(/'/g,"\\'")}', this.value)">${comment}</textarea>
+        <div class="dev-compile-note">Comments are saved in your browser.</div>
+      </div>`;
+  }
+
+  function devSaveCompileComment(person, val) {
+    const comments = JSON.parse(localStorage.getItem('devCompileComments') || '{}');
+    comments[person] = val;
+    localStorage.setItem('devCompileComments', JSON.stringify(comments));
+  }
+
+  function devCompileExport() {
+    alert('Export coming soon — will generate a summary slide or PDF of the compiled review.');
+  }
+
   function devShowSubtab(tab) {
-    devCurrentSubtab = tab;
-    document.getElementById('dev-subtab-matrix').classList.toggle('hidden', tab !== 'matrix');
-    document.getElementById('dev-subtab-360').classList.toggle('hidden', tab !== '360');
-    document.getElementById('dev-st-matrix').classList.toggle('active', tab === 'matrix');
-    document.getElementById('dev-st-360').classList.toggle('active', tab === '360');
-    if (tab === '360') dev360Render();
+    devGoToStep(tab === 'matrix' ? 1 : 2);
   }
 
   function devSetFilterRegion(region, btn) {
@@ -4417,19 +3773,20 @@
     {name:'Katherine Lamb',role:'GPL',practice:'Innovation',region:'UK&I',type:'Kraken',clients:['Total UK','EI','Pleni France, Iberia']},
     {name:'Paul Loran',role:'GPL',practice:'Innovation',region:'UK&I',type:'Kraken',clients:['Norlys','EWIE']},
     {name:'Emily Noakes',role:'GPL',practice:'Culture',region:'UK&I',type:'Kraken',clients:[]},
+    {name:'Kristy Mayer-Mejia',role:'GPL',practice:'Data',region:'UK&I',type:'Kraken',clients:[]},
     {name:'Lisa Hardie',role:'OD Lead',practice:'Telco',region:'UK&I',type:'Kraken',clients:['Talk Talk']},
     {name:'Sam Winter',role:'OD Lead',practice:'Org Design',region:'UK&I',type:'Kraken',clients:[]},
-    {name:'Natasha Wallace',role:'HD Lead',practice:'Human Design',region:'UK&I',type:'Kraken',clients:['EI']},
+    {name:'Natasha Wallace',role:'GPL',practice:'Learning & LDP',region:'UK&I',type:'Kraken',clients:['EI']},
     {name:'Josh Popham',role:'SCDL',practice:'Innovation',region:'UK&I',type:'Kraken',clients:['Total Spain']},
     {name:'Terilee Ward',role:'SCDL',practice:'Operating Model',region:'UK&I',type:'Kraken',clients:[]},
     {name:'Katarzyna Sotek',role:'SCDL',practice:'Operating Model',region:'UK&I',type:'Kraken',clients:['EI']},
     {name:'Klarissa Patel',role:'CDL',practice:'Culture',region:'UK&I',type:'Kraken',clients:['Total UK','EI']},
-    {name:'Kelly Rankine',role:'CDL',practice:'Learning',region:'UK&I',type:'Kraken',clients:[]},
-    {name:'Siga Krubally',role:'CDL',practice:'Learning',region:'UK&I',type:'Kraken',clients:['EI']},
-    {name:'Jane Fennelly',role:'',practice:'',region:'UK&I',type:'Partner',clients:[]},
+    {name:'Kelly Rankine',role:'CDL',practice:'Learning & LDP',region:'UK&I',type:'Kraken',clients:[]},
+    {name:'Siga Krubally',role:'CDL',practice:'Learning & LDP',region:'UK&I',type:'Kraken',clients:['EI']},
+    {name:'Jane Fennelly',role:'GPL',practice:'Operating Model',region:'UK&I',type:'Partner',clients:[]},
     {name:'Liam Mabbott',role:'SCDL',practice:'Culture',region:'UK&I',type:'Kraken',clients:['EI']},
     {name:'Jess Brewer',role:'SCDL',practice:'Innovation',region:'UK&I',type:'Kraken',clients:['Total UK']},
-    {name:'Sotiris Karoulla',role:'CDL',practice:'Learning',region:'UK&I',type:'Kraken',clients:['Total UK']},
+    {name:'Sotiris Karoulla',role:'CDL',practice:'Learning & LDP',region:'UK&I',type:'Kraken',clients:['Total UK']},
     {name:'Emily Snow',role:'CDL',practice:'Operating Model',region:'UK&I',type:'Kraken',clients:['Total UK']},
     {name:'Hannah Williams',role:'CDL',practice:'Telco',region:'UK&I',type:'Kraken',clients:['Talk Talk']},
     {name:'Sev Summers',role:'CDL',practice:'Telco',region:'UK&I',type:'Kraken',clients:['Talk Talk']},
@@ -4437,36 +3794,36 @@
     {name:'Harry Worrall',role:'CDL',practice:'Telco',region:'UK&I',type:'Kraken',clients:['Talk Talk']},
     {name:'Shreya Prasad',role:'CDL',practice:'Telco',region:'UK&I',type:'Kraken',clients:['Talk Talk']},
     {name:'Ellie Grigorjevs-Walsh',role:'CDL',practice:'Telco',region:'UK&I',type:'Kraken',clients:['Talk Talk']},
-    {name:'Katie Wiggins',role:'CDL',practice:'Learning',region:'UK&I',type:'Partner',clients:[]},
-    {name:'Meghan Brady',role:'CDL',practice:'Learning',region:'UK&I',type:'Kraken',clients:[]},
-    {name:'Juliet Destrade',role:'CDL',practice:'Learning',region:'UK&I',type:'Kraken',clients:[]},
+    {name:'Katie Wiggins',role:'CDL',practice:'Learning & LDP',region:'UK&I',type:'Partner',clients:[]},
+    {name:'Meghan Brady',role:'CDL',practice:'Learning & LDP',region:'UK&I',type:'Kraken',clients:[]},
+    {name:'Juliet Destrade',role:'CDL',practice:'Learning & LDP',region:'UK&I',type:'Kraken',clients:[]},
     // N Europe
-    {name:'@ vacancy',role:'GPL',practice:'Learning',region:'N Europe',type:'Kraken',clients:[]},
+    {name:'@ vacancy',role:'GPL',practice:'Learning & LDP',region:'N Europe',type:'Kraken',clients:[]},
     {name:'@ vacancy',role:'OD Lead',practice:'Org Design',region:'N Europe',type:'Kraken',clients:[]},
     {name:'Roxanne Rath',role:'HD Lead',practice:'Human Design',region:'N Europe',type:'Kraken',clients:[]},
     {name:'Alex Taylor',role:'SCDL',practice:'Culture',region:'N Europe',type:'Kraken',clients:['Maingau','EWIE']},
-    {name:'Alexej Jablonski',role:'SCDL',practice:'LDP',region:'N Europe',type:'Kraken',clients:['Maingau']},
-    {name:'Diederick Theunissen',role:'SCDL',practice:'Operating Model',region:'N Europe',type:'Partner',clients:['Norlys']},
+    {name:'Alexej Jablonski',role:'SCDL',practice:'Learning & LDP',region:'N Europe',type:'Kraken',clients:['Maingau']},
+    {name:'Diederick Theunissen',role:'SCDL',practice:'Innovation',region:'N Europe',type:'Partner',clients:['Norlys']},
     {name:'Erlend Styve',role:'SCDL',practice:'Operating Model',region:'N Europe',type:'Kraken',clients:['Norlys']},
     {name:'Sandra Nielsen',role:'SCDL',practice:'Culture',region:'N Europe',type:'Partner',clients:['Norlys']},
-    {name:'Amy Barnes',role:'SCDL',practice:'LDP',region:'N Europe',type:'Kraken',clients:['Norlys']},
-    {name:'Sanne Foekens',role:'CDL',practice:'LDP',region:'N Europe',type:'Partner',clients:['Norlys']},
-    {name:'Sanne Jongeling',role:'CDL',practice:'Learning',region:'N Europe',type:'Partner',clients:['Norlys']},
+    {name:'Amy Barnes',role:'SCDL',practice:'Learning & LDP',region:'N Europe',type:'Kraken',clients:['Norlys']},
+    {name:'Sanne Foekens',role:'CDL',practice:'Learning & LDP',region:'N Europe',type:'Partner',clients:['Norlys']},
+    {name:'Sanne Jongeling',role:'CDL',practice:'Learning & LDP',region:'N Europe',type:'Partner',clients:['Norlys']},
     {name:'David Springhetti',role:'SCDL',practice:'Operating Model',region:'N Europe',type:'Partner',clients:['EWIE']},
     {name:'Mirjam Brandhuber',role:'CDL',practice:'Culture',region:'N Europe',type:'Partner',clients:['EWIE']},
     {name:'Karoline Czychon',role:'CDL',practice:'Operating Model',region:'N Europe',type:'Partner',clients:['EWIE']},
-    {name:'Anna Šútorová',role:'SCDL',practice:'Operating Model',region:'N Europe',type:'Kraken',clients:['Norlys']},
-    {name:'Alex Holden',role:'CDL',practice:'Learning',region:'N Europe',type:'Kraken',clients:['Maingau','EWIE']},
+    {name:'Anna Šútorová',role:'SCDL',practice:'Operating Model',region:'S Europe',type:'Kraken',clients:['Norlys']},
+    {name:'Alex Holden',role:'CDL',practice:'Learning & LDP',region:'N Europe',type:'Kraken',clients:['Maingau','EWIE']},
     // S Europe
     {name:'@ vacancy',role:'GPL',practice:'Data',region:'S Europe',type:'Kraken',clients:['TTE']},
     {name:'Karin Yardy',role:'OD Lead',practice:'Org Design',region:'S Europe',type:'Kraken',clients:['Vanderbron','Norlys','Pleni France']},
     {name:'Valeria Winkworth',role:'HD Lead',practice:'Human Design',region:'S Europe',type:'Partner',clients:['EWIE','Maingau']},
     {name:'Claudia Díaz',role:'SCDL',practice:'Culture',region:'S Europe',type:'Kraken',clients:['Pleni Spain']},
-    {name:'Jose Saidler',role:'CDL',practice:'Learning',region:'S Europe',type:'Kraken',clients:['TTE Spain']},
-    {name:"Mardochée N'goran",role:'CDL',practice:'Learning',region:'S Europe',type:'Kraken',clients:['Pleni France']},
+    {name:'Jose Saidler',role:'CDL',practice:'Learning & LDP',region:'S Europe',type:'Kraken',clients:['TTE Spain']},
+    {name:"Mardochée N'goran",role:'CDL',practice:'Learning & LDP',region:'S Europe',type:'Kraken',clients:['Pleni France']},
     {name:'Ferdinand Baulez',role:'CDL',practice:'Operating Model',region:'S Europe',type:'Kraken',clients:['Pleni Spain']},
-    {name:'Melissa Jensen Labiano',role:'CDL',practice:'Learning',region:'S Europe',type:'Kraken',clients:['Pleni Spain']},
-    {name:'Eloïse Stonehouse',role:'CDL',practice:'LDP',region:'S Europe',type:'Kraken',clients:['Pleni France']},
+    {name:'Melissa Jensen Labiano',role:'CDL',practice:'Learning & LDP',region:'S Europe',type:'Kraken',clients:['Pleni Spain']},
+    {name:'Eloïse Stonehouse',role:'CDL',practice:'Learning & LDP',region:'S Europe',type:'Kraken',clients:['Pleni France']},
     {name:'@ vacancy',role:'CDL',practice:'Human Design',region:'S Europe',type:'Kraken',clients:[]},
     {name:'@ vacancy',role:'CDL',practice:'Org Design',region:'S Europe',type:'Kraken',clients:['TTE']},
     // ME
@@ -4474,14 +3831,14 @@
     {name:'Brooke Owen',role:'SCDL',practice:'Operating Model',region:'ME',type:'Kraken',clients:['EI','SE']},
     // USA
     {name:'Robert Dietz',role:'OD&HD Lead',practice:'Human Design',region:'USA',type:'Kraken',clients:['National Grid','Champion']},
-    {name:'Matt Hard',role:'SCDL',practice:'',region:'USA',type:'Kraken',clients:['PGE']},
+    {name:'Matt Hard',role:'SCDL',practice:'Operating Model',region:'USA',type:'Kraken',clients:['PGE']},
     {name:'Kristina Francisco',role:'OD Lead',practice:'Org Design',region:'USA',type:'Kraken',clients:['National Grid']},
     {name:'Ross Crosby',role:'HD Lead',practice:'Human Design',region:'USA',type:'Kraken',clients:['National Grid']},
-    {name:'Safiyah Iqbal',role:'SCDL',practice:'LDP',region:'USA',type:'Kraken',clients:['National Grid']},
+    {name:'Safiyah Iqbal',role:'SCDL',practice:'Learning & LDP',region:'USA',type:'Kraken',clients:['National Grid']},
     {name:'Emily Messer',role:'CDL',practice:'Culture',region:'USA',type:'Kraken',clients:['Champion']},
     {name:'Shayleen Joseph',role:'CDL',practice:'Operating Model',region:'USA',type:'Kraken',clients:['Champion']},
     {name:'Samuel Malloy',role:'CDL',practice:'',region:'USA',type:'Kraken',clients:['National Grid']},
-    {name:'Amy Mason',role:'SCDL',practice:'Learning',region:'USA',type:'Kraken',clients:['National Grid']},
+    {name:'Amy Mason',role:'SCDL',practice:'Learning & LDP',region:'USA',type:'Kraken',clients:['National Grid']},
     {name:'Keijan Martin',role:'CDL',practice:'',region:'USA',type:'Kraken',clients:['PGE']},
     {name:'@ vacancy',role:'CDL',practice:'Operating Model',region:'USA',type:'Kraken',clients:[]},
     // Aus/NZ
@@ -4489,7 +3846,6 @@
     {name:'Jordan Forshaw',role:'SCDL',practice:'Operating Model',region:'Aus/NZ',type:'Kraken',clients:['Meridian']},
     {name:'@ vacancy',role:'CDL',practice:'',region:'Aus/NZ',type:'Kraken',clients:['Red/EA']},
     {name:'@ vacancy',role:'CDL',practice:'',region:'Aus/NZ',type:'Kraken',clients:['Red/EA']},
-    {name:'James Childs',role:'CDL',practice:'',region:'Aus/NZ',type:'Kraken',clients:['Essential']},
     // Japan
     {name:'Hiroko Otsubo',role:'OD&HD Lead',practice:'Human Design',region:'Japan',type:'Kraken',clients:['Tokyo Gas','Kyuden']},
     {name:'Daisaku Nishinaka',role:'CDL',practice:'Culture',region:'Japan',type:'Kraken',clients:['Kyuden','Tokyo Gas']},
@@ -4749,7 +4105,7 @@
   function rsShowSubtab(tab, btn) {
     document.querySelectorAll('.rs-subtab-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    ['clients','utilisation','budgets','people-clients'].forEach(t => {
+    ['clients','utilisation','budgets','people-clients','mix'].forEach(t => {
       const el = document.getElementById('rs-st-' + t);
       if (el) el.classList.toggle('hidden', t !== tab);
     });
@@ -4922,6 +4278,7 @@
     rsRenderCapabilityHeatmap();
     rsRenderModuleCoverage();
     rsRenderScheduling();
+    rsRenderTeamMix();
   }
 
   function rsSetClientStatus(status, btn) {
@@ -5134,6 +4491,292 @@
 
   function rsSetSchedRegion(r) { rsSchedRegion = r; rsRenderScheduling(); }
   function rsSetSchedModule(m) { rsSchedModule = m; rsRenderScheduling(); }
+
+  let rsMixFilter = 'all';
+  function rsMixSetFilter(val, btn) {
+    rsMixFilter = val;
+    document.querySelectorAll('#rs-st-mix .rs-status-chip').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    rsRenderTeamMix();
+  }
+
+  function rsRenderTeamMix() {
+    const totalsEl = document.getElementById('rs-mix-totals');
+    const matrixEl = document.getElementById('rs-mix-matrix');
+    if (!matrixEl) return;
+
+    const allPeople = PEOPLE.filter(p => {
+      if (p.name === '@ vacancy') return false;
+      if (rsMixFilter === 'kraken' && p.type === 'Partner') return false;
+      return true;
+    });
+    const gpls     = allPeople.filter(p => p.role === 'GPL');
+    const people   = allPeople.filter(p => p.role !== 'GPL');
+
+    function seniorityOf(role) {
+      if (['OD Lead','HD Lead','OD&HD Lead'].includes(role)) return 'Lead';
+      if (role === 'SCDL') return 'SCDL';
+      return 'CDL';
+    }
+
+    if (totalsEl) totalsEl.innerHTML = '';
+
+    const regions         = ['UK&I','N Europe','S Europe','ME','USA','Aus/NZ','Japan'];
+    const LEAD_ROLES      = ['OD Lead','HD Lead','OD&HD Lead'];
+    const HIDDEN_PRACTICES = ['Telco','Water'];
+    const lvOrder         = {Lead:0,SCDL:1,CDL:2};
+    function lvColor(lv){ return lv==='Lead'?'#7ED4F9':lv==='SCDL'?'#34CD71':'rgba(250,250,250,0.55)'; }
+
+    function nameList(arr) {
+      return arr.map(p => {
+        const lv = LEAD_ROLES.includes(p.role) ? 'Lead' : seniorityOf(p.role);
+        return `<div style="display:flex;align-items:baseline;gap:6px;padding:2px 0">
+          <span style="font-weight:600;font-size:0.85em;flex:1">${p.name}</span>
+          <span style="font-size:0.72em;color:${lvColor(lv)};font-weight:700;white-space:nowrap">${p.role||'CDL'}</span>
+        </div>`;
+      }).join('');
+    }
+
+    let html = `<div style="display:flex;flex-direction:column;gap:20px">
+      ${regions.map(region => {
+        const leads   = people.filter(p => p.region === region && LEAD_ROLES.includes(p.role));
+        const rOthers = people.filter(p => p.region === region && !LEAD_ROLES.includes(p.role));
+        if (!leads.length && !rOthers.length) return '';
+        const leaderBlock = leads.length ? `<div style="background:rgba(126,212,249,0.05);border:1px solid rgba(126,212,249,0.18);border-radius:8px;padding:10px 14px">
+          <div style="font-size:0.78em;font-weight:800;color:#7ED4F9;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px">Leadership</div>
+          ${nameList(leads)}
+        </div>` : '';
+        const rPractices = [...new Set(rOthers.map(p=>p.practice||''))].filter(pr=>!HIDDEN_PRACTICES.includes(pr)).sort((a,b)=>{ if(!a) return 1; if(!b) return -1; return a.localeCompare(b); });
+        const pracBlocks = rPractices.map(prac => {
+          const pp = [...rOthers.filter(p=>(p.practice||'')===prac)].sort((a,b)=>(lvOrder[seniorityOf(a.role)]??3)-(lvOrder[seniorityOf(b.role)]??3));
+          return `<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:10px 14px">
+            <div style="font-size:0.78em;font-weight:800;color:var(--indigo-light);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px">${prac||'Unassigned'}</div>
+            ${nameList(pp)}
+          </div>`;
+        }).join('');
+        return `<div>
+          <div style="font-weight:800;font-size:1em;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">${region}</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px">${leaderBlock}${pracBlocks}</div>
+        </div>`;
+      }).join('')}
+    </div>`;
+
+
+    matrixEl.innerHTML = html;
+  }
+
+  function generateTeamMixSlide() {
+    const today = new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
+
+    const allPeople = PEOPLE.filter(p => {
+      if (p.name === '@ vacancy') return false;
+      if (rsMixFilter === 'kraken' && p.type === 'Partner') return false;
+      return true;
+    });
+    const gpls      = allPeople.filter(p => p.role === 'GPL');
+    const people    = allPeople.filter(p => p.role !== 'GPL');
+    const LEAD_ROLES = ['OD Lead','HD Lead','OD&HD Lead'];
+    const regions   = ['UK&I','N Europe','S Europe','ME','USA','Aus/NZ','Japan'];
+
+    function lvColor(role) {
+      if (LEAD_ROLES.includes(role)) return '#7ED4F9';
+      if (role === 'SCDL') return '#34CD71';
+      return 'rgba(250,250,250,0.6)';
+    }
+
+    function nameRows(arr) {
+      return arr.map(p => `<div style="display:flex;justify-content:space-between;gap:6px;padding:1px 0;line-height:1.35">
+        <span style="font-weight:600;font-size:0.72em">${p.name}</span>
+        <span style="font-size:0.65em;color:${lvColor(p.role)};font-weight:700;white-space:nowrap">${p.role||'CDL'}</span>
+      </div>`).join('');
+    }
+
+    // GPL row
+    const HIDDEN_PRACTICES = ['Telco','Water'];
+    const gplPractices = [...new Set(gpls.map(p => p.practice||''))].sort();
+    const otherPractices = [...new Set(people.filter(p=>!LEAD_ROLES.includes(p.role)).map(p=>p.practice||''))]
+      .filter(pr => !gplPractices.includes(pr) && !HIDDEN_PRACTICES.includes(pr))
+      .sort((a,b) => { if(!a) return 1; if(!b) return -1; return a.localeCompare(b); });
+    const practiceRows = [null, ...gplPractices, ...otherPractices];
+
+    const headerCells = regions.map(r =>
+      `<th style="padding:5px 7px;text-align:left;border-bottom:1px solid rgba(126,212,249,0.3);font-size:0.7em;font-weight:700;color:#7ED4F9;white-space:nowrap">${r}</th>`
+    ).join('');
+
+    const bodyRows = practiceRows.map(prac => {
+      const isLeadership = prac === null;
+      const label = isLeadership ? 'Leadership' : (prac || 'Unassigned');
+      const labelColor = isLeadership ? '#7ED4F9' : gplPractices.includes(prac) ? '#F050F8' : 'rgba(250,250,250,0.75)';
+      const rowBg = isLeadership ? 'rgba(126,212,249,0.05)' : gplPractices.includes(prac) ? 'rgba(240,80,248,0.04)' : '';
+      const cells = regions.map(region => {
+        const cell = isLeadership
+          ? people.filter(p => p.region === region && LEAD_ROLES.includes(p.role))
+          : [...gpls,...people].filter(p => p.region === region && (p.practice||'') === prac && !LEAD_ROLES.includes(p.role));
+        const content = cell.length ? nameRows(cell) : `<span style="color:rgba(250,250,250,0.15);font-size:0.68em">—</span>`;
+        return `<td style="padding:5px 7px;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:top">${content}</td>`;
+      }).join('');
+      return `<tr style="${rowBg?'background:'+rowBg:''}">
+        <td style="padding:5px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-weight:800;font-size:0.72em;color:${labelColor};white-space:nowrap;vertical-align:top">${label}</td>
+        ${cells}
+      </tr>`;
+    }).join('');
+
+    const slide = `<div class="slide" style="width:1200px;min-height:620px;font-size:13px">
+      <div class="slide-header">
+        <div>
+          <div class="slide-brand">H&amp;O · Team</div>
+          <div class="slide-h1" style="font-size:1.2em;margin-top:4px">Team Mix — Practice by Region</div>
+        </div>
+        <div class="slide-date">${today}${rsMixFilter==='all' ? ' · Incl. Partners' : ' · Kraken only'}</div>
+      </div>
+      <div style="overflow-x:auto;flex:1">
+        <table style="width:100%;border-collapse:collapse">
+          <thead><tr>
+            <th style="padding:5px 8px;text-align:left;border-bottom:1px solid rgba(126,212,249,0.3);font-size:0.7em;font-weight:700;color:rgba(250,250,250,0.4);white-space:nowrap;min-width:110px">Practice</th>
+            ${headerCells}
+          </tr></thead>
+          <tbody>${bodyRows}</tbody>
+        </table>
+      </div>
+      <div class="slide-footer"><span class="slide-brand">Kraken · H&amp;O</span></div>
+    </div>`;
+
+    document.getElementById('slide-container').innerHTML = slide;
+    document.getElementById('slide-modal-title').textContent = 'Team Mix — Practice by Region';
+    document.getElementById('slide-modal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // ── PIN gate ──────────────────────────────────────────────────────────
+  const HUB_PIN = 'hot360';
+
+  function checkPin() {
+    const val = document.getElementById('pin-input').value;
+    if (val === HUB_PIN) {
+      sessionStorage.setItem('hub_pin_ok', '1');
+      document.getElementById('pin-overlay').classList.add('hidden');
+    } else {
+      document.getElementById('pin-error').textContent = 'Incorrect PIN — try again';
+      document.getElementById('pin-input').value = '';
+      document.getElementById('pin-input').focus();
+    }
+  }
+
+  // ── Reviewer mode ─────────────────────────────────────────────────────
+  function rvInit(personName) {
+    document.getElementById('rv-title').textContent = 'Providing feedback for ' + personName;
+    const dimsEl = document.getElementById('rv-dims');
+    dimsEl.innerHTML = REVIEW_360_DIMS.map((d, idx) => `
+      <div class="reviewer-dim-block">
+        <div class="reviewer-dim-q">${idx+1}. ${d.question}</div>
+        <ul class="reviewer-dim-bullets">${d.bullets.map(b => `<li>${b}</li>`).join('')}</ul>
+        <div class="reviewer-scale" id="rvscale_${d.key}">
+          ${[1,2,3,4,5].map(v => `<button class="reviewer-scale-btn" data-val="${v}" onclick="rvSetScale('${d.key}',${v},this)">${v}</button>`).join('')}
+        </div>
+        <div class="reviewer-scale-labels"><span>Not at all</span><span>Exceptionally well</span></div>
+        <textarea class="reviewer-comment-input" id="rvcomment_${d.key}" placeholder="Optional comment…"></textarea>
+      </div>`).join('');
+  }
+
+  function rvSetScale(dimKey, val, btn) {
+    document.querySelectorAll('#rvscale_' + dimKey + ' .reviewer-scale-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+  }
+
+  function rvSubmit() {
+    const reviewer = (document.getElementById('rv-reviewer')?.value?.trim()) || '';
+    if (!reviewer) { alert('Please enter your name before submitting.'); return; }
+    const scores = {}, comments = {};
+    REVIEW_360_DIMS.forEach(d => {
+      const sel = document.querySelector('#rvscale_' + d.key + ' .reviewer-scale-btn.selected');
+      scores[d.key]   = sel ? parseInt(sel.dataset.val) : 0;
+      comments[d.key] = document.getElementById('rvcomment_' + d.key)?.value?.trim() || '';
+    });
+    if (!Object.values(scores).some(s => s > 0)) {
+      alert('Please rate at least one dimension before submitting.');
+      return;
+    }
+    const personName = new URLSearchParams(window.location.search).get('review') || '';
+    const payload = {
+      person: personName,
+      id: Date.now(),
+      reviewer,
+      relationship: document.getElementById('rv-relationship')?.value?.trim() || '',
+      scores,
+      comments,
+      strengths: document.getElementById('rv-strengths')?.value?.trim() || '',
+      improve:   document.getElementById('rv-improve')?.value?.trim()   || '',
+      other:     document.getElementById('rv-other')?.value?.trim()     || '',
+      date: new Date().toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }),
+    };
+    const code = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+    document.getElementById('rv-code-text').textContent = code;
+    document.getElementById('rv-result').classList.remove('hidden');
+    document.querySelector('.reviewer-submit-btn').style.display = 'none';
+    document.getElementById('rv-result').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function rvCopyCode() {
+    const code = document.getElementById('rv-code-text').textContent;
+    navigator.clipboard.writeText(code).then(() => {
+      const btn = document.querySelector('.reviewer-copy-btn');
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy code', 2000);
+    });
+  }
+
+  // ── Step 2: copy link & import ────────────────────────────────────────
+  function dev360CopyLink() {
+    if (!devCurrentPerson) {
+      alert('Select a person in Step 1 first.');
+      return;
+    }
+    const base = window.location.href.split('?')[0];
+    const url  = base + '?review=' + encodeURIComponent(devCurrentPerson);
+    navigator.clipboard.writeText(url).then(() => {
+      const btn = document.getElementById('dev-copylink-btn');
+      btn.textContent = '✓ Link copied!';
+      setTimeout(() => btn.textContent = '🔗 Copy reviewer link', 2000);
+    });
+  }
+
+  function dev360ImportCode() {
+    const raw = document.getElementById('dev-import-code')?.value?.trim();
+    if (!raw) return;
+    try {
+      const data = JSON.parse(decodeURIComponent(escape(atob(raw))));
+      if (!data.person || !data.reviewer) throw new Error('missing fields');
+      const key = dev360StorageKey(data.person);
+      const reviews = JSON.parse(localStorage.getItem(key) || '[]');
+      const duplicate = reviews.some(r => r.id === data.id);
+      if (duplicate) {
+        alert('This response has already been imported.');
+        return;
+      }
+      reviews.push(data);
+      localStorage.setItem(key, JSON.stringify(reviews));
+      document.getElementById('dev-import-code').value = '';
+      const toast = document.getElementById('dev-toast');
+      toast.textContent = 'Response from ' + data.reviewer + ' imported for ' + data.person;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+      if (devCurrentPerson === data.person) dev360Render();
+    } catch(e) {
+      alert('Invalid code — check you pasted the full text and try again.');
+    }
+  }
+
+  // ── Startup routing ───────────────────────────────────────────────────
+  (function() {
+    const reviewPerson = new URLSearchParams(window.location.search).get('review');
+    if (reviewPerson) {
+      document.getElementById('reviewer-overlay').classList.remove('hidden');
+      document.querySelector('header').style.display = 'none';
+      document.querySelector('main')?.style && (document.querySelector('main').style.display = 'none');
+      document.querySelectorAll('.tab-panel').forEach(el => el.style.display = 'none');
+      rvInit(reviewPerson);
+    }
+  })();
 
 </script>
 </body>

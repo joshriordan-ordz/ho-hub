@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ANZ Resourcing Overview — H&O Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --indigo:        #7ED4F9;
+      --indigo-light:  #a8e5fc;
+      --indigo-dim:    rgba(126,212,249,0.12);
+      --indigo-border: rgba(126,212,249,0.28);
+      --green:         #34CD71;
+      --green-dim:     rgba(52,205,113,0.12);
+      --green-border:  rgba(52,205,113,0.28);
+      --amber:         #fb923c;
+      --amber-dim:     rgba(251,146,60,0.12);
+      --amber-border:  rgba(251,146,60,0.3);
+      --red:           #F050F8;
+      --red-dim:       rgba(240,80,248,0.1);
+      --red-border:    rgba(240,80,248,0.3);
+      --dark:          #100030;
+      --dark-2:        #180048;
+      --dark-3:        #1E0D35;
+      --surface:       rgba(255,255,255,0.04);
+      --surface-hover: rgba(255,255,255,0.07);
+      --border:        rgba(209,210,211,0.10);
+      --text:          #FAFAFA;
+      --text-muted:    #D1D2D3;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--dark);
+      color: var(--text);
+      font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(90deg, #100030 0%, #121016 50%, #1E0D35 100%);
+      border-bottom: 1px solid var(--indigo-border);
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .wordmark { display: flex; flex-direction: column; text-decoration: none; line-height: 1.1; flex-shrink: 0; }
+    .wordmark-title { font-size: 0.95em; font-weight: 700; color: var(--indigo-light); letter-spacing: 0.01em; }
+    .wordmark-sub   { font-size: 0.62em; color: rgba(255,255,255,0.35); letter-spacing: 0.12em; text-transform: uppercase; }
+    .header-divider { width: 1px; height: 28px; background: rgba(255,255,255,0.12); flex-shrink: 0; }
+    .header-title   { font-size: 0.88em; font-weight: 700; color: var(--text-muted); }
+    .back-link {
+      margin-left: auto; font-size: 0.78em; color: rgba(250,250,250,0.4);
+      text-decoration: none; display: flex; align-items: center; gap: 5px; transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--indigo-light); }
+
+    /* ── Layout ── */
+    main {
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 40px 32px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    /* ── Page hero ── */
+    .hero {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, #7ED4F9, #34CD71, #F050F8);
+    }
+    .hero-eyebrow {
+      font-size: 0.68em; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.12em; color: var(--indigo-light); margin-bottom: 8px;
+    }
+    .hero h1 { font-size: 1.8em; font-weight: 800; line-height: 1.2; margin-bottom: 8px; }
+    .hero-sub { font-size: 0.85em; color: var(--text-muted); line-height: 1.6; max-width: 680px; }
+    .hero-stats {
+      display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px;
+    }
+    .stat-pill {
+      background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+      border-radius: 8px; padding: 8px 16px; font-size: 0.78em;
+    }
+    .stat-pill strong { color: var(--indigo-light); margin-right: 4px; font-weight: 800; }
+    .stat-pill.warn strong { color: var(--amber); }
+    .stat-pill.gap strong  { color: var(--red); }
+    .stat-pill.ok strong   { color: var(--green); }
+
+    /* ── Section labels ── */
+    .section-label {
+      font-size: 0.7em; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: rgba(250,250,250,0.4); margin-bottom: 14px;
+    }
+
+    /* ── Cards grid ── */
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 18px 20px;
+    }
+    .card.highlight { border-color: var(--indigo-border); background: var(--indigo-dim); }
+    .card.warn      { border-color: var(--amber-border);  background: var(--amber-dim); }
+    .card.gap       { border-color: var(--red-border);    background: var(--red-dim); }
+
+    .card-label { font-size: 0.68em; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(250,250,250,0.45); margin-bottom: 6px; }
+    .card-name  { font-size: 0.95em; font-weight: 700; color: var(--text); line-height: 1.3; margin-bottom: 4px; }
+    .card-role  { font-size: 0.76em; color: var(--indigo-light); margin-bottom: 6px; font-weight: 600; }
+    .card-detail{ font-size: 0.75em; color: var(--text-muted); line-height: 1.5; }
+    .card-fte   { display: flex; align-items: baseline; gap: 4px; margin-top: 10px; }
+    .fte-num    { font-size: 1.8em; font-weight: 800; line-height: 1; }
+    .fte-label  { font-size: 0.68em; color: var(--text-muted); }
+    .badge      { display: inline-block; font-size: 0.68em; font-weight: 700; padding: 2px 8px; border-radius: 4px; margin-top: 6px; }
+    .badge.kraken  { background: var(--indigo-dim); color: var(--indigo-light); border: 1px solid var(--indigo-border); }
+    .badge.partner { background: var(--green-dim);  color: var(--green);         border: 1px solid var(--green-border); }
+    .badge.vacancy { background: var(--red-dim);    color: var(--red);           border: 1px solid var(--red-border); font-style: italic; }
+    .badge.leaving { background: var(--amber-dim);  color: var(--amber);         border: 1px solid var(--amber-border); }
+
+    /* ── Timeline ── */
+    .timeline-wrap { overflow-x: auto; }
+    .timeline-table {
+      width: 100%; border-collapse: collapse; font-size: 0.8em; min-width: 700px;
+    }
+    .timeline-table th {
+      padding: 8px 14px; text-align: center; font-size: 0.72em; font-weight: 700;
+      color: rgba(250,250,250,0.45); border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .timeline-table th:first-child { text-align: left; min-width: 140px; }
+    .timeline-table td { padding: 6px 4px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .timeline-table td:first-child { padding: 6px 14px; font-weight: 700; font-size: 0.9em; white-space: nowrap; }
+    .timeline-table tr:last-child td { border-bottom: none; }
+
+    .tl-cell  { text-align: center; padding: 4px; }
+    .tl-block {
+      border-radius: 5px; padding: 5px 8px; font-size: 0.82em; font-weight: 700;
+      white-space: nowrap; display: inline-block; width: 100%; text-align: center;
+    }
+    .tl-active   { background: rgba(126,212,249,0.18); color: var(--indigo-light); border: 1px solid rgba(126,212,249,0.3); }
+    .tl-ramp     { background: rgba(52,205,113,0.15);  color: var(--green);        border: 1px solid rgba(52,205,113,0.25); }
+    .tl-peak     { background: rgba(52,205,113,0.3);   color: #6fefb0;             border: 1px solid rgba(52,205,113,0.45); }
+    .tl-pilot    { background: rgba(251,146,60,0.15);  color: var(--amber);        border: 1px solid rgba(251,146,60,0.25); }
+    .tl-establish{ background: rgba(196,167,247,0.18); color: #C4A7F7;             border: 1px solid rgba(196,167,247,0.3); }
+    .tl-hyper    { background: rgba(126,212,249,0.08); color: rgba(126,212,249,0.6); border: 1px solid rgba(126,212,249,0.15); }
+    .tl-empty    { color: rgba(250,250,250,0.12); font-size: 0.75em; }
+    .tl-now      { position: relative; }
+    .tl-now::after {
+      content: 'NOW';
+      position: absolute; top: -18px; left: 50%; transform: translateX(-50%);
+      font-size: 0.6em; font-weight: 800; color: var(--indigo-light);
+      letter-spacing: 0.08em; white-space: nowrap;
+    }
+
+    /* ── FTE demand table ── */
+    .demand-table {
+      width: 100%; border-collapse: collapse; font-size: 0.8em;
+    }
+    .demand-table th {
+      padding: 8px 12px; text-align: center; font-size: 0.73em; font-weight: 700;
+      color: rgba(250,250,250,0.5); border-bottom: 1px solid var(--border);
+    }
+    .demand-table th:first-child { text-align: left; }
+    .demand-table td {
+      padding: 7px 10px; border-bottom: 1px solid rgba(255,255,255,0.04);
+      text-align: center;
+    }
+    .demand-table td:first-child { text-align: left; font-weight: 600; }
+    .demand-table tfoot td {
+      border-top: 2px solid var(--border); font-weight: 800; padding-top: 10px;
+    }
+    .demand-table tr.section-header td {
+      font-size: 0.7em; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+      color: rgba(250,250,250,0.35); padding-top: 16px; padding-bottom: 4px;
+      border-bottom: none;
+    }
+
+    .fte-cell { display: inline-block; min-width: 42px; padding: 3px 8px; border-radius: 5px; font-weight: 700; font-size: 0.9em; }
+    .fte-green  { background: rgba(52,205,113,0.18);  color: #34CD71; }
+    .fte-amber  { background: rgba(251,146,60,0.18);  color: #fb923c; }
+    .fte-red    { background: rgba(240,80,248,0.15);  color: #F050F8; }
+    .fte-blue   { background: rgba(126,212,249,0.14); color: var(--indigo-light); }
+    .fte-empty  { background: rgba(255,255,255,0.04); color: rgba(250,250,250,0.2); }
+    .fte-gap    { background: rgba(240,80,248,0.1);   color: rgba(240,80,248,0.6); font-style: italic; font-weight: 600; }
+
+    /* ── Capacity bars ── */
+    .cap-section { display: flex; flex-direction: column; gap: 16px; }
+    .cap-row { display: flex; align-items: center; gap: 12px; }
+    .cap-label { font-size: 0.78em; font-weight: 700; min-width: 120px; color: var(--text-muted); }
+    .cap-bars  { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+    .cap-bar-row { display: flex; align-items: center; gap: 8px; }
+    .cap-bar-label { font-size: 0.65em; color: rgba(250,250,250,0.4); min-width: 56px; text-align: right; }
+    .cap-track { flex: 1; background: rgba(255,255,255,0.07); border-radius: 3px; height: 8px; overflow: hidden; }
+    .cap-fill  { height: 100%; border-radius: 3px; transition: width 0.4s ease; }
+    .cap-supply{ background: var(--indigo); }
+    .cap-demand{ background: var(--red); }
+    .cap-num   { font-size: 0.72em; font-weight: 700; min-width: 28px; text-align: right; }
+    .cap-status{ font-size: 0.68em; font-weight: 800; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+    .cap-ok    { background: rgba(52,205,113,0.15);  color: #34CD71; }
+    .cap-warn  { background: rgba(251,146,60,0.15);  color: #fb923c; }
+    .cap-gap   { background: rgba(240,80,248,0.12);  color: #F050F8; }
+
+    /* ── Practice gaps ── */
+    .gaps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+    .gap-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 18px 20px;
+    }
+    .gap-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .gap-icon { font-size: 1.4em; }
+    .gap-title { font-size: 0.9em; font-weight: 700; color: var(--text); }
+    .gap-fte-tag {
+      margin-left: auto; font-size: 0.75em; font-weight: 800;
+      background: var(--red-dim); color: var(--red);
+      border: 1px solid var(--red-border); border-radius: 5px; padding: 2px 8px;
+    }
+    .gap-desc { font-size: 0.77em; color: var(--text-muted); line-height: 1.55; margin-bottom: 10px; }
+    .gap-modules { display: flex; flex-wrap: wrap; gap: 5px; }
+    .gap-module {
+      font-size: 0.68em; font-weight: 600; padding: 2px 8px; border-radius: 4px;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(250,250,250,0.6);
+    }
+    .gap-module.critical {
+      background: var(--indigo-dim); border-color: var(--indigo-border); color: var(--indigo-light);
+    }
+
+    /* ── Note box ── */
+    .note-box {
+      background: rgba(251,146,60,0.08); border: 1px solid rgba(251,146,60,0.25);
+      border-radius: 8px; padding: 12px 16px; font-size: 0.78em; color: rgba(251,146,60,0.85);
+      line-height: 1.6;
+    }
+    .note-box strong { color: var(--amber); }
+
+    /* ── Two-col layout ── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
+
+    /* ── Misc ── */
+    .divider { border: none; border-top: 1px solid var(--border); }
+    .faded   { color: rgba(250,250,250,0.25); }
+
+    @media (max-width: 600px) {
+      main { padding: 24px 16px 60px; }
+      header { padding: 0 16px; gap: 12px; }
+      .header-title { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="wordmark" href="index.html">
+    <span class="wordmark-title">H&O Hub</span>
+    <span class="wordmark-sub">Human &amp; Org</span>
+  </a>
+  <div class="header-divider"></div>
+  <span class="header-title">ANZ Resourcing Overview</span>
+  <a class="back-link" href="index.html">← Back to Hub</a>
+</header>
+
+<main>
+
+  <!-- ── Hero ── -->
+  <div class="hero">
+    <div class="hero-eyebrow">ANZ Region · Resourcing Overview · June 2026</div>
+    <h1>ANZ Resourcing Plan</h1>
+    <p class="hero-sub">
+      Estimated FTE demand across Meridian, Red Energy, and Energy Australia — by practice — with a view on what's covered, what's not yet factored, and where the gaps are. Max 4 FTE for ANZ.
+    </p>
+    <div class="hero-stats">
+      <div class="stat-pill ok"><strong>3</strong> active team members</div>
+      <div class="stat-pill gap"><strong>2</strong> open CDL vacancies</div>
+      <div class="stat-pill"><strong>4 FTE</strong> max headcount</div>
+      <div class="stat-pill warn"><strong>2</strong> active clients now</div>
+      <div class="stat-pill"><strong>3</strong> clients by Jan 2027</div>
+      <div class="stat-pill gap"><strong>−2.5 FTE</strong> gap at peak (Q4 2026)</div>
+    </div>
+  </div>
+
+  <!-- ── Team ── -->
+  <div>
+    <div class="section-label">Current team</div>
+    <div class="cards-grid">
+
+      <div class="card highlight">
+        <div class="card-label">OD &amp; HD Lead</div>
+        <div class="card-name">Nicola Harrison</div>
+        <div class="card-role">Regional Lead · ANZ</div>
+        <div class="card-detail">Meridian (OD Lead) + Red Energy (OD Lead, establishing)</div>
+        <div class="card-fte">
+          <span class="fte-num" style="color:var(--indigo-light)">1.0</span>
+          <span class="fte-label">FTE (0.5 Meridian + 0.5 Red)</span>
+        </div>
+        <span class="badge partner">Partner</span>
+      </div>
+
+      <div class="card">
+        <div class="card-label">SCDL · Operating Model</div>
+        <div class="card-name">Jordan Forshaw</div>
+        <div class="card-role">Senior CDL</div>
+        <div class="card-detail">Meridian — operating model, CRLT, milestone tracking, BPO coordination</div>
+        <div class="card-fte">
+          <span class="fte-num" style="color:var(--green)">1.0</span>
+          <span class="fte-label">FTE (Meridian)</span>
+        </div>
+        <span class="badge kraken">Kraken</span>
+      </div>
+
+      <div class="card warn">
+        <div class="card-label">CDL · Learning &amp; LDP</div>
+        <div class="card-name">Eloïse Stonehouse</div>
+        <div class="card-role">CDL (S Europe, on loan)</div>
+        <div class="card-detail">Meridian — UA training, capability uplift. <strong style="color:var(--amber)">Final day in ANZ: 9 Sep 2026.</strong> Replacement needed.</div>
+        <div class="card-fte">
+          <span class="fte-num" style="color:var(--amber)">1.0</span>
+          <span class="fte-label">FTE (Meridian, until Sep)</span>
+        </div>
+        <span class="badge leaving">Leaving ANZ Sep 9</span>
+      </div>
+
+      <div class="card gap">
+        <div class="card-label">CDL · Vacancy</div>
+        <div class="card-name">@ vacancy</div>
+        <div class="card-role">CDL — Red Energy / EA</div>
+        <div class="card-detail">Priority hire. Needed for Red Energy establish phase and EA pilot from Jan 2027.</div>
+        <div class="card-fte">
+          <span class="fte-num" style="color:var(--red)">0</span>
+          <span class="fte-label">FTE (unfilled)</span>
+        </div>
+        <span class="badge vacancy">Open vacancy</span>
+      </div>
+
+      <div class="card gap">
+        <div class="card-label">CDL · Vacancy</div>
+        <div class="card-name">@ vacancy</div>
+        <div class="card-role">CDL — Red Energy / EA</div>
+        <div class="card-detail">Second hire — needed when Red ramps to full engagement (Q4 2026). Will absorb Eloïse's L&LDP work from Meridian.</div>
+        <div class="card-fte">
+          <span class="fte-num" style="color:var(--red)">0</span>
+          <span class="fte-label">FTE (unfilled)</span>
+        </div>
+        <span class="badge vacancy">Open vacancy</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Client timelines ── -->
+  <div>
+    <div class="section-label">Client horizons — what's active when</div>
+    <div class="timeline-wrap">
+      <table class="timeline-table">
+        <thead>
+          <tr>
+            <th>Client</th>
+            <th class="tl-now" style="position:relative">Jun 26</th>
+            <th>Jul 26</th>
+            <th>Aug 26</th>
+            <th>Sep 26</th>
+            <th>Oct 26</th>
+            <th>Nov 26</th>
+            <th>Dec 26</th>
+            <th>Jan 27</th>
+            <th>Feb 27</th>
+            <th>Mar 27</th>
+            <th>Apr 27</th>
+            <th>Jul 27+</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Meridian (NZ)</td>
+            <td class="tl-cell"><div class="tl-block tl-active">Operate</div></td>
+            <td class="tl-cell"><div class="tl-block tl-active">80% Assess</div></td>
+            <td class="tl-cell"><div class="tl-block tl-active">80% Assess</div></td>
+            <td class="tl-cell"><div class="tl-block tl-active">Operate</div></td>
+            <td class="tl-cell"><div class="tl-block tl-active">Operate</div></td>
+            <td class="tl-cell"><div class="tl-block tl-active">B2B CRLT</div></td>
+            <td class="tl-cell"><div class="tl-block tl-active">B2B CRLT</div></td>
+            <td class="tl-cell"><div class="tl-block tl-hyper">Wind-down</div></td>
+            <td class="tl-cell"><div class="tl-block tl-hyper">Hypercare</div></td>
+            <td class="tl-cell"><div class="tl-block tl-hyper">Hypercare</div></td>
+            <td class="tl-cell"><span class="faded">—</span></td>
+            <td class="tl-cell"><span class="faded">—</span></td>
+          </tr>
+          <tr>
+            <td>Red Energy (AU)</td>
+            <td class="tl-cell"><div class="tl-block tl-ramp">OD Workshop</div></td>
+            <td class="tl-cell"><div class="tl-block tl-ramp">Baselining</div></td>
+            <td class="tl-cell"><div class="tl-block tl-ramp">Culture Survey</div></td>
+            <td class="tl-cell"><div class="tl-block tl-ramp">Roles &amp; Perms</div></td>
+            <td class="tl-cell"><div class="tl-block tl-peak">Build</div></td>
+            <td class="tl-cell"><div class="tl-block tl-peak">Build</div></td>
+            <td class="tl-cell"><div class="tl-block tl-peak">S-curve Map</div></td>
+            <td class="tl-cell"><div class="tl-block tl-peak">OTO Rollout</div></td>
+            <td class="tl-cell"><div class="tl-block tl-peak">Train TTT</div></td>
+            <td class="tl-cell"><div class="tl-block tl-peak">Operate</div></td>
+            <td class="tl-cell"><div class="tl-block tl-peak">Operate</div></td>
+            <td class="tl-cell"><div class="tl-block tl-active">Hypercare</div></td>
+          </tr>
+          <tr>
+            <td>Energy Australia</td>
+            <td class="tl-cell"><span class="faded">—</span></td>
+            <td class="tl-cell"><span class="faded">—</span></td>
+            <td class="tl-cell"><span class="faded">—</span></td>
+            <td class="tl-cell"><span class="faded">—</span></td>
+            <td class="tl-cell"><span class="faded">—</span></td>
+            <td class="tl-cell"><span class="faded">—</span></td>
+            <td class="tl-cell"><div class="tl-block tl-pilot">Pilot</div></td>
+            <td class="tl-cell"><div class="tl-block tl-establish">Kick off</div></td>
+            <td class="tl-cell"><div class="tl-block tl-establish">Discovery</div></td>
+            <td class="tl-cell"><div class="tl-block tl-establish">Establish</div></td>
+            <td class="tl-cell"><div class="tl-block tl-establish">OTO Setup</div></td>
+            <td class="tl-cell"><div class="tl-block tl-ramp">Build</div></td>
+          </tr>
+          <tr>
+            <td style="color:rgba(250,250,250,0.35);font-weight:500;font-size:0.85em">Essential Energy</td>
+            <td class="tl-cell"><div class="tl-block tl-pilot" style="opacity:0.5">Diagnose</div></td>
+            <td colspan="11" class="tl-cell" style="text-align:left;padding-left:8px;font-size:0.72em;color:rgba(250,250,250,0.3)">Scope TBC — no confirmed timeline</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── FTE demand by practice ── -->
+  <div>
+    <div class="section-label">FTE required by practice — assumed per client</div>
+    <div class="note-box" style="margin-bottom:16px">
+      <strong>Formula reference:</strong> The H&O resourcing model suggests S-size clients (≤0.5M agreements) = 2.85 FTE; M-size (0.5–2M agreements) = 4.5 FTE; L-size = 6 FTE. Meridian is Size S; Red Energy is Size M. Max cap for ANZ is 4 FTE total. Practice work below (Culture, Innovation, Data, Coaching) is <strong>not currently tracked in the Asana board</strong> — these are additional requirements sitting outside current task plans.
+    </div>
+    <div style="overflow-x:auto">
+    <table class="demand-table">
+      <thead>
+        <tr>
+          <th>Practice</th>
+          <th>Module</th>
+          <th>Meridian<br><span style="font-weight:400;color:rgba(250,250,250,0.35)">(Operate phase)</span></th>
+          <th>Red Energy<br><span style="font-weight:400;color:rgba(250,250,250,0.35)">(Establish → Build)</span></th>
+          <th>Energy Aus<br><span style="font-weight:400;color:rgba(250,250,250,0.35)">(from Jan 27)</span></th>
+          <th>Who covers it</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="section-header"><td colspan="7">Operating Model &amp; Org Design</td></tr>
+        <tr>
+          <td>Operating Model</td>
+          <td>TOM Ready, Model Ready, Org Design</td>
+          <td><span class="fte-cell fte-green">1.0</span></td>
+          <td><span class="fte-cell fte-green">1.0</span></td>
+          <td><span class="fte-cell fte-blue">0.5</span></td>
+          <td>Jordan Forshaw (Meridian) · Vacancy (Red/EA)</td>
+          <td><span class="badge kraken">Covered (Meridian)</span></td>
+        </tr>
+        <tr>
+          <td>Org Design Lead</td>
+          <td>Org Design workshops, diagnostics</td>
+          <td><span class="fte-cell fte-green">0.5</span></td>
+          <td><span class="fte-cell fte-green">0.5</span></td>
+          <td><span class="fte-cell fte-blue">0.3</span></td>
+          <td>Nicola Harrison</td>
+          <td><span class="badge partner">Covered</span></td>
+        </tr>
+
+        <tr class="section-header"><td colspan="7">Learning &amp; LDP</td></tr>
+        <tr>
+          <td>Learning &amp; LDP</td>
+          <td>UA Training, Ops LDP, Facilitation Mastery, Kraken Academy</td>
+          <td><span class="fte-cell fte-amber">1.0</span></td>
+          <td><span class="fte-cell fte-red">1.0</span></td>
+          <td><span class="fte-cell fte-blue">0.5</span></td>
+          <td>Eloïse Stonehouse (Meridian, until Sep) · <strong>Vacancy needed</strong></td>
+          <td><span class="badge leaving">Risk: Eloïse leaves Sep 9</span></td>
+        </tr>
+        <tr>
+          <td>Exec LDP</td>
+          <td>Senior leadership programme · 5 days</td>
+          <td><span class="fte-cell fte-empty">—</span></td>
+          <td><span class="fte-cell fte-red">0.2</span></td>
+          <td><span class="fte-cell fte-blue">0.2</span></td>
+          <td>Not yet assigned — global GPL resource needed</td>
+          <td><span class="badge vacancy">Not factored</span></td>
+        </tr>
+
+        <tr class="section-header"><td colspan="7">Culture</td></tr>
+        <tr>
+          <td>Culture</td>
+          <td>Culture by Design, Rituals, Culture Interventions</td>
+          <td><span class="fte-cell fte-red">0.2</span></td>
+          <td><span class="fte-cell fte-red">0.3</span></td>
+          <td><span class="fte-cell fte-blue">0.2</span></td>
+          <td>Not currently assigned in ANZ</td>
+          <td><span class="badge vacancy">Not factored</span></td>
+        </tr>
+
+        <tr class="section-header"><td colspan="7">Innovation</td></tr>
+        <tr>
+          <td>Innovation</td>
+          <td>Innovation Discovery, Marketing &amp; Product TOM, GTM Process Design</td>
+          <td><span class="fte-cell fte-red">0.2</span></td>
+          <td><span class="fte-cell fte-red">0.2</span></td>
+          <td><span class="fte-cell fte-blue">0.2</span></td>
+          <td>Katherine Lamb / Paul Loran (GPLs) — not currently scheduled for ANZ</td>
+          <td><span class="badge vacancy">Not factored</span></td>
+        </tr>
+
+        <tr class="section-header"><td colspan="7">Data</td></tr>
+        <tr>
+          <td>Data</td>
+          <td>Data North Star, Data TOM v1 &amp; v2</td>
+          <td><span class="fte-cell fte-red">0.1</span></td>
+          <td><span class="fte-cell fte-red">0.2</span></td>
+          <td><span class="fte-cell fte-blue">0.2</span></td>
+          <td>Kristy Mayer-Mejia (GPL) — not currently scheduled for ANZ</td>
+          <td><span class="badge vacancy">Not factored</span></td>
+        </tr>
+
+        <tr class="section-header"><td colspan="7">Coaching</td></tr>
+        <tr>
+          <td>Coaching</td>
+          <td>Executive Coaching (critical) · Group Coaching</td>
+          <td><span class="fte-cell fte-red">0.1</span></td>
+          <td><span class="fte-cell fte-red">0.1</span></td>
+          <td><span class="fte-cell fte-blue">0.1</span></td>
+          <td>Not yet identified — specialist coaches required</td>
+          <td><span class="badge vacancy">Not factored</span></td>
+        </tr>
+
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="2" style="text-align:right;padding-right:16px;font-size:0.85em">Total FTE required</td>
+          <td><span class="fte-cell fte-amber" style="font-size:1.1em">3.1</span></td>
+          <td><span class="fte-cell fte-red" style="font-size:1.1em">3.5</span></td>
+          <td><span class="fte-cell fte-blue" style="font-size:1.1em">2.2</span></td>
+          <td colspan="2" style="font-size:0.78em;color:var(--text-muted)">
+            Peak demand Oct–Dec 2026: <strong style="color:var(--red)">~6.5 FTE</strong> vs 4 FTE max
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align:right;padding-right:16px;font-size:0.85em;color:var(--text-muted)">Currently assigned</td>
+          <td><span class="fte-cell fte-green" style="font-size:1.1em">2.5</span></td>
+          <td><span class="fte-cell fte-amber" style="font-size:1.1em">0.5</span></td>
+          <td><span class="fte-cell fte-empty" style="font-size:1.1em">0</span></td>
+          <td colspan="2" style="font-size:0.78em;color:var(--text-muted)">
+            Eloïse's Meridian FTE drops to 0 from Sep 9
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+    </div>
+  </div>
+
+  <!-- ── Capacity vs demand ── -->
+  <div>
+    <div class="section-label">Supply vs demand over time</div>
+    <div class="note-box" style="margin-bottom:18px">
+      <strong>Assumption:</strong> 2 CDL vacancies filled by end of July 2026. One CDL replaces Eloïse on Meridian L&LDP from Sep. One CDL focuses on Red Energy. Practice work (Culture, Innovation, Data, Coaching) assumed as fractional GPL support — not reflected in current headcount.
+    </div>
+    <div class="cap-section">
+
+      <div class="cap-row">
+        <div class="cap-label">Now<br><span style="font-size:0.8em;color:rgba(250,250,250,0.35)">Jun 2026</span></div>
+        <div class="cap-bars">
+          <div class="cap-bar-row">
+            <span class="cap-bar-label">Supply</span>
+            <div class="cap-track"><div class="cap-fill cap-supply" style="width:62.5%"></div></div>
+            <span class="cap-num" style="color:var(--indigo)">2.5</span>
+          </div>
+          <div class="cap-bar-row">
+            <span class="cap-bar-label">Demand</span>
+            <div class="cap-track"><div class="cap-fill cap-demand" style="width:50%"></div></div>
+            <span class="cap-num" style="color:var(--red)">4.0</span>
+          </div>
+        </div>
+        <span class="cap-status cap-warn">−1.5 FTE</span>
+      </div>
+
+      <div class="cap-row">
+        <div class="cap-label">Jul–Sep 2026<br><span style="font-size:0.8em;color:rgba(250,250,250,0.35)">Horizon 1 start</span></div>
+        <div class="cap-bars">
+          <div class="cap-bar-row">
+            <span class="cap-bar-label">Supply</span>
+            <div class="cap-track"><div class="cap-fill cap-supply" style="width:100%"></div></div>
+            <span class="cap-num" style="color:var(--indigo)">4.0</span>
+          </div>
+          <div class="cap-bar-row">
+            <span class="cap-bar-label">Demand</span>
+            <div class="cap-track"><div class="cap-fill cap-demand" style="width:56%"></div></div>
+            <span class="cap-num" style="color:var(--red)">4.5</span>
+          </div>
+        </div>
+        <span class="cap-status cap-warn">−0.5 FTE</span>
+      </div>
+
+      <div class="cap-row">
+        <div class="cap-label">Oct–Dec 2026<br><span style="font-size:0.8em;color:rgba(250,250,250,0.35)">Red at peak</span></div>
+        <div class="cap-bars">
+          <div class="cap-bar-row">
+            <span class="cap-bar-label">Supply</span>
+            <div class="cap-track"><div class="cap-fill cap-supply" style="width:50%"></div></div>
+            <span class="cap-num" style="color:var(--indigo)">4.0</span>
+          </div>
+          <div class="cap-bar-row">
+            <span class="cap-bar-label">Demand</span>
+            <div class="cap-track"><div class="cap-fill cap-demand" style="width:81%"></div></div>
+            <span class="cap-num" style="color:var(--red)">6.5</span>
+          </div>
+        </div>
+        <span class="cap-status cap-gap">−2.5 FTE</span>
+      </div>
+
+      <div class="cap-row">
+        <div class="cap-label">Jan–Jun 2027<br><span style="font-size:0.8em;color:rgba(250,250,250,0.35)">3 clients active</span></div>
+        <div class="cap-bars">
+          <div class="cap-bar-row">
+            <span class="cap-bar-label">Supply</span>
+            <div class="cap-track"><div class="cap-fill cap-supply" style="width:50%"></div></div>
+            <span class="cap-num" style="color:var(--indigo)">4.0</span>
+          </div>
+          <div class="cap-bar-row">
+            <span class="cap-bar-label">Demand</span>
+            <div class="cap-track"><div class="cap-fill cap-demand" style="width:88%"></div></div>
+            <span class="cap-num" style="color:var(--red)">7.0</span>
+          </div>
+        </div>
+        <span class="cap-status cap-gap">−3.0 FTE</span>
+      </div>
+
+      <div class="cap-row">
+        <div class="cap-label">Jul 2027+<br><span style="font-size:0.8em;color:rgba(250,250,250,0.35)">Meridian exits</span></div>
+        <div class="cap-bars">
+          <div class="cap-bar-row">
+            <span class="cap-bar-label">Supply</span>
+            <div class="cap-track"><div class="cap-fill cap-supply" style="width:50%"></div></div>
+            <span class="cap-num" style="color:var(--indigo)">4.0</span>
+          </div>
+          <div class="cap-bar-row">
+            <span class="cap-bar-label">Demand</span>
+            <div class="cap-track"><div class="cap-fill cap-demand" style="width:62%"></div></div>
+            <span class="cap-num" style="color:var(--red)">5.0</span>
+          </div>
+        </div>
+        <span class="cap-status cap-warn">−1.0 FTE</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Practice gaps ── -->
+  <div>
+    <div class="section-label">Practice work not yet factored — Asana board gaps</div>
+    <p style="font-size:0.8em;color:var(--text-muted);margin-bottom:16px;line-height:1.6">
+      The ANZ Asana board tracks Operating Model milestones only. The following practices are required for a fully connected HOT engagement but have no tasks, no owner, and no allocated FTE in the current plan.
+    </p>
+    <div class="gaps-grid">
+
+      <div class="gap-card">
+        <div class="gap-card-header">
+          <span class="gap-icon">🌱</span>
+          <span class="gap-title">Culture</span>
+          <span class="gap-fte-tag">~0.5 FTE</span>
+        </div>
+        <p class="gap-desc">Culture baseline and Culture by Design workshop are critical for both Red (Establish) and Meridian (Operate). Culture Survey for North Star is on the Asana board but no delivery owner is assigned. Culture Interventions will be needed as Red ramps up under pressure.</p>
+        <div class="gap-modules">
+          <span class="gap-module critical">★ Culture by Design</span>
+          <span class="gap-module">Rituals</span>
+          <span class="gap-module">Culture Interventions</span>
+        </div>
+      </div>
+
+      <div class="gap-card">
+        <div class="gap-card-header">
+          <span class="gap-icon">💡</span>
+          <span class="gap-title">Innovation</span>
+          <span class="gap-fte-tag">~0.4 FTE</span>
+        </div>
+        <p class="gap-desc">Katherine Lamb and Paul Loran are not currently scheduled for ANZ clients. Innovation Discovery is a critical module for both Red and Energy Australia. No go-to-market strategy or product TOM workstream exists in the ANZ plan.</p>
+        <div class="gap-modules">
+          <span class="gap-module critical">★ Innovation Discovery</span>
+          <span class="gap-module critical">★ Marketing &amp; Product TOM</span>
+          <span class="gap-module">GTM Process Design</span>
+          <span class="gap-module">CX Optimisation</span>
+        </div>
+      </div>
+
+      <div class="gap-card">
+        <div class="gap-card-header">
+          <span class="gap-icon">📊</span>
+          <span class="gap-title">Data</span>
+          <span class="gap-fte-tag">~0.3 FTE</span>
+        </div>
+        <p class="gap-desc">Kristy Mayer-Mejia is not scheduled for ANZ. Data North Star and Data TOM v1 are critical modules for any new client engagement. A "Data product" task appears in the Meridian board with no owner or detail — this may be the same need.</p>
+        <div class="gap-modules">
+          <span class="gap-module critical">★ Data North Star</span>
+          <span class="gap-module critical">★ Data TOM v1</span>
+          <span class="gap-module">Data TOM v2</span>
+        </div>
+      </div>
+
+      <div class="gap-card">
+        <div class="gap-card-header">
+          <span class="gap-icon">🧠</span>
+          <span class="gap-title">Coaching</span>
+          <span class="gap-fte-tag">~0.2 FTE</span>
+        </div>
+        <p class="gap-desc">Executive Coaching is a critical module for any client with significant leadership change. No coaches are identified or contracted for ANZ. Red Energy's change programme and Energy Australia's kick-off will both need this.</p>
+        <div class="gap-modules">
+          <span class="gap-module critical">★ Executive Coaching</span>
+          <span class="gap-module">Group Coaching</span>
+        </div>
+      </div>
+
+      <div class="gap-card">
+        <div class="gap-card-header">
+          <span class="gap-icon">🌟</span>
+          <span class="gap-title">Exec LDP</span>
+          <span class="gap-fte-tag">~0.4 FTE</span>
+        </div>
+        <p class="gap-desc">A critical 5-day programme for senior leaders at the start of transformation. Red Energy Establish phase and Energy Australia Kick-off both require this. No facilitator or schedule has been agreed for ANZ — typically needs a global GPL to deliver.</p>
+        <div class="gap-modules">
+          <span class="gap-module critical">★ Exec LDP (5 days)</span>
+          <span class="gap-module">Ops LDP (4 days)</span>
+        </div>
+      </div>
+
+      <div class="gap-card" style="border-color:rgba(255,255,255,0.12)">
+        <div class="gap-card-header">
+          <span class="gap-icon">📋</span>
+          <span class="gap-title">What this means</span>
+        </div>
+        <p class="gap-desc" style="font-size:0.8em">
+          The unfactored practice work adds approximately <strong style="color:var(--amber)">1.2–1.5 FTE</strong> of demand on top of the operating model and LDP workload already in the plan. Most of this is fractional — it comes from global GPLs (Katherine, Kristy, Natasha) who need to be scheduled into ANZ engagements. If this isn't planned now, it becomes invisible demand that degrades client outcomes.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Hire priorities ── -->
+  <div>
+    <div class="section-label">Hiring priorities — in order</div>
+    <div class="cards-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr))">
+
+      <div class="card highlight">
+        <div class="card-label">Priority 1 — urgent</div>
+        <div class="card-name">CDL · Red Energy + Eloïse replacement</div>
+        <div class="card-role">Learning &amp; LDP · Operating Model</div>
+        <div class="card-detail">
+          Needs to be in place by <strong style="color:var(--amber)">September 2026</strong> to absorb Eloïse's Meridian L&amp;LDP work and lead Red Energy's Training Content Review (Nov 2026) and Agent Train the Trainer (Nov 28). Strong facilitation skills essential — utility context a bonus.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-label">Priority 2 — Q3 2026</div>
+        <div class="card-name">CDL · Red Energy build phase</div>
+        <div class="card-role">Operating Model · Culture</div>
+        <div class="card-detail">
+          Needed for Red Energy's ramp to full engagement (Oct–Dec 2026). Should lead OTO roadshow and recruitment (Jan 2027), support S-curve mapping, and be ready to contribute to Energy Australia from Jan 2027. Broad operating model + culture experience preferred.
+        </div>
+      </div>
+
+      <div class="card warn">
+        <div class="card-label">Priority 3 — plan now, contract later</div>
+        <div class="card-name">Culture specialist (fractional)</div>
+        <div class="card-role">Culture — partner or contractor</div>
+        <div class="card-detail">
+          Culture by Design and Culture Survey delivery for Red Energy (Aug–Sep 2026) has no owner. Could be a fractional engagement or existing culture CDL from another region on rotation. Nicola to confirm with Josh whether an internal resource can flex in.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Footer note ── -->
+  <div class="note-box">
+    <strong>Note on FTE estimates:</strong> All FTE figures are assumed based on the H&O resourcing model (hc formula: S = 2.85, M = 4.5, L = 6) and current task data from the ANZ Asana board. Practice work FTE estimates are based on global product delivery norms — they have not been validated with client scope agreements. Actual FTE may vary once SOWs are confirmed for Red Energy and Energy Australia. Eloïse Stonehouse is S Europe headcount on loan — her departure from ANZ on 9 Sep 2026 creates a hard deadline for the first CDL hire.
+  </div>
+
+</main>
+</body>
+</html>

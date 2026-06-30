@@ -1,0 +1,945 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operating Model Transition — Kraken</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink:        #DE1C80;
+      --pink-dim:    rgba(222,28,128,0.12);
+      --pink-border: rgba(222,28,128,0.25);
+      --purple:      #92508F;
+      --purple-dim:  rgba(146,80,143,0.15);
+      --dark:        #29172E;
+      --dark-2:      #1F0F23;
+      --surface:     rgba(74,46,79,0.35);
+      --border:      rgba(222,28,128,0.18);
+      --text:        #F5ECE2;
+      --muted:       #CBA3C9;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--dark-2);
+      color: var(--text);
+      font-family: 'Montserrat', system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: var(--dark-2);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .wordmark {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--pink);
+    }
+
+    .nav-dots { display: flex; gap: 8px; }
+    .nav-dot {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: none;
+      color: var(--muted);
+      font-size: 11px; font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .nav-dot.active { background: var(--pink); border-color: var(--pink); color: #fff; }
+
+    .slides-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .slide {
+      display: none;
+      flex: 1;
+      padding: 48px 60px;
+      min-height: calc(100vh - 52px);
+    }
+    .slide.active { display: flex; flex-direction: column; gap: 32px; }
+
+    .slide-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--pink);
+    }
+
+    .slide-title {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .slide-title span { color: var(--pink); }
+
+    .slide-subtitle {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--muted);
+      max-width: 680px;
+      line-height: 1.6;
+    }
+
+    /* ── Slide 1 — Stage 0 structure ── */
+    .org-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 8px;
+    }
+
+    .org-half {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px;
+    }
+
+    .org-half-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .org-director {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      background: rgba(222,28,128,0.15);
+      border: 1px solid var(--pink-border);
+      border-radius: 6px;
+      padding: 8px 14px;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+
+    .org-boxes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .org-box {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      background: rgba(146,80,143,0.15);
+      border: 1px solid rgba(146,80,143,0.3);
+      border-radius: 5px;
+      padding: 6px 10px;
+    }
+
+    .problem-strip {
+      background: rgba(222,28,128,0.08);
+      border: 1px solid var(--pink-border);
+      border-left: 3px solid var(--pink);
+      border-radius: 8px;
+      padding: 18px 24px;
+    }
+
+    .problem-strip p {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .problem-strip strong { color: var(--text); }
+
+    .arrow-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .era-chip {
+      text-align: center;
+      padding: 10px 16px;
+      border-radius: 8px;
+      min-width: 120px;
+    }
+
+    .era-chip .era-num {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .era-chip .era-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .era-chip .era-measure {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .era-chip.dim { background: rgba(74,46,79,0.3); border: 1px solid rgba(146,80,143,0.2); }
+    .era-chip.active-era { background: var(--pink-dim); border: 1px solid var(--pink-border); }
+    .era-chip.active-era .era-name { color: var(--pink); }
+
+    .era-arrow {
+      font-size: 18px;
+      color: var(--muted);
+      padding: 0 6px;
+      opacity: 0.5;
+    }
+
+    /* ── Slide 2 — Stages 1–4 ── */
+    .stages-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .stage-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .stage-card.highlight {
+      border-color: var(--pink);
+      background: var(--pink-dim);
+    }
+
+    .stage-tag {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--pink);
+    }
+
+    .stage-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.25;
+    }
+
+    .stage-accounts {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .agent-row {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .agent-dot {
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .agent-dot.human { background: #CBA3C9; }
+    .agent-dot.ai    { background: var(--pink); }
+    .agent-dot.copilot { background: rgba(222,28,128,0.4); border: 1px solid var(--pink); }
+
+    .agent-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .stage-structure {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--muted);
+      line-height: 1.5;
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+    }
+
+    .stage-structure strong { color: var(--text); display: block; margin-bottom: 3px; }
+
+    .stage-ai {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--pink);
+      margin-top: 2px;
+    }
+
+    .stage-shift {
+      font-size: 10px;
+      font-weight: 600;
+      color: #7FC8A0;
+      background: rgba(127,200,160,0.1);
+      border: 1px solid rgba(127,200,160,0.25);
+      border-radius: 4px;
+      padding: 4px 8px;
+      margin-top: 2px;
+    }
+
+    .legend-row {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .key-insight {
+      background: rgba(222,28,128,0.08);
+      border: 1px solid var(--pink-border);
+      border-left: 3px solid var(--pink);
+      border-radius: 8px;
+      padding: 16px 22px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .key-insight strong { color: var(--text); }
+
+    /* ── Slide 4 — Measurement Shift ── */
+    .scorecard-split {
+      display: grid;
+      grid-template-columns: 1fr 54px 1fr;
+      gap: 0;
+      flex: 1;
+      align-items: stretch;
+    }
+    .scorecard-col {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .scorecard-col.col-new {
+      border-color: var(--pink-border);
+      background: rgba(222,28,128,0.05);
+    }
+    .col-header {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .col-header.dim   { color: rgba(203,163,201,0.4); }
+    .col-header.bright { color: var(--pink); }
+    .q-item {
+      padding: 12px 16px;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.45;
+    }
+    .q-item.old {
+      background: rgba(74,46,79,0.22);
+      color: rgba(203,163,201,0.38);
+      border: 1px solid rgba(146,80,143,0.1);
+    }
+    .q-item.new {
+      background: rgba(222,28,128,0.09);
+      color: var(--text);
+      border: 1px solid var(--pink-border);
+    }
+    .scorecard-divider {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 4px;
+    }
+    .divider-arrow {
+      font-size: 22px;
+      color: var(--pink);
+    }
+    .divider-stage {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--pink);
+      white-space: nowrap;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+    }
+
+    /* ── Slide 5 — Five Questions ── */
+    .questions-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+      flex: 1;
+      align-items: stretch;
+    }
+    .q-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .q-big-num {
+      font-size: 64px;
+      font-weight: 800;
+      color: var(--pink);
+      line-height: 1;
+      opacity: 0.18;
+    }
+    .q-cat {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--pink);
+    }
+    .q-question {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    footer {
+      text-align: center;
+      padding: 16px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: rgba(203,163,201,0.35);
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wordmark">HOT · Operating Model Transition</div>
+  <div class="nav-dots">
+    <button class="nav-dot active" onclick="goTo(0)">1</button>
+    <button class="nav-dot"        onclick="goTo(1)">2</button>
+    <button class="nav-dot"        onclick="goTo(2)">3</button>
+    <button class="nav-dot"        onclick="goTo(3)">4</button>
+    <button class="nav-dot"        onclick="goTo(4)">5</button>
+  </div>
+</header>
+
+<div class="slides-wrap">
+
+  <!-- ── SLIDE 1 — The model utilities inherited ── -->
+  <div class="slide active" id="slide-0">
+
+    <div>
+      <div class="slide-eyebrow">The starting point</div>
+      <div class="slide-title">The model utilities <span>inherited</span></div>
+    </div>
+
+    <div class="slide-subtitle">
+      For thirty years, utility customer operations were organised around transaction types — not customers.
+      The result was a structure designed to absorb volume, not resolve problems.
+    </div>
+
+    <div class="org-split">
+      <div class="org-half">
+        <div class="org-half-label">Front Office</div>
+        <div class="org-director">Director of Customer Service</div>
+        <div class="org-boxes">
+          <div class="org-box">Customer Service</div>
+          <div class="org-box">Start / Stop / Move</div>
+          <div class="org-box">Energy Management</div>
+        </div>
+      </div>
+      <div class="org-half">
+        <div class="org-half-label">Back Office</div>
+        <div class="org-director">Director of Operations</div>
+        <div class="org-boxes">
+          <div class="org-box">Billing</div>
+          <div class="org-box">Payments</div>
+          <div class="org-box">Debt &amp; Credit</div>
+          <div class="org-box">Metering</div>
+          <div class="org-box">Industry</div>
+          <div class="org-box">Onboarding</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="problem-strip">
+      <p>
+        <strong>Every customer query routed to a silo.</strong> If a problem crossed a boundary — and most do — it got transferred.
+        Tall hierarchies, long approval chains, low empowerment. Success was measured by
+        <strong>interactions handled</strong>, not problems solved. No single person owned the outcome.
+        No foundation for AI deployment. This structure has to change before anything else can work.
+      </p>
+    </div>
+
+    <div>
+      <div class="slide-eyebrow" style="margin-bottom:14px;">The industry's journey — and where most utilities still sit</div>
+      <div class="arrow-row">
+        <div class="era-chip active-era">
+          <div class="era-num">Era 1</div>
+          <div class="era-name">Transfer</div>
+          <div class="era-measure">Cost per call · AHT · Utilisation</div>
+        </div>
+        <div class="era-arrow">→</div>
+        <div class="era-chip active-era">
+          <div class="era-num">Era 2</div>
+          <div class="era-name">Deflection</div>
+          <div class="era-measure">Deflection rate · Digital adoption</div>
+        </div>
+        <div class="era-arrow">→</div>
+        <div class="era-chip dim">
+          <div class="era-num">Era 3</div>
+          <div class="era-name">Ownership</div>
+          <div class="era-measure">FCR · NPS · Customer effort</div>
+        </div>
+        <div class="era-arrow">→</div>
+        <div class="era-chip dim">
+          <div class="era-num">Era 4</div>
+          <div class="era-name">Impact</div>
+          <div class="era-measure">Outcomes delivered · Human leverage</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── SLIDE 2 — The transformation journey ── -->
+  <div class="slide" id="slide-1">
+
+    <div>
+      <div class="slide-eyebrow">The transformation</div>
+      <div class="slide-title">From ownership to <span>impact at scale</span></div>
+    </div>
+
+    <div class="slide-subtitle">
+      The first move is not AI — it is accountability. Universal agents own customers end-to-end.
+      That ownership culture is the load-bearing prerequisite for everything that follows.
+    </div>
+
+    <div class="stages-grid">
+
+      <div class="stage-card">
+        <div>
+          <div class="stage-tag">Stage 0 · Before</div>
+          <div class="stage-name">Traditional Split</div>
+          <div class="stage-accounts">Siloed · no limit on accounts</div>
+        </div>
+        <div>
+          <div class="agent-label">Team agents</div>
+          <div class="agent-row">
+            <span class="agent-dot human"></span>
+            <span class="agent-dot human"></span>
+            <span class="agent-dot human"></span>
+            <span class="agent-dot human"></span>
+            <span class="agent-dot human"></span>
+            <span class="agent-dot human"></span>
+          </div>
+          <div class="agent-label" style="margin-top:6px;">6H · 0 AI</div>
+        </div>
+        <div class="stage-structure">
+          <strong>Structure</strong>
+          Two directors, six+ specialist silos. Customers transferred between teams.
+        </div>
+        <div class="stage-ai">No AI tooling</div>
+      </div>
+
+      <div class="stage-card highlight">
+        <div>
+          <div class="stage-tag">Stage 1 · Foundation</div>
+          <div class="stage-name">Universal Agent Model</div>
+          <div class="stage-accounts">~60,000 accounts per team</div>
+        </div>
+        <div>
+          <div class="agent-label">Team agents</div>
+          <div class="agent-row">
+            <span class="agent-dot human"></span>
+            <span class="agent-dot human"></span>
+            <span class="agent-dot human"></span>
+            <span class="agent-dot human"></span>
+            <span class="agent-dot human"></span>
+            <span class="agent-dot human"></span>
+          </div>
+          <div class="agent-label" style="margin-top:6px;">6H · 0 AI</div>
+        </div>
+        <div class="stage-structure">
+          <strong>Structure</strong>
+          One team owns all query types end-to-end. No transfers. Ops Manager across teams, not inside one.
+        </div>
+        <div class="stage-shift">Human leverage begins here</div>
+        <div class="stage-ai">Kraken platform · no AI agents yet</div>
+      </div>
+
+      <div class="stage-card">
+        <div>
+          <div class="stage-tag">Stage 2</div>
+          <div class="stage-name">Assisted Workforce</div>
+          <div class="stage-accounts">~75,000 accounts per team</div>
+        </div>
+        <div>
+          <div class="agent-label">Team agents</div>
+          <div class="agent-row">
+            <span class="agent-dot human"></span>
+            <span class="agent-dot human"></span>
+            <span class="agent-dot human"></span>
+            <span class="agent-dot human"></span>
+            <span class="agent-dot human"></span>
+            <span class="agent-dot human"></span>
+            <span class="agent-dot human"></span>
+            <span class="agent-dot copilot"></span>
+          </div>
+          <div class="agent-label" style="margin-top:6px;">7H · copilot-assisted</div>
+        </div>
+        <div class="stage-structure">
+          <strong>Structure</strong>
+          Same ownership model. Every agent works alongside a copilot. Same headcount, rising throughput.
+        </div>
+        <div class="stage-ai">Copilots · Knowledge assist · Auto wrap-up</div>
+      </div>
+
+      <div class="stage-card">
+        <div>
+          <div class="stage-tag">Stage 3</div>
+          <div class="stage-name">Autonomous Routine</div>
+          <div class="stage-accounts">~95,000 accounts per team</div>
+        </div>
+        <div>
+          <div class="agent-label">Team agents</div>
+          <div class="agent-row">
+            <span class="agent-dot human"></span>
+            <span class="agent-dot human"></span>
+            <span class="agent-dot human"></span>
+            <span class="agent-dot human"></span>
+            <span class="agent-dot ai"></span>
+            <span class="agent-dot ai"></span>
+          </div>
+          <div class="agent-label" style="margin-top:6px;">4H · 2 AI</div>
+        </div>
+        <div class="stage-structure">
+          <strong>Structure</strong>
+          AI handles routine. Humans handle complexity and judgment. Human Assist Coach active.
+        </div>
+        <div class="stage-ai">Autonomous agents · Human escalation paths</div>
+      </div>
+
+      <div class="stage-card">
+        <div>
+          <div class="stage-tag">Stage 4 · Destination</div>
+          <div class="stage-name">Outcome Oriented</div>
+          <div class="stage-accounts">120–150,000 accounts per team</div>
+        </div>
+        <div>
+          <div class="agent-label">Team agents</div>
+          <div class="agent-row">
+            <span class="agent-dot human"></span>
+            <span class="agent-dot human"></span>
+            <span class="agent-dot ai"></span>
+            <span class="agent-dot ai"></span>
+            <span class="agent-dot ai"></span>
+            <span class="agent-dot ai"></span>
+          </div>
+          <div class="agent-label" style="margin-top:6px;">2H · 4 AI (regulated) / 1H · 5 AI (competitive)</div>
+        </div>
+        <div class="stage-structure">
+          <strong>Structure</strong>
+          Problems fixed before they become contacts. Humans reserved for genuinely exceptional cases.
+        </div>
+        <div class="stage-shift">Outcomes delivered · not interactions handled</div>
+        <div class="stage-ai">Full AI autonomy · proactive engagement</div>
+      </div>
+
+    </div>
+
+    <div class="legend-row">
+      <div class="legend-item"><span class="agent-dot human"></span> Human agent</div>
+      <div class="legend-item"><span class="agent-dot ai"></span> AI agent (autonomous)</div>
+      <div class="legend-item"><span class="agent-dot copilot"></span> Copilot-assisted</div>
+    </div>
+
+    <div class="key-insight">
+      <strong>The critical sequence:</strong> skip Stage 1 and AI performs poorly — autonomous agents escalate to nobody,
+      improvement loops don't close, value doesn't compound.
+      The ownership model is not a stepping stone to skip. It is the foundation everything else depends on.
+    </div>
+
+  </div>
+
+  <!-- ── SLIDE 3 — The four eras ── -->
+  <div class="slide" id="slide-2">
+
+    <div>
+      <div class="slide-eyebrow">The industry context</div>
+      <div class="slide-title">Four eras — <span>and why the fourth changes everything</span></div>
+    </div>
+
+    <div class="slide-subtitle">
+      The utility industry has been through three genuine transformations — each one a direct response to the failure of the last.
+      A fourth is happening now. Where you are on this journey determines what you need to build next.
+    </div>
+
+    <div style="display:grid; grid-template-columns: repeat(4,1fr); gap:18px; flex:1; align-items:start;">
+
+      <div class="stage-card">
+        <div>
+          <div class="stage-tag">Era 1</div>
+          <div class="stage-name">The Era of Transfer</div>
+        </div>
+        <div class="stage-structure" style="border:none; padding:0;">
+          Customers routed, transferred, and waited. Billing agents handled billing. Metering agents handled metering.
+          If a problem crossed a boundary — and most do — you got passed on. The hierarchy was tall, approval chains long,
+          empowerment low. The contact centre absorbed volume. It was never designed to solve problems, and it wasn't
+          measured on whether problems got solved.
+        </div>
+        <div style="margin-top:auto; padding-top:12px; border-top:1px solid var(--border);">
+          <div class="stage-tag" style="color:var(--muted); font-size:9px;">Measured by</div>
+          <div style="font-size:11px; font-weight:600; color:var(--muted); margin-top:4px; line-height:1.5;">
+            Cost per call · AHT · Utilisation
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-card">
+        <div>
+          <div class="stage-tag">Era 2</div>
+          <div class="stage-name">The Era of Deflection</div>
+        </div>
+        <div class="stage-structure" style="border:none; padding:0;">
+          The obvious response to too many calls was fewer channels. Web portals arrived. The industry called it
+          digital transformation. But the underlying model didn't change — the goal was still to manage volume,
+          not to serve customers better. Customers who couldn't navigate a self-serve portal called anyway,
+          having already spent twenty minutes failing online first. A lot of utilities are still here.
+        </div>
+        <div style="margin-top:auto; padding-top:12px; border-top:1px solid var(--border);">
+          <div class="stage-tag" style="color:var(--muted); font-size:9px;">Measured by</div>
+          <div style="font-size:11px; font-weight:600; color:var(--muted); margin-top:4px; line-height:1.5;">
+            Deflection rate · Digital adoption · Cost per contact
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-card highlight">
+        <div>
+          <div class="stage-tag">Era 3</div>
+          <div class="stage-name">The Era of Ownership</div>
+        </div>
+        <div class="stage-structure" style="border:none; padding:0;">
+          The shift that changed the customer experience wasn't digital channels — it was accountability.
+          One person. One customer. End-to-end. No handoff, no transfer. Someone who owns your problem until
+          it's solved. Building this required a different kind of organisation: flatter, faster, more trusted.
+          Ownership runs both ways — an agent accountable for your problem, and for customers who want to
+          manage their own account, the genuine ability to do so. Not deflection. Real agency.
+        </div>
+        <div style="margin-top:auto; padding-top:12px; border-top:1px solid var(--pink-border);">
+          <div class="stage-tag" style="color:var(--muted); font-size:9px;">Measured by</div>
+          <div style="font-size:11px; font-weight:600; color:var(--muted); margin-top:4px; line-height:1.5;">
+            FCR · NPS · Customer effort · Self-serve completion
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-card highlight">
+        <div>
+          <div class="stage-tag">Era 4</div>
+          <div class="stage-name">The Era of Impact</div>
+        </div>
+        <div class="stage-structure" style="border:none; padding:0;">
+          AI doesn't make the contact centre faster. It makes asking "how many contacts are we handling?"
+          the wrong question. Problems fixed before they become calls. Solutions offered before they're
+          requested. AI as operational capability — not IT infrastructure. The measure is outcomes delivered,
+          not interactions handled. Not a contact centre that has been automated. A utility that genuinely
+          serves its customers, at scale, continuously.
+        </div>
+        <div style="margin-top:auto; padding-top:12px; border-top:1px solid var(--pink-border);">
+          <div class="stage-tag" style="color:var(--muted); font-size:9px;">Measured by</div>
+          <div style="font-size:11px; font-weight:600; color:var(--muted); margin-top:4px; line-height:1.5;">
+            Outcomes delivered · Human leverage · Proactive engagement
+          </div>
+          <div class="stage-shift" style="margin-top:8px;">The goal is impact at scale — not deflection</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="key-insight">
+      <strong>The right question is no longer "how do we reduce interactions?"</strong>
+      It is "how do we maximise the positive impact of every one — and then have more of them?"
+      Total Positive Impact = the impact of each interaction × the volume of interactions, delivered across AI and humans alike.
+    </div>
+
+  </div>
+
+  <!-- ── SLIDE 4 — The measurement shift ── -->
+  <div class="slide" id="slide-3">
+
+    <div>
+      <div class="slide-eyebrow">The destination</div>
+      <div class="slide-title">Are these the questions you ask your <span>Operations Director?</span></div>
+    </div>
+
+    <div class="slide-subtitle">
+      Handle time. Occupancy. Cost per contact. These are the metrics of a structure built to absorb volume.
+      The destination measures something different entirely.
+    </div>
+
+    <div class="scorecard-split">
+
+      <div class="scorecard-col">
+        <div class="col-header dim">Today — the contact centre scorecard</div>
+        <div class="q-item old">What was average handle time this week?</div>
+        <div class="q-item old">Is agent occupancy above target?</div>
+        <div class="q-item old">What was cost per contact last month?</div>
+        <div class="q-item old">How many contacts did the team handle?</div>
+        <div class="q-item old">Are agents adhering to their schedules?</div>
+      </div>
+
+      <div class="scorecard-divider">
+        <div class="divider-arrow">→</div>
+        <div class="divider-stage">Stage 4+</div>
+      </div>
+
+      <div class="scorecard-col col-new">
+        <div class="col-header bright">Stage 4 — a retail business owner's scorecard</div>
+        <div class="q-item new">How many customers are at risk of leaving right now?</div>
+        <div class="q-item new">What is the lifetime value of our most loyal segment?</div>
+        <div class="q-item new">How many customers did we save before they could complain?</div>
+        <div class="q-item new">Where is debt heading — and who can we still intervene for?</div>
+        <div class="q-item new">Are we growing revenue per customer, or just managing volume?</div>
+      </div>
+
+    </div>
+
+    <div class="key-insight">
+      <strong>At Stage 5, the role at the top is called Chief Outcome Officer.</strong> Accountable for churn rate,
+      lifetime value, debt resolution — not AHT, occupancy, or cost per contact.
+      Is there a world where your Ops Director holds that brief? There is.
+    </div>
+
+  </div>
+
+  <!-- ── SLIDE 5 — The five hard questions ── -->
+  <div class="slide" id="slide-4">
+
+    <div>
+      <div class="slide-eyebrow">The playbook</div>
+      <div class="slide-title">Five questions that determine <span>whether this works</span></div>
+    </div>
+
+    <div class="slide-subtitle">
+      AI-era transformations don't fail because of the technology. They fail because the organisation wasn't ready.
+    </div>
+
+    <div class="questions-row">
+
+      <div class="q-card">
+        <div class="q-big-num">01</div>
+        <div class="q-cat">Learning &amp; Capability</div>
+        <div class="q-question">How do people learn to work in a world where AI is doing more of the job?</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-big-num">02</div>
+        <div class="q-cat">Culture &amp; People</div>
+        <div class="q-question">How do you tell the honest story about what AI means for jobs — without destroying engagement?</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-big-num">03</div>
+        <div class="q-cat">Roles &amp; Org Design</div>
+        <div class="q-question">What happens to every role — not just the frontline agent?</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-big-num">04</div>
+        <div class="q-cat">Other Business Units</div>
+        <div class="q-question">Operations doesn't transform in isolation. When does the rest of the business move?</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-big-num">05</div>
+        <div class="q-cat">Data &amp; AI Governance</div>
+        <div class="q-question">Who is accountable when AI makes a decision — and how do you know it's making the right ones?</div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<footer>Kraken Technologies · HOT · Operating Model Transition</footer>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dots   = document.querySelectorAll('.nav-dot');
+
+  function goTo(n) {
+    slides.forEach((s, i) => s.classList.toggle('active', i === n));
+    dots.forEach((d, i)   => d.classList.toggle('active', i === n));
+  }
+
+  document.addEventListener('keydown', e => {
+    const cur = [...slides].findIndex(s => s.classList.contains('active'));
+    if (e.key === 'ArrowRight' && cur < slides.length - 1) goTo(cur + 1);
+    if (e.key === 'ArrowLeft'  && cur > 0)                 goTo(cur - 1);
+  });
+</script>
+
+</body>
+</html>

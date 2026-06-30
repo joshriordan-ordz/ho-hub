@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Partner Scenarios — Rationale & Assumptions</title>
+<style>
+  :root {
+    --bg:     #29172E;
+    --bg2:    #1F0F23;
+    --surf:   #3D2642;
+    --surf2:  #2D1A32;
+    --border: #4A244A;
+    --text:   #F5ECE2;
+    --muted:  #CBA3C9;
+    --pink:   #DE1C80;
+    --purple: #92508F;
+    --green:  #4CAF7D;
+    --amber:  #E8A020;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg2);
+    color: var(--text);
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 13px;
+    line-height: 1.65;
+    padding: 40px 48px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 26px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  h2 { font-size: 16px; font-weight: 700; color: var(--pink); text-transform: uppercase;
+       letter-spacing: .08em; margin: 36px 0 12px; }
+  h3 { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase;
+       letter-spacing: .07em; margin: 24px 0 8px; }
+  p { color: var(--muted); margin-bottom: 10px; }
+  strong { color: var(--text); }
+  .subtitle { color: var(--muted); font-size: 12px; margin-bottom: 32px; }
+  .rule { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+
+  /* Constant / key-value grid */
+  .kv-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .kv {
+    background: var(--surf2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+  }
+  .kv-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase;
+              letter-spacing: .07em; margin-bottom: 2px; }
+  .kv-value { font-size: 16px; font-weight: 700; color: var(--text); }
+  .kv-note  { font-size: 10px; color: var(--purple); margin-top: 2px; }
+
+  /* Formula block */
+  .formula {
+    background: var(--surf2);
+    border-left: 3px solid var(--purple);
+    border-radius: 0 6px 6px 0;
+    padding: 10px 16px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--text);
+    margin: 8px 0 16px;
+    line-height: 1.8;
+  }
+  .formula .comment { color: var(--purple); }
+
+  /* Scenario block */
+  .scenario {
+    background: var(--surf2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+  }
+  .scenario-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .scenario-tag {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--pink);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    background: rgba(222,28,128,.12);
+    border: 1px solid rgba(222,28,128,.3);
+    border-radius: 4px;
+    padding: 2px 8px;
+  }
+  .scenario-title { font-size: 18px; font-weight: 700; color: var(--text); }
+  .scenario-total {
+    margin-left: auto;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--amber);
+  }
+
+  /* Intent / rationale boxes */
+  .intent {
+    background: rgba(146,80,143,.1);
+    border: 1px solid rgba(146,80,143,.3);
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .intent strong { color: var(--text); display: block; margin-bottom: 2px; }
+
+  .tradeoff {
+    background: rgba(232,160,32,.07);
+    border: 1px solid rgba(232,160,32,.25);
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .tradeoff strong { color: var(--amber); display: block; margin-bottom: 2px; }
+
+  /* HC array display */
+  .hc-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 10px 0 16px;
+  }
+  .hc-cell {
+    background: var(--surf);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 11px;
+    text-align: center;
+    min-width: 52px;
+  }
+  .hc-cell .hc-label { color: var(--purple); font-size: 9px; font-weight: 700; display: block; }
+  .hc-cell .hc-val   { color: var(--text); font-weight: 700; display: block; }
+  .hc-cell.fy28 { opacity: .5; }
+  .hc-cell.zero .hc-val { color: var(--green); }
+
+  /* Monthly table */
+  table { width: 100%; border-collapse: collapse; font-size: 11.5px; margin-top: 12px; }
+  th {
+    text-align: left; padding: 6px 10px;
+    font-size: 9.5px; font-weight: 700; color: var(--muted);
+    text-transform: uppercase; letter-spacing: .06em;
+    background: var(--bg2); border-bottom: 1px solid var(--border);
+  }
+  th:not(:first-child) { text-align: right; }
+  td { padding: 5px 10px; border-bottom: 1px solid rgba(74,36,74,.4); color: var(--muted); }
+  td:not(:first-child) { text-align: right; }
+  tr.sunk td { background: rgba(146,80,143,.08); color: var(--purple); font-size: 11px; }
+  tr.start td { color: var(--text); }
+  tr.highlight { background: rgba(222,28,128,.06); }
+  tr.highlight td { color: var(--text); }
+  tr.highlight td:last-child { color: var(--amber); font-weight: 700; }
+  tr.fy28 td { opacity: .55; }
+  tr:last-child td { border-bottom: none; }
+
+  /* Comparison table */
+  .compare-table th { background: var(--surf2); }
+  .compare-table td { background: var(--surf2); }
+  .compare-table td.best { color: var(--green); font-weight: 700; }
+  .compare-table td.worst { color: #E05555; }
+
+  /* Update guide */
+  .update-step {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 14px;
+    align-items: flex-start;
+  }
+  .step-num {
+    flex-shrink: 0;
+    width: 24px; height: 24px;
+    background: var(--purple);
+    border-radius: 50%;
+    font-size: 11px; font-weight: 700;
+    color: var(--text);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .step-body { font-size: 12px; color: var(--muted); }
+  .step-body strong { color: var(--text); display: block; }
+
+  code {
+    background: var(--surf);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: var(--pink);
+  }
+</style>
+</head>
+<body>
+
+<div class="subtitle" style="text-align:right;font-size:11px;margin-bottom:0">partner-scenarios.html — backing rationale</div>
+<h1>Partner Transition Scenarios</h1>
+<p class="subtitle">Financial model, assumptions, and per-scenario rationale. Update this document whenever constants or scenario designs change.</p>
+
+<hr class="rule">
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<h2>Financial Model Constants</h2>
+
+<p>All figures are <strong>fully loaded</strong> (base salary × 1.18 overhead). Partner rate derived from the £32.2M FY27 run-rate projection across 95 partners over 12 months.</p>
+
+<div class="kv-grid">
+  <div class="kv">
+    <div class="kv-label">FIXED_K</div>
+    <div class="kv-value">£3,406k / mo</div>
+    <div class="kv-note">405 Kraken × £8.411k fully loaded</div>
+  </div>
+  <div class="kv">
+    <div class="kv-label">PARTNER_RATE</div>
+    <div class="kv-value">£28.25k / mo</div>
+    <div class="kv-note">£32.2M ÷ 12 ÷ 95 — fully loaded run rate</div>
+  </div>
+  <div class="kv">
+    <div class="kv-label">REPL_RATE</div>
+    <div class="kv-value">£8.411k / mo</div>
+    <div class="kv-note">Kraken replacement hire — base × 1.18</div>
+  </div>
+  <div class="kv">
+    <div class="kv-label">NET_SAVING</div>
+    <div class="kv-value">£19.839k / mo</div>
+    <div class="kv-note">Per exit: £28.25k − £8.411k</div>
+  </div>
+  <div class="kv">
+    <div class="kv-label">START</div>
+    <div class="kv-value">95 partners</div>
+    <div class="kv-note">Active partner headcount at Jun 26</div>
+  </div>
+  <div class="kv">
+    <div class="kv-label">FY_SUNK_K</div>
+    <div class="kv-value">£13,419k</div>
+    <div class="kv-note">5 mo × 95 × £28.25k (partner-only, Feb–Jun 26)</div>
+  </div>
+</div>
+
+<h3>Key formula</h3>
+
+<div class="formula">
+Monthly total  = Internal + Partner<br>
+Internal       = FIXED_K + replacements_on_board × REPL_RATE<br>
+Partner        = partners_remaining × PARTNER_RATE<br>
+<br>
+<span class="comment"># Standard model (S1, S2): hires join same month as exit</span><br>
+<span class="comment">#   → replacements_on_board = START − p = (95 − partners_remaining)</span><br>
+<span class="comment"># Delayed-hire model (S3): hires trail exits at 12/mo</span><br>
+<span class="comment">#   → replacements_on_board = 8 × months_elapsed (capped at 95)</span><br>
+<br>
+Net saving per exit  = PARTNER_RATE − REPL_RATE = £19.839k / mo<br>
+Each extra partner-month vs all-out baseline costs +£19.839k to FY27 total
+</div>
+
+<hr class="rule">
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<h2>FY Definition &amp; Budget Context</h2>
+
+<div class="kv-grid">
+  <div class="kv">
+    <div class="kv-label">FY27</div>
+    <div class="kv-value">Feb 26 – Jan 27</div>
+    <div class="kv-note">12 months; 5 already sunk (Feb–Jun 26)</div>
+  </div>
+  <div class="kv">
+    <div class="kv-label">Sunk (total team)</div>
+    <div class="kv-value">£30,450k</div>
+    <div class="kv-note">5 mo × £6,090k (Internal + Partner)</div>
+  </div>
+  <div class="kv">
+    <div class="kv-label">FY27 projected</div>
+    <div class="kv-value">Sunk + Jul–Jan</div>
+    <div class="kv-note">Cumulative headcount spend to Jan 27 close</div>
+  </div>
+</div>
+
+<h3>Total org budget (FY27)</h3>
+<table style="max-width:560px">
+  <thead>
+    <tr><th>Line</th><th>Budget</th><th>Current run rate</th><th>Delta</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Ops</td><td>£5.2M</td><td>£6.6M</td><td style="color:#E05555">+£1.4M</td></tr>
+    <tr><td>Tech</td><td>£33.3M</td><td>£34.9M</td><td style="color:#E05555">+£1.6M</td></tr>
+    <tr><td>Partners</td><td>£19.2M</td><td>£32.2M</td><td style="color:#E05555">+£13.0M</td></tr>
+    <tr><td>KX</td><td>£1.0M</td><td>£1.0M</td><td style="color:var(--green)">—</td></tr>
+    <tr style="font-weight:700"><td><strong>Total</strong></td><td><strong>£58.7M</strong></td><td><strong>£74.7M</strong></td><td style="color:#E05555"><strong>+£16.0M</strong></td></tr>
+  </tbody>
+</table>
+<p style="margin-top:8px;font-size:11px">The partner line drives almost all of the overage. The scenarios below show what total FY27 headcount spend looks like under different exit strategies — the goal is to pull projected partner spend back toward £19.2M and total headcount toward £59M.</p>
+
+<hr class="rule">
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<h2>Scenario 1 — Retain Team Competency — No Client Risk</h2>
+
+<div class="scenario">
+  <div class="scenario-header">
+    <div class="scenario-tag">S1</div>
+    <div class="scenario-title">Retain Team Competency — No Client Risk</div>
+    <div class="scenario-total">FY27 total: £71.5M</div>
+  </div>
+
+  <div class="intent">
+    <strong>Design intent</strong>
+    Partners exit only once their Kraken replacement has 3 months of on-the-job experience. This sets a principled constraint on exit pace: you can only exit as fast as you can hire and onboard qualified replacements. At 8 hires/mo starting Jul 26, the first cohort is ready Oct 26 — exits begin then and run at 8/mo. Team stays at 500 throughout. All partners gone Sep 27.
+  </div>
+
+  <div class="tradeoff">
+    <strong>Key trade-off</strong>
+    Zero delivery risk — no client is ever under-resourced — but exits are slow and FY27 cost is the highest of all three scenarios. The 3-month pipeline constraint means Jul–Sep 26 is fully paid at the current run rate (£6,090k/mo) with no cost relief. The saving only starts Oct 26. By Jan 27 (FY27 close), 63 of 95 partners are still on board — the bulk of the cost saving falls into FY28.
+  </div>
+
+  <h3>Headcount array — HC[s1]</h3>
+  <div class="hc-row">
+    <div class="hc-cell"><span class="hc-label">Jun 26</span><span class="hc-val">95</span></div>
+    <div class="hc-cell"><span class="hc-label">Jul 26</span><span class="hc-val">95</span></div>
+    <div class="hc-cell"><span class="hc-label">Aug 26</span><span class="hc-val">95</span></div>
+    <div class="hc-cell"><span class="hc-label">Sep 26</span><span class="hc-val">95</span></div>
+    <div class="hc-cell"><span class="hc-label">Oct 26</span><span class="hc-val">87</span></div>
+    <div class="hc-cell"><span class="hc-label">Nov 26</span><span class="hc-val">79</span></div>
+    <div class="hc-cell"><span class="hc-label">Dec 26</span><span class="hc-val">71</span></div>
+    <div class="hc-cell"><span class="hc-label">Jan 27</span><span class="hc-val">63</span></div>
+    <div class="hc-cell fy28"><span class="hc-label">Feb 27</span><span class="hc-val">55</span></div>
+    <div class="hc-cell fy28"><span class="hc-label">Mar 27</span><span class="hc-val">47</span></div>
+    <div class="hc-cell fy28"><span class="hc-label">Apr 27</span><span class="hc-val">39</span></div>
+    <div class="hc-cell fy28"><span class="hc-label">May 27</span><span class="hc-val">31</span></div>
+    <div class="hc-cell fy28"><span class="hc-label">Jun 27</span><span class="hc-val">23</span></div>
+  </div>
+  <p style="font-size:11px">No exits Jul–Sep 26 (3-month recruitment pipeline running). 8 exits/mo from Oct 26. Hire model: 1:1 same month as exit (standard formula). All partners off Sep 27.</p>
+
+  <h3>Monthly breakdown</h3>
+  <table>
+    <thead>
+      <tr><th>Month</th><th>Partners</th><th>Internal £k</th><th>Partner £k</th><th>Total £k</th><th>FY27 projected</th><th>Team (of 500)</th></tr>
+    </thead>
+    <tbody>
+      <tr class="sunk"><td colspan="5">Feb–Jun 26 — sunk · 5 mo × £6,090k</td><td>£30.5M</td><td>—</td></tr>
+      <tr class="start"><td>Jun 26 — Start</td><td>95</td><td>£3,406k</td><td>£2,684k</td><td>£6,090k</td><td>—</td><td style="color:#4CAF7D;font-weight:700">500</td></tr>
+      <tr><td>Jul 26 — recruitment opens</td><td>95</td><td>£3,406k</td><td>£2,684k</td><td>£6,090k</td><td>£36.6M</td><td style="color:#4CAF7D;font-weight:700">500</td></tr>
+      <tr><td>Aug 26</td><td>95</td><td>£3,406k</td><td>£2,684k</td><td>£6,090k</td><td>£42.7M</td><td style="color:#4CAF7D;font-weight:700">500</td></tr>
+      <tr><td>Sep 26</td><td>95</td><td>£3,406k</td><td>£2,684k</td><td>£6,090k</td><td>£48.8M</td><td style="color:#4CAF7D;font-weight:700">500</td></tr>
+      <tr><td>Oct 26 — exits begin · Jul cohort ready</td><td>87</td><td>£3,473k</td><td>£2,458k</td><td>£5,931k</td><td>£54.7M</td><td style="color:#4CAF7D;font-weight:700">500</td></tr>
+      <tr><td>Nov 26</td><td>79</td><td>£3,541k</td><td>£2,232k</td><td>£5,773k</td><td>£60.5M</td><td style="color:#4CAF7D;font-weight:700">500</td></tr>
+      <tr><td>Dec 26</td><td>71</td><td>£3,608k</td><td>£2,006k</td><td>£5,614k</td><td>£66.1M</td><td style="color:#4CAF7D;font-weight:700">500</td></tr>
+      <tr class="highlight"><td>Jan 27 — FY27 closes · 63 partners remain</td><td>63</td><td>£3,675k</td><td>£1,780k</td><td>£5,455k</td><td>£71.5M</td><td style="color:#4CAF7D;font-weight:700">500</td></tr>
+      <tr class="fy28"><td>Feb 27 — FY28 · exits continue 8/mo</td><td>55</td><td>£3,742k</td><td>£1,554k</td><td>£5,296k</td><td>—</td><td style="color:#4CAF7D;font-weight:700">500</td></tr>
+      <tr class="fy28"><td>Mar 27</td><td>47</td><td>£3,810k</td><td>£1,328k</td><td>£5,138k</td><td>—</td><td style="color:#4CAF7D;font-weight:700">500</td></tr>
+      <tr class="fy28"><td>Apr 27</td><td>39</td><td>£3,877k</td><td>£1,102k</td><td>£4,979k</td><td>—</td><td style="color:#4CAF7D;font-weight:700">500</td></tr>
+      <tr class="fy28"><td>May 27</td><td>31</td><td>£3,944k</td><td>£876k</td><td>£4,820k</td><td>—</td><td style="color:#4CAF7D;font-weight:700">500</td></tr>
+      <tr class="fy28"><td>Jun 27</td><td>23</td><td>£4,012k</td><td>£650k</td><td>£4,662k</td><td>—</td><td style="color:#4CAF7D;font-weight:700">500</td></tr>
+      <tr class="fy28"><td>Sep 27 — all partners off</td><td>0</td><td>£4,205k</td><td>£0</td><td>£4,205k</td><td>—</td><td style="color:#4CAF7D;font-weight:700">500 ✓</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:11px;margin-top:8px">Formula: Internal = FIXED_K + (95−p) × REPL_RATE (standard 1:1 model). Jul–Sep: p=95 so internal stays flat at £3,406k. Oct–Jan: 8 exits/mo, internal rises £67k/mo as Kraken replacements join. Team stays at 500 throughout — no delivery gap at any point.</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<h2>Scenario 2 — Balanced</h2>
+
+<div class="scenario">
+  <div class="scenario-header">
+    <div class="scenario-tag">S2</div>
+    <div class="scenario-title">Balanced</div>
+    <div class="scenario-total">FY27 total: £67.0M</div>
+  </div>
+
+  <div class="intent">
+    <strong>Design intent</strong>
+    Front-load exits to drive savings before Jan 27, while retaining a specialist core of 19 permanently. Represents a pragmatic middle ground — strong cost improvement without the full operational risk of a complete exit.
+  </div>
+
+  <div class="tradeoff">
+    <strong>Key trade-off</strong>
+    76 partners exit in 7 months (~11/mo), each replaced 1:1. The 19 retained are treated as long-term specialists the business genuinely needs. They remain in the cost base permanently. If that retention number changes, the FY27 total shifts accordingly (each retained partner costs +£19.839k/mo vs an exited one).
+  </div>
+
+  <h3>Headcount array — HC[s2]</h3>
+  <div class="hc-row">
+    <div class="hc-cell"><span class="hc-label">Jun 26</span><span class="hc-val">95</span></div>
+    <div class="hc-cell"><span class="hc-label">Jul 26</span><span class="hc-val">84</span></div>
+    <div class="hc-cell"><span class="hc-label">Aug 26</span><span class="hc-val">73</span></div>
+    <div class="hc-cell"><span class="hc-label">Sep 26</span><span class="hc-val">62</span></div>
+    <div class="hc-cell"><span class="hc-label">Oct 26</span><span class="hc-val">51</span></div>
+    <div class="hc-cell"><span class="hc-label">Nov 26</span><span class="hc-val">40</span></div>
+    <div class="hc-cell"><span class="hc-label">Dec 26</span><span class="hc-val">29</span></div>
+    <div class="hc-cell"><span class="hc-label">Jan 27</span><span class="hc-val">19</span></div>
+    <div class="hc-cell fy28"><span class="hc-label">Feb 27</span><span class="hc-val">19</span></div>
+    <div class="hc-cell fy28"><span class="hc-label">Mar 27</span><span class="hc-val">19</span></div>
+    <div class="hc-cell fy28"><span class="hc-label">Apr 27</span><span class="hc-val">19</span></div>
+    <div class="hc-cell fy28"><span class="hc-label">May 27</span><span class="hc-val">19</span></div>
+    <div class="hc-cell fy28"><span class="hc-label">Jun 27</span><span class="hc-val">19</span></div>
+  </div>
+  <p style="font-size:11px">~11 exits/mo Jul–Jan (76 total). 19 retained long-term. Hire model: 1:1 same month as exit.</p>
+
+  <h3>Monthly breakdown</h3>
+  <table>
+    <thead>
+      <tr><th>Month</th><th>Partners</th><th>Internal £k</th><th>Partner £k</th><th>Total £k</th><th>FY27 projected</th><th>Team (of 500)</th></tr>
+    </thead>
+    <tbody>
+      <tr class="sunk"><td colspan="5">Feb–Jun 26 — sunk · 5 mo × £6,090k</td><td>£30.5M</td><td>—</td></tr>
+      <tr class="start"><td>Jun 26 — Start</td><td>95</td><td>£3,406k</td><td>£2,684k</td><td>£6,090k</td><td>—</td><td style="color:#4CAF7D;font-weight:700">500</td></tr>
+      <tr><td>Jul 26</td><td>84</td><td>£3,499k</td><td>£2,373k</td><td>£5,872k</td><td>£36.3M</td><td style="color:#4CAF7D;font-weight:700">500</td></tr>
+      <tr><td>Aug 26</td><td>73</td><td>£3,591k</td><td>£2,062k</td><td>£5,653k</td><td>£42.0M</td><td style="color:#4CAF7D;font-weight:700">500</td></tr>
+      <tr><td>Sep 26</td><td>62</td><td>£3,684k</td><td>£1,752k</td><td>£5,436k</td><td>£47.4M</td><td style="color:#4CAF7D;font-weight:700">500</td></tr>
+      <tr><td>Oct 26</td><td>51</td><td>£3,776k</td><td>£1,441k</td><td>£5,217k</td><td>£52.6M</td><td style="color:#4CAF7D;font-weight:700">500</td></tr>
+      <tr><td>Nov 26</td><td>40</td><td>£3,869k</td><td>£1,130k</td><td>£4,999k</td><td>£57.6M</td><td style="color:#4CAF7D;font-weight:700">500</td></tr>
+      <tr><td>Dec 26</td><td>29</td><td>£3,961k</td><td>£820k</td><td>£4,781k</td><td>£62.4M</td><td style="color:#4CAF7D;font-weight:700">500</td></tr>
+      <tr class="highlight"><td>Jan 27 — FY27 closes · floor reached</td><td>19</td><td>£4,045k</td><td>£537k</td><td>£4,582k</td><td>£67.0M</td><td style="color:#4CAF7D;font-weight:700">500</td></tr>
+      <tr class="fy28"><td>Feb 27 — FY28 · 19 retained ongoing</td><td>19</td><td>£4,045k</td><td>£537k</td><td>£4,582k</td><td>—</td><td style="color:#4CAF7D;font-weight:700">500 ✓</td></tr>
+      <tr class="fy28"><td>Mar 27 onwards (flat)</td><td>19</td><td>£4,045k</td><td>£537k</td><td>£4,582k</td><td>—</td><td style="color:#4CAF7D;font-weight:700">500 ✓</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:11px;margin-top:8px">Team stays at 500 throughout — each exiting partner is replaced 1:1. FY28 ongoing cost = £4,582k/mo as long as the 19 are retained. Each partner in the retained cohort that later exits saves £19.839k/mo.</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<h2>Scenario 3 — Hit Budget / Run Under-Strength</h2>
+
+<div class="scenario">
+  <div class="scenario-header">
+    <div class="scenario-tag">S3</div>
+    <div class="scenario-title">Hit Budget / Run Under-Strength</div>
+    <div class="scenario-total">FY27 total: £59.8M ✓</div>
+  </div>
+
+  <div class="intent" style="border-color:rgba(224,85,85,.35);background:rgba(224,85,85,.07)">
+    <strong style="color:#E05555">Action &amp; Consequences</strong>
+    <strong>Action:</strong> All partners roll off by Sep 26. Kraken hires stagger in at 12/mo from Jul.<br>
+    <strong>Consequences:</strong> Backfilling not possible in time · All clients will be under-resourced Sep 26–Jan 27 · Replacement hires are inexperienced.
+  </div>
+
+  <div class="intent">
+    <strong>Design intent</strong>
+    Exit all 95 partners in a compressed 3-month window (~32/mo, Jul–Sep), while hiring replacements at 12/mo. This deliberately decouples exits from hires — the only mechanism that lets S3 land at £59.8M within the £59M budget envelope. Full team of 500 is restored Feb 27, one month into FY28.
+  </div>
+
+  <div class="tradeoff">
+    <strong>Key trade-off — why the team goes under-strength</strong>
+    If hires joined 1:1 same-month as exits (as in S1/S2), the FY27 total would be ~£63M even with fast exits. Slowing hires to 12/mo means internal costs rise by only £101k/mo (vs £279k/mo at 33/mo). The saving: ~£3.2M vs same-pace hiring. The cost: team size dips from 500 to 441 in Sep 26 (−59 capacity gap, −11.8%), recovering to 500 by Feb 27. Every amber/red month in the table below represents a real delivery risk — all client commitments must be reviewed against this reduced headcount.
+  </div>
+
+  <div class="tradeoff" style="border-color:rgba(222,28,128,.3);background:rgba(222,28,128,.07)">
+    <strong style="color:var(--pink)">Why £59.8M and not exactly £59.0M?</strong>
+    The £59M figure is the total org budget; the headcount model sits inside it. The minimum FY27 headcount total under <em>any</em> phased exit is ~£59.8M, driven by the sunk £30.5M plus 7 months of operational spend. Compressing further would require either negative hires or a different FY27 definition. £59.8M is the floor with this model.
+  </div>
+
+  <h3>Headcount array — HC[s3] (partner count only)</h3>
+  <div class="hc-row">
+    <div class="hc-cell"><span class="hc-label">Jun 26</span><span class="hc-val">95</span></div>
+    <div class="hc-cell"><span class="hc-label">Jul 26</span><span class="hc-val">63</span></div>
+    <div class="hc-cell"><span class="hc-label">Aug 26</span><span class="hc-val">32</span></div>
+    <div class="hc-cell zero"><span class="hc-label">Sep 26</span><span class="hc-val">0</span></div>
+    <div class="hc-cell zero"><span class="hc-label">Oct 26</span><span class="hc-val">0</span></div>
+    <div class="hc-cell zero"><span class="hc-label">Nov 26</span><span class="hc-val">0</span></div>
+    <div class="hc-cell zero"><span class="hc-label">Dec 26</span><span class="hc-val">0</span></div>
+    <div class="hc-cell zero"><span class="hc-label">Jan 27</span><span class="hc-val">0</span></div>
+    <div class="hc-cell fy28 zero"><span class="hc-label">Feb 27</span><span class="hc-val">0</span></div>
+    <div class="hc-cell fy28 zero"><span class="hc-label">Mar 27</span><span class="hc-val">0</span></div>
+    <div class="hc-cell fy28 zero"><span class="hc-label">Apr 27</span><span class="hc-val">0</span></div>
+    <div class="hc-cell fy28 zero"><span class="hc-label">May 27</span><span class="hc-val">0</span></div>
+    <div class="hc-cell fy28 zero"><span class="hc-label">Jun 27</span><span class="hc-val">0</span></div>
+  </div>
+  <p style="font-size:11px">~32 exits/mo over 3 months (Jul–Sep). All partners off by Sep 26.</p>
+
+  <h3>Hire schedule — cumulative replacements on board (12/mo)</h3>
+  <div class="hc-row">
+    <div class="hc-cell"><span class="hc-label">Jul 26</span><span class="hc-val">12</span></div>
+    <div class="hc-cell"><span class="hc-label">Aug 26</span><span class="hc-val">24</span></div>
+    <div class="hc-cell"><span class="hc-label">Sep 26</span><span class="hc-val">36</span></div>
+    <div class="hc-cell"><span class="hc-label">Oct 26</span><span class="hc-val">48</span></div>
+    <div class="hc-cell"><span class="hc-label">Nov 26</span><span class="hc-val">60</span></div>
+    <div class="hc-cell"><span class="hc-label">Dec 26</span><span class="hc-val">72</span></div>
+    <div class="hc-cell"><span class="hc-label">Jan 27</span><span class="hc-val">84</span></div>
+    <div class="hc-cell fy28 zero"><span class="hc-label">Feb 27</span><span class="hc-val">95</span></div>
+  </div>
+  <p style="font-size:11px">Cumulative replacements on board. 12/mo × 7 months (Jul–Jan) = 84; final 11 join Feb 27 → team restored to 500. Internal cost = FIXED_K + hires_cum × REPL_RATE (not the standard 95−p formula used in S1/S2).</p>
+
+  <h3>Monthly breakdown</h3>
+  <table>
+    <thead>
+      <tr><th>Month</th><th>Partners</th><th>Internal £k</th><th>Partner £k</th><th>Total £k</th><th>FY27 projected</th><th>Team (of 500)</th></tr>
+    </thead>
+    <tbody>
+      <tr class="sunk"><td colspan="5">Feb–Jun 26 — sunk · 5 mo × £6,090k</td><td>£30.5M</td><td>—</td></tr>
+      <tr class="start"><td>Jun 26 — Start</td><td>95</td><td>£3,406k</td><td>£2,684k</td><td>£6,090k</td><td>—</td><td>500</td></tr>
+      <tr><td>Jul 26</td><td>63</td><td>£3,507k</td><td>£1,780k</td><td>£5,287k</td><td>£35.7M</td><td style="color:#E8A020;font-weight:700">480 (−20)</td></tr>
+      <tr><td>Aug 26</td><td>32</td><td>£3,608k</td><td>£904k</td><td>£4,512k</td><td>£40.2M</td><td style="color:#E8A020;font-weight:700">461 (−39)</td></tr>
+      <tr><td>Sep 26 — all partners off</td><td>0</td><td>£3,709k</td><td>£0</td><td>£3,709k</td><td>£44.0M</td><td style="color:#E05555;font-weight:700">441 (−59) ← peak gap</td></tr>
+      <tr><td>Oct 26</td><td>0</td><td>£3,810k</td><td>£0</td><td>£3,810k</td><td>£47.8M</td><td style="color:#E8A020;font-weight:700">453 (−47)</td></tr>
+      <tr><td>Nov 26</td><td>0</td><td>£3,911k</td><td>£0</td><td>£3,911k</td><td>£51.7M</td><td style="color:#E8A020;font-weight:700">465 (−35)</td></tr>
+      <tr><td>Dec 26</td><td>0</td><td>£4,012k</td><td>£0</td><td>£4,012k</td><td>£55.7M</td><td style="color:#E8A020;font-weight:700">477 (−23)</td></tr>
+      <tr class="highlight"><td>Jan 27 — FY27 closes</td><td>0</td><td>£4,113k</td><td>£0</td><td>£4,113k</td><td style="color:#4CAF7D;font-weight:700">£59.8M ✓</td><td style="color:#E8A020;font-weight:700">489 (−11)</td></tr>
+      <tr class="fy28"><td>Feb 27 — team restored (FY28)</td><td>0</td><td>£4,205k</td><td>£0</td><td>£4,205k</td><td>—</td><td style="color:#4CAF7D;font-weight:700">500 ✓</td></tr>
+      <tr class="fy28"><td>Mar 27 onwards (FY28, flat)</td><td>0</td><td>£4,205k</td><td>£0</td><td>£4,205k</td><td>—</td><td style="color:#4CAF7D;font-weight:700">500 ✓</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:11px;margin-top:8px">Team column: 405 base Kraken + hires on board + partners remaining. Amber = under-strength (−11 to −47), Red = peak gap (−59 in Sep 26). All 7 FY27 operational months are under-strength — this is the deliberate trade-off for hitting the budget. Internal costs rise through FY27 as hires accumulate (£3,507k → £4,113k), then flatten at £4,205k from Feb 27 once all 95 replacements are on board.</p>
+</div>
+
+<hr class="rule">
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<h2>Scenario Comparison</h2>
+
+<table class="compare-table">
+  <thead>
+    <tr>
+      <th>Scenario</th>
+      <th>Exit pace</th>
+      <th>Retention</th>
+      <th>Hire model</th>
+      <th>FY27 partner £</th>
+      <th>FY27 total £</th>
+      <th>Team gap?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>S1 Retain Team Competency</strong></td>
+      <td>8/mo from Oct 26 (3-mo pipeline delay)</td>
+      <td>0 — bulk exits FY28</td>
+      <td>1:1 same month · no overlap cost</td>
+      <td>£30.0M</td>
+      <td class="worst">£71.5M</td>
+      <td>None · team stays at 500</td>
+    </tr>
+    <tr>
+      <td><strong>S2 Balanced</strong></td>
+      <td>~11/mo · 7 mo</td>
+      <td>19 permanent</td>
+      <td>1:1 same month</td>
+      <td>£22.3M</td>
+      <td>£67.0M</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <td><strong>S3 Hit Budget / Under-Strength</strong></td>
+      <td>~32/mo · 3 mo (Jul–Sep)</td>
+      <td>0</td>
+      <td>12/mo · delayed (84 by Jan 27, 95 by Feb 27)</td>
+      <td>£15.8M</td>
+      <td class="best" style="color:#4CAF7D">£59.8M ✓</td>
+      <td style="color:#E05555;font-weight:700">−59 at peak (Sep 26) · all 7 FY27 months under-strength</td>
+    </tr>
+  </tbody>
+</table>
+<p style="margin-top:10px;font-size:11px">FY27 partner £ = sunk £13.4M + Jul–Sep partner spend (3 months only — all out by Sep 26). S3 partner figure (£15.8M) is the lowest of all three scenarios. The under-strength period is the explicit cost of hitting the £59M budget envelope.</p>
+
+<hr class="rule">
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<h2>Competency Impact Model</h2>
+
+<div class="intent">
+  <strong>Framework &amp; assumptions</strong><br>
+  Competency loss is measured against <strong>400 effective resource</strong> (500 total team × 89%, minus leadership roles — TDs, GPLs, ODLs, HDLs — leaving ~400 delivery resource directly working on meterpoints).<br><br>
+  <strong>Partners on board</strong> = 1.0 FTE competency each (full tenure).<br>
+  <strong>New hires</strong> ramp linearly from 0 → 1.0 FTE over 6 months. Month 1 = 1/6 competent, Month 6 = fully competent.<br>
+  <strong>Empty seats</strong> (S3 only) = 0 competency — the position simply does not exist yet.<br>
+  <strong>Base Kraken team (405)</strong> is excluded — fully competent throughout and not affected by the transition.<br><br>
+  All three scenarios are planned reductions. The 3-month planning window is built into each exit schedule (recruitment starts in advance), so the 6-month competency clock starts when the hire joins — not earlier.
+</div>
+
+<h3>% of effective resource competency lost — by month</h3>
+<p style="font-size:11px;margin-bottom:10px">Gap = (95 − partner_competency − hire_competency) ÷ 400. Hire competency = tenure_months ÷ 6, capped at 1.0.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Month</th>
+      <th>Migrations</th>
+      <th>S1 % lost</th>
+      <th>S2 % lost</th>
+      <th>S3 % lost</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="start"><td>Jun 26 — baseline</td><td>—</td><td>0%</td><td>0%</td><td>0%</td></tr>
+    <tr><td>Jul 26</td><td>859,998</td>
+      <td>0%</td>
+      <td style="color:#E8A020;font-weight:600">2.3%</td>
+      <td style="color:#E8A020;font-weight:600">7.5%</td>
+    </tr>
+    <tr><td>Aug 26</td><td>202,614</td>
+      <td>0%</td>
+      <td style="color:#E8A020;font-weight:600">4.1%</td>
+      <td style="color:#E05555;font-weight:700">14.3%</td>
+    </tr>
+    <tr><td>Sep 26</td><td>673,301</td>
+      <td>0%</td>
+      <td style="color:#E8A020;font-weight:600">5.5%</td>
+      <td style="color:#E05555;font-weight:700">20.8% ← peak</td>
+    </tr>
+    <tr><td>Oct 26</td><td>913,099</td>
+      <td style="color:#E8A020;font-weight:600">1.7%</td>
+      <td style="color:#E05555;font-weight:700">6.4%</td>
+      <td style="color:#E05555;font-weight:700">18.8%</td>
+    </tr>
+    <tr><td>Nov 26</td><td>849,728</td>
+      <td style="color:#E8A020;font-weight:600">3.0%</td>
+      <td style="color:#E05555;font-weight:700">6.9% ← peak</td>
+      <td style="color:#E05555;font-weight:700">16.3%</td>
+    </tr>
+    <tr><td>Dec 26</td><td>192,699</td>
+      <td style="color:#E8A020;font-weight:600">4.0%</td>
+      <td style="color:#E05555;font-weight:700">6.9%</td>
+      <td style="color:#E05555;font-weight:700">13.3%</td>
+    </tr>
+    <tr class="highlight"><td>Jan 27 — FY27 closes</td><td>831,767</td>
+      <td style="color:#E8A020;font-weight:600">4.7%</td>
+      <td style="color:#E05555;font-weight:700">6.7%</td>
+      <td style="color:#E8A020;font-weight:600">10.3%</td>
+    </tr>
+    <tr class="fy28"><td>Feb 27</td><td>747,624</td>
+      <td style="color:#E8A020;font-weight:600">5.0% ← plateau</td>
+      <td style="color:#E8A020;font-weight:600">4.4%</td>
+      <td style="color:#E8A020;font-weight:600">7.3%</td>
+    </tr>
+    <tr class="fy28"><td>Mar 27</td><td>774,853</td>
+      <td style="color:#E8A020;font-weight:600">5.0%</td>
+      <td style="color:#E8A020;font-weight:600">2.6%</td>
+      <td style="color:#E8A020;font-weight:600">4.8%</td>
+    </tr>
+    <tr class="fy28"><td>Apr 27</td><td>899,636</td>
+      <td style="color:#E8A020;font-weight:600">5.0%</td>
+      <td style="color:#E8A020;font-weight:600">1.3%</td>
+      <td style="color:#E8A020;font-weight:600">2.9%</td>
+    </tr>
+    <tr class="fy28"><td>May 27</td><td>852,248</td>
+      <td style="color:#E8A020;font-weight:600">5.0%</td>
+      <td style="color:#4CAF7D;font-weight:600">0.4%</td>
+      <td style="color:#E8A020;font-weight:600">1.4%</td>
+    </tr>
+    <tr class="fy28"><td>Jun 27</td><td>1,063,221</td>
+      <td style="color:#E8A020;font-weight:600">5.0%</td>
+      <td style="color:#4CAF7D;font-weight:700">0% ✓</td>
+      <td style="color:#4CAF7D;font-weight:600">0.5%</td>
+    </tr>
+  </tbody>
+</table>
+<p style="font-size:11px;margin-top:8px">S1 plateau of 5.0% runs Feb 27 through Sep 27 (8 months) as exits and graduations balance each other exactly. S1 full recovery: Feb 28. S2 full recovery: Jun 27. S3 full recovery: Jul 27.</p>
+
+<h3>Agreements at direct risk — by month</h3>
+<p style="font-size:11px;margin-bottom:10px">Agreements at risk = migration volume × % competency lost. Represents agreements handled during a month where the specialist team is operating below full competency.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Month</th>
+      <th>Migrations</th>
+      <th>S1 at risk</th>
+      <th>S2 at risk</th>
+      <th>S3 at risk</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Jul 26</td><td>859,998</td><td>—</td><td>19,715</td><td>64,500</td></tr>
+    <tr><td>Aug 26</td><td>202,614</td><td>—</td><td>8,358</td><td>28,872</td></tr>
+    <tr><td>Sep 26</td><td>673,301</td><td>—</td><td>37,032</td><td style="color:#E05555;font-weight:700">139,710</td></tr>
+    <tr><td>Oct 26</td><td>913,099</td><td>15,226</td><td>58,581</td><td style="color:#E05555;font-weight:700">171,206</td></tr>
+    <tr><td>Nov 26</td><td>849,728</td><td>25,492</td><td>58,419</td><td style="color:#E05555;font-weight:700">138,081</td></tr>
+    <tr><td>Dec 26</td><td>192,699</td><td>7,708</td><td>13,248</td><td>25,533</td></tr>
+    <tr class="highlight"><td>Jan 27 — FY27 closes</td><td>831,767</td><td>38,818</td><td>55,456</td><td>85,256</td></tr>
+    <tr class="fy28"><td>Feb 27</td><td>747,624</td><td>37,381</td><td>33,027</td><td>54,523</td></tr>
+    <tr class="fy28"><td>Mar 27</td><td>774,853</td><td>38,743</td><td>20,340</td><td>37,440</td></tr>
+    <tr class="fy28"><td>Apr 27</td><td>899,636</td><td>44,982</td><td>11,628</td><td>25,864</td></tr>
+    <tr class="fy28"><td>May 27</td><td>852,248</td><td>42,612</td><td>3,558</td><td>12,081</td></tr>
+    <tr class="fy28"><td>Jun 27</td><td>1,063,221</td><td>53,161</td><td style="color:#4CAF7D">0 ✓</td><td>4,864</td></tr>
+    <tr style="font-weight:700;border-top:2px solid rgba(222,28,128,0.3)">
+      <td>Total</td><td>8,860,788</td>
+      <td>304,122</td>
+      <td>319,362</td>
+      <td style="color:#E05555">787,930</td>
+    </tr>
+    <tr>
+      <td>% of pipeline</td><td></td>
+      <td>3.4%</td>
+      <td>3.6%</td>
+      <td style="color:#E05555;font-weight:700">8.9%</td>
+    </tr>
+  </tbody>
+</table>
+<p style="font-size:11px;margin-top:8px">S1 and S2 carry near-identical total exposure (304k vs 319k). S3 carries 788k — 2.6× higher — driven by the Sep–Nov 26 trough when empty seats and untrained hires coincide with high migration volume.</p>
+
+<hr class="rule">
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<h2>How to Update the Scenarios</h2>
+
+<div class="update-step">
+  <div class="step-num">1</div>
+  <div class="step-body">
+    <strong>If a rate changes (PARTNER_RATE, REPL_RATE, or FIXED_K)</strong>
+    Update the constants at the top of <code>partner-scenarios.html</code> (search for <code>const FIXED_K</code>). Recalculate all monthly totals using the formula above, then update the hardcoded table rows for whichever scenario is affected. Update this document to match.
+  </div>
+</div>
+
+<div class="update-step">
+  <div class="step-num">2</div>
+  <div class="step-body">
+    <strong>If the S1 exit pace or pipeline delay changes</strong>
+    Edit <code>HC.s1</code> in the JS. S1 constraint: no exits until month X+3 where X is the month hiring starts (currently Jul 26, so exits start Oct 26). If the hiring rate changes (currently 8/mo), update the HC array accordingly and recalculate table rows using the standard formula: internal = FIXED_K + (95−p) × REPL_RATE, partner = p × PARTNER_RATE. Update the FY27 cumulative column and Jan 27 total. Note: Jul–Sep rows stay flat at £6,090k/mo as long as no exits occur. Update the metric cards. Update this document.
+    <br><br>
+    <strong>If the S2 exit pace changes</strong>
+    Edit <code>HC.s2</code> in the JS. The chart will update automatically. Recalculate the table rows using the standard formula. Update the FY27 cumulative column and Jan 27 total. Update metric cards. Update this document.
+  </div>
+</div>
+
+<div class="update-step">
+  <div class="step-num">3</div>
+  <div class="step-body">
+    <strong>If the S3 exit pace or hire rate changes</strong>
+    Edit <code>HC.s3</code> (controls partner headcount for the chart). Also update the table manually — S3 internal costs use the delayed-hire formula (FIXED_K + hires_cumulative × REPL_RATE), not the standard (95−p) formula. The chart will show a slightly different Kraken bar than the table reflects; this is expected and noted in the mechanic text. Update both metric cards and the rationale text. Update this document.
+  </div>
+</div>
+
+<div class="update-step">
+  <div class="step-num">4</div>
+  <div class="step-body">
+    <strong>If the start headcount (95) or FY definition changes</strong>
+    Update <code>START</code>, <code>FY_SUNK_K</code>, and the sunk row value (currently £30.5M = 5 mo × £6,090k total). All cumulative FY27 projected figures need to be recalculated from scratch for all three scenarios. Update the budget context table above if total org budget also changes.
+  </div>
+</div>
+
+<div class="update-step">
+  <div class="step-num">5</div>
+  <div class="step-body">
+    <strong>Quick sanity check after any change</strong>
+    Jan 27 FY27 projected = sunk + sum(Jul–Jan monthly totals). If using delayed hires (S3), verify internal costs track the hire schedule, not the exit schedule. Net saving per exit must equal PARTNER_RATE − REPL_RATE; if either rate changes, update the formula note in the mechanic text.
+  </div>
+</div>
+
+<hr class="rule">
+<p style="font-size:11px;color:var(--purple);text-align:center">Last updated alongside partner-scenarios.html · Jun 2026</p>
+
+</body>
+</html>

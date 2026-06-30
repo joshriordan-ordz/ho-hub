@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>HOT Partner Transition — Forecast Scenarios</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg:     #1e0f2a;
+      --slide:  #29172E;
+      --surf:   rgba(111,63,112,0.22);
+      --bdr:    rgba(222,28,128,0.18);
+      --bdr-hi: rgba(222,28,128,0.38);
+      --text:   #F5ECE2;
+      --muted:  #CBA3C9;
+      --pale:   #D8B7D6;
+      --pink:   #DE1C80;
+      --purple: #92508F;
+      --red:    #FF7070;
+      --grn:    #34CD71;
+      --amb:    #F0B429;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      font-family: 'Montserrat', Arial, sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 22px 20px 40px; gap: 16px;
+    }
+
+    /* Navigation */
+    .nav { display: flex; align-items: center; gap: 12px; user-select: none; }
+    .nav button {
+      background: rgba(222,28,128,0.12); border: 1px solid var(--bdr-hi);
+      color: var(--text); font: 700 10px 'Montserrat', Arial, sans-serif;
+      text-transform: uppercase; letter-spacing: .08em;
+      padding: 8px 22px; border-radius: 5px; cursor: pointer; transition: background .15s;
+    }
+    .nav button:hover    { background: rgba(222,28,128,0.24); }
+    .nav button:disabled { opacity: .3; cursor: default; }
+    .nav-ctr  { font-size: 11px; font-weight: 600; color: var(--muted); min-width: 52px; text-align: center; }
+    .nav-hint { font-size: 10px; color: rgba(203,163,201,0.40); letter-spacing: .03em; }
+
+    /* Slide */
+    .slide {
+      display: none;
+      width: 1280px; height: 720px;
+      background: var(--slide); border-radius: 10px;
+      overflow: hidden; position: relative;
+      box-shadow: 0 24px 90px rgba(0,0,0,0.65);
+      flex-shrink: 0;
+    }
+    .slide.active { display: block; }
+    .slide::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--pink) 0%, var(--purple) 55%, transparent 100%);
+    }
+
+    /* Header */
+    .hd { padding: 34px 56px 0; }
+    .ey { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .14em; color: var(--pink); margin-bottom: 7px; }
+    .ttl { font-size: 27px; font-weight: 800; letter-spacing: -.014em; line-height: 1.12; color: var(--text); }
+    .sub { font-size: 11px; font-weight: 400; color: rgba(245,236,226,0.62); line-height: 1.65; margin-top: 8px; max-width: 1050px; }
+    .sub strong { color: var(--text); font-weight: 600; }
+    .sub em { color: var(--pink); font-style: normal; font-weight: 600; }
+
+    /* Body */
+    .bd { padding: 14px 56px 0; }
+
+    /* Stat grids */
+    .sg4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 14px; }
+    .sg3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 14px; }
+    .sg2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-bottom: 12px; }
+
+    .sc { background: var(--surf); border: 1px solid var(--bdr); border-radius: 7px; padding: 14px 15px 12px; }
+    .sc.hi { border-color: var(--bdr-hi); background: rgba(222,28,128,0.07); }
+    .sc.g  { border-color: rgba(52,205,113,0.28); background: rgba(52,205,113,0.05); }
+    .sc.a  { border-color: rgba(240,180,41,0.28);  background: rgba(240,180,41,0.05); }
+    .sc.r  { border-color: rgba(255,112,112,0.28); background: rgba(255,112,112,0.05); }
+
+    .sv { font-size: 23px; font-weight: 800; letter-spacing: -.015em; line-height: 1.1; color: var(--text); }
+    .sv.over  { color: var(--red); }  .sv.save { color: var(--grn); }
+    .sv.amb   { color: var(--amb); }  .sv.pink { color: var(--pink); }
+    .sv.muted { color: var(--muted); }
+
+    .sl { font-size: 7.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+    .stag { display: inline-block; font-size: 7px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: 2px 6px; border-radius: 3px; margin-top: 5px; }
+    .stag.over { background: rgba(255,112,112,0.10); color: var(--red);  border: 1px solid rgba(255,112,112,0.22); }
+    .stag.good { background: rgba(52,205,113,0.10);  color: var(--grn);  border: 1px solid rgba(52,205,113,0.22); }
+    .stag.amb  { background: rgba(240,180,41,0.10);  color: var(--amb);  border: 1px solid rgba(240,180,41,0.22); }
+    .stag.n    { background: rgba(203,163,201,0.10); color: var(--muted);border: 1px solid rgba(203,163,201,0.18); }
+    .stag.w    { background: rgba(222,28,128,0.10);  color: var(--pink); border: 1px solid rgba(222,28,128,0.22); }
+
+    /* Phase table */
+    .pt { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    .pt th { padding: 4px 8px; font-size: 7px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: var(--muted); text-align: left; border-bottom: 1px solid rgba(245,236,226,0.07); }
+    .pt td { padding: 5px 8px; font-size: 9.5px; border-bottom: 1px solid rgba(245,236,226,0.04); }
+    .pt td.v { font-weight: 700; color: var(--text); }
+    .pt td.p { font-weight: 700; color: var(--pink); }
+    .pt td.d { color: var(--muted); }
+
+    .rp { display: inline-block; font-size: 7px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; padding: 2px 7px; border-radius: 3px; }
+    .rp.lo { background: rgba(52,205,113,0.12);  color: var(--grn);  border: 1px solid rgba(52,205,113,0.25); }
+    .rp.md { background: rgba(240,180,41,0.12);  color: var(--amb);  border: 1px solid rgba(240,180,41,0.25); }
+    .rp.hi { background: rgba(255,112,112,0.12); color: var(--red);  border: 1px solid rgba(255,112,112,0.25); }
+    .rp.st { background: rgba(203,163,201,0.10); color: var(--muted);border: 1px solid rgba(203,163,201,0.18); }
+
+    /* Two-column grid */
+    .cols     { display: grid; gap: 20px; }
+    .cols.c46 { grid-template-columns: 460px 1fr; }
+    .cols.c50 { grid-template-columns: 500px 1fr; }
+
+    /* Chart box */
+    .cbox {
+      background: var(--surf); border: 1px solid var(--bdr); border-radius: 7px;
+      padding: 14px 16px 12px;
+    }
+    .clbl {
+      font-size: 7.5px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .09em; color: var(--muted); margin-bottom: 8px;
+    }
+
+    /* Footer */
+    .ft {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 34px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 56px; border-top: 1px solid rgba(245,236,226,0.04);
+    }
+    .ft-l { font-size: 7.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .09em; color: rgba(203,163,201,0.30); }
+    .ft-r { font-size: 7.5px; color: rgba(203,163,201,0.20); }
+
+    /* Slide 1 hero */
+    .hero { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 0 72px; }
+    .hero .ttl  { font-size: 46px; margin-bottom: 14px; }
+    .hero .sub  { font-size: 13px; margin-bottom: 32px; max-width: 680px; }
+    .hero-stats { display: flex; gap: 48px; }
+    .hs-v { font-size: 30px; font-weight: 800; letter-spacing: -.016em; }
+    .hs-l { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: .10em; color: var(--muted); margin-top: 6px; }
+
+    /* Decision table */
+    .dt { width: 100%; border-collapse: collapse; }
+    .dt th { padding: 5px 12px; font-size: 7.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); text-align: left; border-bottom: 1px solid rgba(245,236,226,0.10); }
+    .dt th:not(:first-child) { text-align: right; }
+    .dt td { padding: 7px 12px; font-size: 11px; border-bottom: 1px solid rgba(245,236,226,0.04); }
+    .dt td:not(:first-child) { text-align: right; font-weight: 600; }
+    .dt td.dim { font-size: 10px; color: rgba(245,236,226,0.48); font-weight: 400; }
+    .dt tr.tot td { font-weight: 700; font-size: 12px; border-top: 1px solid rgba(245,236,226,0.10); border-bottom: none; }
+
+    /* Note callout */
+    .note { margin-top: 12px; font-size: 9.5px; color: rgba(245,236,226,0.50); line-height: 1.65; border-radius: 5px; padding: 10px 12px; }
+    .note.a { background: rgba(240,180,41,0.06);  border: 1px solid rgba(240,180,41,0.14); }
+    .note.r { background: rgba(255,112,112,0.06); border: 1px solid rgba(255,112,112,0.14); }
+  </style>
+</head>
+<body>
+
+<div class="nav">
+  <button id="btn-prev" onclick="goSlide(-1)" disabled>← Back</button>
+  <span class="nav-ctr" id="ctr">1 / 7</span>
+  <button id="btn-next" onclick="goSlide(1)">Next →</button>
+  <span class="nav-hint">Arrow keys also work &nbsp;·&nbsp; 1280 × 720 (16:9)</span>
+</div>
+
+
+<!-- ═══════════ SLIDE 1 — Title ═══════════ -->
+<div class="slide active" id="s0">
+  <div class="hero">
+    <div class="ey">HOT · Partner Transition · June 2026</div>
+    <div class="ttl">95 Partners.<br>Three Paths Forward.</div>
+    <div class="sub">
+      Partners are the primary driver of FY27 overspend. Three scenarios share the same starting point —
+      they differ on pace, retained floor, and the permanent run-rate saving that results.
+    </div>
+    <div class="hero-stats">
+      <div><div class="hs-v" style="color:var(--pink);">95</div><div class="hs-l">Partners today</div></div>
+      <div><div class="hs-v" style="color:var(--muted);">£5.8M<span style="font-size:16px;font-weight:500;opacity:.6;">/mo</span></div><div class="hs-l">Current run rate</div></div>
+      <div><div class="hs-v" style="color:var(--red);">£69.2M</div><div class="hs-l">FY27 — no action</div></div>
+      <div><div class="hs-v" style="color:var(--pale);">£59.0M</div><div class="hs-l">FY27 budget</div></div>
+      <div><div class="hs-v" style="color:var(--amb);">£10.2M</div><div class="hs-l">Gap to close</div></div>
+    </div>
+  </div>
+  <div class="ft"><span class="ft-l">HOT Capability Redesign</span><span class="ft-r">Internal · Confidential</span></div>
+</div>
+
+
+<!-- ═══════════ SLIDE 2 — The Problem ═══════════ -->
+<div class="slide" id="s1">
+  <div class="hd">
+    <div class="ey">The Starting Point</div>
+    <div class="ttl">Partners drive every pound of FY27 overspend</div>
+    <div class="sub">
+      Fixed Kraken staff costs sit ~£1.4M <strong>below</strong> their FY27 allocation — the overspend is entirely in the partner line.
+      Each exit saves ~£27k/mo gross, replaced at ~£7k/mo. <em>The floor chosen in FY27 sets the permanent saving from FY28 on.</em>
+    </div>
+  </div>
+  <div class="bd">
+    <div class="sg4" style="margin-bottom:12px;">
+      <div class="sc r"><div class="sv over">£10.2M</div><div class="sl">FY27 projected overspend at today's run rate</div><div class="stag over">Action required</div></div>
+      <div class="sc"><div class="sv">£27k</div><div class="sl">Gross monthly saving per partner exit</div><div class="stag n">Per exit</div></div>
+      <div class="sc"><div class="sv">£19.9k</div><div class="sl">Net saving after replacement hire (£7.1k/mo)</div><div class="stag good">Net per exit</div></div>
+      <div class="sc g"><div class="sv save">−£12.5M</div><div class="sl">Max FY28 annual saving — Full Exit scenario</div><div class="stag good">Long-term ceiling</div></div>
+    </div>
+    <div class="cbox">
+      <div class="clbl">FY27 projected total spend by scenario (£M) vs £59M budget ceiling</div>
+      <div style="position:relative; height:252px;">
+        <canvas id="c-problem"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="ft"><span class="ft-l">HOT Capability Redesign · The Problem</span><span class="ft-r">Internal · Confidential</span></div>
+</div>
+
+
+<!-- ═══════════ SLIDE 3 — Three Trajectories ═══════════ -->
+<div class="slide" id="s2">
+  <div class="hd">
+    <div class="ey">The Three Options</div>
+    <div class="ttl">Same start. Different pace. Permanent floor.</div>
+    <div class="sub">
+      All three scenarios start with the same committed Jun–Aug exits. They diverge on <strong>how fast remaining partners leave</strong>
+      and <strong>how many are retained permanently</strong>. FY27 savings are within <em>£2.8M of each other</em> —
+      the compounding difference is the floor held from FY28 onwards.
+    </div>
+  </div>
+  <div class="bd">
+    <div class="cbox">
+      <div class="clbl">Partner headcount — Jun 2026 to Jan 2028 (20 months)</div>
+      <div style="position:relative; height:298px;">
+        <canvas id="c-hc"></canvas>
+      </div>
+    </div>
+    <div class="sg3" style="margin-top:14px; margin-bottom:0;">
+      <div class="sc" style="border-color:rgba(52,205,113,0.36);"><div class="sv save">Floor 20</div><div class="sl">Balanced · 75 exits · retain 20 specialists</div></div>
+      <div class="sc" style="border-color:rgba(240,180,41,0.36);"><div class="sv amb">Floor 10</div><div class="sl">Significant · 85 exits · retain 10 specialists</div></div>
+      <div class="sc" style="border-color:rgba(255,112,112,0.28);"><div class="sv over">Floor 0</div><div class="sl">Full Exit · 95 exits · fully Kraken from Dec 2026</div></div>
+    </div>
+  </div>
+  <div class="ft"><span class="ft-l">HOT Capability Redesign · Three Options</span><span class="ft-r">Internal · Confidential</span></div>
+</div>
+
+
+<!-- ═══════════ SLIDE 4 — Balanced ═══════════ -->
+<div class="slide" id="s3">
+  <div class="hd">
+    <div class="ey">Option 1 · Balanced &nbsp;<span style="color:var(--grn);">● Lower Risk</span></div>
+    <div class="ttl">75 exits across FY27 — graduated pace, retain 20</div>
+  </div>
+  <div class="bd">
+    <div class="cols c46">
+      <div>
+        <div class="sg2">
+          <div class="sc g"><div class="sv save">£63.6M</div><div class="sl">FY27 total spend</div><div class="stag over">+£4.6M vs budget</div></div>
+          <div class="sc g"><div class="sv save">−£5.6M</div><div class="sl">FY27 saving vs. no-action trajectory</div><div class="stag good">vs £69.2M</div></div>
+          <div class="sc"><div class="sv">£51.3M</div><div class="sl">FY28 annual run rate at floor 20</div><div class="stag good">−£7.7M vs budget</div></div>
+          <div class="sc"><div class="sv">£4.3M<span style="font-size:12px;opacity:.4;">/mo</span></div><div class="sl">Steady-state monthly cost</div><div class="stag n">vs £5.8M today</div></div>
+        </div>
+        <div style="font-size:7.5px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:6px;">Phase structure</div>
+        <table class="pt">
+          <thead><tr><th>Phase</th><th>Window</th><th>Exits</th><th>HC</th><th>Risk</th></tr></thead>
+          <tbody>
+            <tr><td class="v">Phase 1</td><td class="d">Jun – Aug 2026</td><td class="p">35</td><td class="v">95 → 60</td><td><span class="rp lo">Low</span></td></tr>
+            <tr><td class="v">Phase 2</td><td class="d">Sep 26 – Jan 27</td><td class="p">35</td><td class="v">60 → 25</td><td><span class="rp lo">Low</span></td></tr>
+            <tr><td class="v">Phase 3</td><td class="d">Feb 27 – Jan 28</td><td class="p">5</td><td class="v">25 → 20</td><td><span class="rp lo">Low</span></td></tr>
+            <tr><td class="v" style="color:var(--muted);">Floor held</td><td class="d">Feb 2028+</td><td class="d">—</td><td class="d">20 retained</td><td><span class="rp st">Stable</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="cbox">
+        <div class="clbl">Monthly FTE cost (£k/mo) — Balanced · Kraken fixed base + replacement hires vs. partners</div>
+        <div style="position:relative; height:322px;">
+          <canvas id="c-bal"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ft"><span class="ft-l">HOT Capability Redesign · Option 1 — Balanced</span><span class="ft-r">Internal · Confidential</span></div>
+</div>
+
+
+<!-- ═══════════ SLIDE 5 — Significant ═══════════ -->
+<div class="slide" id="s4">
+  <div class="hd">
+    <div class="ey">Option 2 · Significant &nbsp;<span style="color:var(--amb);">● Medium Risk</span></div>
+    <div class="ttl">85 exits by Feb 2027 — faster phase 2, retain 10</div>
+  </div>
+  <div class="bd">
+    <div class="cols c46">
+      <div>
+        <div class="sg2">
+          <div class="sc a"><div class="sv amb">£63.3M</div><div class="sl">FY27 total spend</div><div class="stag over">+£4.3M vs budget</div></div>
+          <div class="sc g"><div class="sv save">−£5.9M</div><div class="sl">FY27 saving vs. no-action trajectory</div><div class="stag good">vs £69.2M</div></div>
+          <div class="sc g"><div class="sv save">£48.9M</div><div class="sl">FY28 annual run rate at floor 10</div><div class="stag good">−£10.1M vs budget</div></div>
+          <div class="sc"><div class="sv">£4.1M<span style="font-size:12px;opacity:.4;">/mo</span></div><div class="sl">Steady-state monthly cost</div><div class="stag n">vs £5.8M today</div></div>
+        </div>
+        <div style="font-size:7.5px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:6px;">Phase structure</div>
+        <table class="pt">
+          <thead><tr><th>Phase</th><th>Window</th><th>Exits</th><th>HC</th><th>Risk</th></tr></thead>
+          <tbody>
+            <tr><td class="v">Phase 1</td><td class="d">Jun – Aug 2026</td><td class="p">35</td><td class="v">95 → 60</td><td><span class="rp lo">Low</span></td></tr>
+            <tr><td class="v">Phase 2</td><td class="d">Sep 26 – Feb 27</td><td class="p">50</td><td class="v">60 → 10</td><td><span class="rp md">Medium</span></td></tr>
+            <tr><td class="v" style="color:var(--muted);">Floor held</td><td class="d">Mar 2027+</td><td class="d">—</td><td class="d">10 retained</td><td><span class="rp st">Stable</span></td></tr>
+          </tbody>
+        </table>
+        <div class="note a"><strong style="color:var(--amb);">Phase 2 note:</strong> 50 exits in 6 months. Sequence by practice — no single practice loses more than ~8/month.</div>
+      </div>
+      <div class="cbox">
+        <div class="clbl">Monthly FTE cost (£k/mo) — Significant · Kraken fixed base + replacement hires vs. partners</div>
+        <div style="position:relative; height:322px;">
+          <canvas id="c-sig"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ft"><span class="ft-l">HOT Capability Redesign · Option 2 — Significant</span><span class="ft-r">Internal · Confidential</span></div>
+</div>
+
+
+<!-- ═══════════ SLIDE 6 — Full Exit ═══════════ -->
+<div class="slide" id="s5">
+  <div class="hd">
+    <div class="ey">Option 3 · Full Exit &nbsp;<span style="color:var(--red);">● Highest Risk</span></div>
+    <div class="ttl">All 95 partners off books by November 2026</div>
+  </div>
+  <div class="bd">
+    <div class="cols c46">
+      <div>
+        <div class="sg2">
+          <div class="sc hi"><div class="sv pink">£60.8M</div><div class="sl">FY27 total spend</div><div class="stag w">+£1.8M vs budget</div></div>
+          <div class="sc g"><div class="sv save">−£8.4M</div><div class="sl">FY27 saving vs. no-action trajectory</div><div class="stag good">vs £69.2M</div></div>
+          <div class="sc g"><div class="sv save">£46.5M</div><div class="sl">FY28 annual run rate — zero partners</div><div class="stag good">−£12.5M vs budget</div></div>
+          <div class="sc"><div class="sv">£3.9M<span style="font-size:12px;opacity:.4;">/mo</span></div><div class="sl">Steady-state — fully Kraken-staffed</div><div class="stag n">vs £5.8M today</div></div>
+        </div>
+        <div style="font-size:7.5px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:6px;">Phase structure</div>
+        <table class="pt">
+          <thead><tr><th>Phase</th><th>Window</th><th>Exits</th><th>HC</th><th>Risk</th></tr></thead>
+          <tbody>
+            <tr><td class="v">Phase 1</td><td class="d">Jun – Aug 2026</td><td class="p">45</td><td class="v">95 → 50</td><td><span class="rp md">Medium</span></td></tr>
+            <tr><td class="v">Phase 2</td><td class="d">Sep – Nov 2026</td><td class="p">50</td><td class="v">50 → 0</td><td><span class="rp hi">High</span></td></tr>
+            <tr><td class="v" style="color:var(--muted);">Fully Kraken</td><td class="d">Dec 2026+</td><td class="d">—</td><td class="d">0 partners</td><td><span class="rp st">Stable</span></td></tr>
+          </tbody>
+        </table>
+        <div class="note r"><strong style="color:var(--red);">Phase 2 note:</strong> 50 exits in 3 months while migrations are at peak load across all regions simultaneously.</div>
+      </div>
+      <div class="cbox">
+        <div class="clbl">Monthly FTE cost (£k/mo) — Full Exit · Kraken fixed base + replacement hires vs. partners</div>
+        <div style="position:relative; height:322px;">
+          <canvas id="c-fe"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ft"><span class="ft-l">HOT Capability Redesign · Option 3 — Full Exit</span><span class="ft-r">Internal · Confidential</span></div>
+</div>
+
+
+<!-- ═══════════ SLIDE 7 — The Decision ═══════════ -->
+<div class="slide" id="s6">
+  <div class="hd">
+    <div class="ey">The Decision</div>
+    <div class="ttl">The floor you choose is the saving you keep — permanently</div>
+  </div>
+  <div class="bd">
+    <div class="cols c50">
+      <div>
+        <table class="dt">
+          <thead>
+            <tr>
+              <th></th>
+              <th style="color:var(--grn);">Balanced</th>
+              <th style="color:var(--amb);">Significant</th>
+              <th style="color:var(--red);">Full Exit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="dim">FY27 total spend</td><td>£63.6M</td><td>£63.3M</td><td>£60.8M</td></tr>
+            <tr><td class="dim">vs. £59M budget</td><td>+£4.6M</td><td>+£4.3M</td><td style="color:var(--grn);">+£1.8M</td></tr>
+            <tr><td class="dim">vs. £69.2M trajectory</td><td style="color:var(--grn);">−£5.6M</td><td style="color:var(--grn);">−£5.9M</td><td style="color:var(--grn);">−£8.4M</td></tr>
+            <tr><td class="dim">FY28 annual run rate</td><td>£51.3M</td><td>£48.9M</td><td style="color:var(--grn);">£46.5M</td></tr>
+            <tr><td class="dim">FY28 saving vs. budget</td><td style="color:var(--grn);">−£7.7M</td><td style="color:var(--grn);">−£10.1M</td><td style="color:var(--grn);">−£12.5M</td></tr>
+            <tr><td class="dim">Retained floor</td><td>20 partners</td><td>10 partners</td><td>0 partners</td></tr>
+            <tr><td class="dim">Peak delivery risk</td><td><span class="rp lo">Low</span></td><td><span class="rp md">Medium</span></td><td><span class="rp hi">High</span></td></tr>
+            <tr class="tot"><td>FY27 + FY28 combined</td><td>£114.9M</td><td>£112.2M</td><td style="color:var(--grn);">£107.3M</td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:12px;font-size:9.5px;color:rgba(245,236,226,0.46);line-height:1.7;padding:0 2px;">
+          Balanced → Significant: additional <strong style="color:var(--text);">£2.4M/yr</strong> from FY28.
+          Full Exit vs. Balanced over two years: <strong style="color:var(--text);">£7.6M</strong>.
+        </div>
+      </div>
+      <div class="cbox">
+        <div class="clbl">FY27 cumulative spend (£M) — Jun 26 – Jan 27 · YTD entering Jun: ~£23.1M already spent · £59M envelope</div>
+        <div style="position:relative; height:352px;">
+          <canvas id="c-cum"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ft"><span class="ft-l">HOT Capability Redesign · The Decision</span><span class="ft-r">Internal · Confidential</span></div>
+</div>
+
+
+<script>
+/* ═══════════════════════════════════════════════
+   MODEL — exact copy from hc-forecast.html
+═══════════════════════════════════════════════ */
+const FC_MONTHS = [
+  'Jun 26','Jul 26','Aug 26','Sep 26','Oct 26',
+  'Nov 26','Dec 26','Jan 27','Feb 27','Mar 27',
+  'Apr 27','May 27','Jun 27',
+  'Jul 27','Aug 27','Sep 27','Oct 27','Nov 27','Dec 27','Jan 28'
+];
+
+const FL           = 1.188;
+const LEAD_K       = Math.round(44  * 140 / 12);
+const TECH_CDL_K   = Math.round(382 *  72 / 12);
+const OPS_CDL_K    = Math.round(54  *  87 / 12);
+const FIXED_K      = LEAD_K + TECH_CDL_K + OPS_CDL_K;
+
+const PARTNER_RATE  = parseFloat(((75 * 25.704 + 20 * 32.050) / 95).toFixed(3));
+const REPL_RATE_K   = parseFloat((72 / 12 * FL).toFixed(3));
+const PARTNER_START = 95;
+const PARTNER_FLOOR = { accelerated: 20, measured: 10, full_exit: 0 };
+const FC_PHASE_EXITS = { accelerated: [35, 35,  5], measured: [35, 50, 0], full_exit: [45, 50, 0] };
+const FC_PHASE_LEN   = { accelerated: [ 3,  5, 12], measured: [ 3,  6, 0], full_exit: [ 3,  3, 0] };
+
+function derivePartnerHC(scenKey) {
+  const exits = FC_PHASE_EXITS[scenKey];
+  const lens  = FC_PHASE_LEN[scenKey];
+  const floor = PARTNER_FLOOR[scenKey];
+  const hc    = [PARTNER_START];
+  let cur = PARTNER_START;
+  for (let ph = 0; ph < 3; ph++) {
+    const n = exits[ph], len = lens[ph];
+    if (len === 0 || n === 0) { cur = Math.max(floor, cur - n); continue; }
+    for (let m = 1; m <= len; m++) hc.push(Math.max(floor, Math.round(cur - n * m / len)));
+    cur = Math.max(floor, cur - n);
+  }
+  while (hc.length < FC_MONTHS.length) hc.push(floor);
+  return hc;
+}
+
+const PARTNER_HC = {
+  accelerated: derivePartnerHC('accelerated'),
+  measured:    derivePartnerHC('measured'),
+  full_exit:   derivePartnerHC('full_exit'),
+};
+
+const JAN27_IDX     = 7;
+const FY27_PRIOR_MO = 4;
+
+function monthlyTotal(optKey, idx) {
+  const exits = PARTNER_HC[optKey][0] - PARTNER_HC[optKey][idx];
+  return FIXED_K + PARTNER_HC[optKey][idx] * PARTNER_RATE + exits * REPL_RATE_K;
+}
+
+const BASELINE_K = monthlyTotal('accelerated', 0);
+const FY27_YTD_K = FY27_PRIOR_MO * BASELINE_K;
+
+function fy27CumSpend(optKey) {
+  let running = FY27_YTD_K;
+  return FC_MONTHS.slice(0, JAN27_IDX + 1).map((_, i) => {
+    running += monthlyTotal(optKey, i);
+    return parseFloat((running / 1000).toFixed(2));
+  });
+}
+
+function fy27Total(optKey) {
+  let t = FY27_YTD_K;
+  for (let i = 0; i <= JAN27_IDX; i++) t += monthlyTotal(optKey, i);
+  return parseFloat((t / 1000).toFixed(1));
+}
+
+/* Colour palette — exact match to hc-forecast.html */
+const GROUP_COLORS = {
+  kraken:   'rgba(222,28,128,0.55)',
+  partners: '#92508F',
+};
+const GROUP_LABELS = {
+  kraken:   'Kraken delivery — fixed base + replacement hires (growing as partners exit)',
+  partners: 'Partners — indicative total (falling to floor or zero)',
+};
+
+const OPTION_META = {
+  accelerated: { label: 'Conservative', badge: '#34CD71' },
+  measured:    { label: 'Balanced',     badge: '#F0B429' },
+  full_exit:   { label: 'Full Exit',    badge: '#FF7070' },
+};
+const SCEN_COLORS = { accelerated: '#34CD71', measured: '#F0B429', full_exit: '#FF7070' };
+
+/* ═══════════════════════════════════════════════
+   Chart.js defaults — match hc-forecast.html
+═══════════════════════════════════════════════ */
+Chart.defaults.color       = '#CBA3C9';
+Chart.defaults.font.family = "'Montserrat', sans-serif";
+Chart.defaults.font.size   = 11;
+Chart.defaults.borderColor = 'rgba(245,236,226,0.05)';
+
+const FONT = { family: "'Montserrat', sans-serif", size: 11 };
+const TIP  = { backgroundColor:'#2a1330', titleColor:'#F5ECE2', bodyColor:'#CBA3C9',
+               borderColor:'rgba(222,28,128,0.18)', borderWidth:1 };
+const GRID = 'rgba(245,236,226,0.05)';
+
+/* ═══════════════════════════════════════════════
+   CHART BUILDERS
+═══════════════════════════════════════════════ */
+
+function buildProblem() {
+  const noChange = parseFloat(((FY27_YTD_K + (JAN27_IDX + 1) * BASELINE_K) / 1000).toFixed(1));
+  return new Chart(document.getElementById('c-problem'), {
+    type: 'bar',
+    data: {
+      labels: ['No change', 'Balanced', 'Significant', 'Full Exit'],
+      datasets: [
+        {
+          type: 'bar',
+          label: 'FY27 projected spend (£M)',
+          data: [noChange, fy27Total('accelerated'), fy27Total('measured'), fy27Total('full_exit')],
+          backgroundColor: ['rgba(255,112,112,0.28)','rgba(52,205,113,0.28)','rgba(240,180,41,0.28)','rgba(255,112,112,0.18)'],
+          borderColor:     ['#FF7070','#34CD71','#F0B429','#FF7070'],
+          borderWidth: 1.5, borderRadius: 4, barPercentage: 0.55,
+        },
+        {
+          type: 'line',
+          label: '£59M budget ceiling',
+          data: [59, 59, 59, 59],
+          borderColor: 'rgba(203,163,201,0.7)', borderDash: [8,4],
+          borderWidth: 1.5, pointRadius: 0, fill: false, tension: 0,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position:'bottom', labels:{ color:'#CBA3C9', font: FONT, boxWidth:12, padding:14 } },
+        tooltip: { ...TIP, callbacks: { label: c => ' £' + c.raw + 'M' } }
+      },
+      scales: {
+        x: { grid:{ color: GRID }, ticks:{ color:'#CBA3C9', font: FONT } },
+        y: { min:54, max:74, grid:{ color: GRID },
+             ticks:{ color:'#CBA3C9', font: FONT, callback: v => '£'+v+'M' } }
+      }
+    }
+  });
+}
+
+function buildHC() {
+  return new Chart(document.getElementById('c-hc'), {
+    type: 'line',
+    data: {
+      labels: FC_MONTHS,
+      datasets: Object.keys(PARTNER_HC).map(key => ({
+        label: OPTION_META[key].label + ' (floor ' + PARTNER_FLOOR[key] + ')',
+        data: PARTNER_HC[key],
+        borderColor: SCEN_COLORS[key], backgroundColor: 'transparent',
+        borderWidth: 2.5, pointRadius: 3, pointBackgroundColor: SCEN_COLORS[key],
+        pointHoverRadius: 5, tension: 0.15,
+      }))
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position:'bottom', labels:{ color:'#CBA3C9', font: FONT, boxWidth:12, padding:16 } },
+        tooltip: { ...TIP, callbacks: { label: c => ' ' + c.dataset.label.split(' (')[0] + ': ' + c.raw + ' partners' } }
+      },
+      scales: {
+        x: { grid:{ color: GRID }, ticks:{ color:'#CBA3C9', font:{ ...FONT, size:9 }, maxRotation:0 } },
+        y: { min:0, max:100, grid:{ color: GRID },
+             ticks:{ color:'#CBA3C9', font: FONT, stepSize:20 },
+             title:{ display:true, text:'Partner headcount', color:'#CBA3C9', font: FONT } }
+      }
+    }
+  });
+}
+
+/* Stacked bar — same as buildChart() in hc-forecast.html */
+function buildScenBar(canvasId, optKey) {
+  const krakenArr = FC_MONTHS.map((_, i) => {
+    const exits = PARTNER_HC[optKey][0] - PARTNER_HC[optKey][i];
+    return parseFloat((FIXED_K + exits * REPL_RATE_K).toFixed(1));
+  });
+  const partnArr = FC_MONTHS.map((_, i) =>
+    parseFloat((PARTNER_HC[optKey][i] * PARTNER_RATE).toFixed(1))
+  );
+  return new Chart(document.getElementById(canvasId), {
+    data: {
+      labels: FC_MONTHS,
+      datasets: [
+        { type:'bar', label: GROUP_LABELS.kraken,   data: krakenArr, backgroundColor: GROUP_COLORS.kraken,   stack:'cost' },
+        { type:'bar', label: GROUP_LABELS.partners, data: partnArr,  backgroundColor: GROUP_COLORS.partners, stack:'cost' },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position:'bottom', labels:{ color:'#CBA3C9', font:{ ...FONT, size:9 }, boxWidth:12, padding:10 } },
+        tooltip: { ...TIP, callbacks: { label: ctx => ' ' + ctx.dataset.label.split(' —')[0] + ': £' + ctx.raw + 'k/mo' } }
+      },
+      scales: {
+        x: { stacked:true, grid:{ color: GRID }, ticks:{ color:'#CBA3C9', font:{ ...FONT, size:8 }, maxRotation:0 } },
+        y: { stacked:true, min:0, max:8000, grid:{ color: GRID },
+             title:{ display:true, text:'Monthly FTE cost', color:'#CBA3C9', font: FONT },
+             ticks:{ color:'#CBA3C9', font: FONT, callback: v => '£'+(v/1000).toFixed(1)+'M' } }
+      }
+    }
+  });
+}
+
+/* Cumulative FY27 line — same as buildCumChart() in hc-forecast.html */
+function buildCumulative() {
+  const fy27Labels = FC_MONTHS.slice(0, JAN27_IDX + 1);
+
+  let baselineRunning = FY27_YTD_K;
+  const fy27Baseline = fy27Labels.map(() => {
+    baselineRunning += BASELINE_K;
+    return parseFloat((baselineRunning / 1000).toFixed(2));
+  });
+
+  const envelopeData = fy27Labels.map(() => 59);
+
+  return new Chart(document.getElementById('c-cum'), {
+    type: 'line',
+    data: {
+      labels: fy27Labels,
+      datasets: [
+        {
+          label: 'Current spend run rate',
+          data: fy27Baseline,
+          borderColor: 'rgba(245,236,226,0.55)', backgroundColor: 'transparent',
+          borderWidth: 1.5, borderDash: [5,4],
+          pointRadius: 0, fill: false, tension: 0, order: 4,
+        },
+        {
+          label: 'Projected spend (Balanced)',
+          data: fy27CumSpend('accelerated'),
+          borderColor: '#34CD71', backgroundColor: 'rgba(52,205,113,0.08)',
+          borderWidth: 2.5, pointRadius: 4, pointBackgroundColor: '#34CD71',
+          fill: 'origin', tension: 0.2, order: 3,
+        },
+        {
+          label: 'Projected spend (Significant)',
+          data: fy27CumSpend('measured'),
+          borderColor: '#F0B429', backgroundColor: 'rgba(240,180,41,0.08)',
+          borderWidth: 2.5, pointRadius: 4, pointBackgroundColor: '#F0B429',
+          fill: 'origin', tension: 0.2, order: 2,
+        },
+        {
+          label: 'Projected spend (Full Exit)',
+          data: fy27CumSpend('full_exit'),
+          borderColor: '#FF7070', backgroundColor: 'rgba(255,112,112,0.08)',
+          borderWidth: 2.5, pointRadius: 4, pointBackgroundColor: '#FF7070',
+          fill: 'origin', tension: 0.2, order: 1,
+        },
+        {
+          label: '£59M envelope',
+          data: envelopeData,
+          borderColor: 'rgba(203,163,201,0.7)', backgroundColor: 'transparent',
+          borderWidth: 1.5, borderDash: [8,4],
+          pointRadius: 0, fill: false, tension: 0, order: 0,
+        },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position:'bottom', labels:{ color:'#CBA3C9', font:{ ...FONT, size:9 }, boxWidth:12, padding:12 } },
+        tooltip: { ...TIP, callbacks: { label: ctx => ' ' + ctx.dataset.label + ': £' + ctx.raw + 'M' } }
+      },
+      scales: {
+        x: { grid:{ color: GRID }, ticks:{ color:'#CBA3C9', font: FONT } },
+        y: { min:25, max:85, grid:{ color: GRID },
+             title:{ display:true, text:'Cumulative spend (£M)', color:'#CBA3C9', font: FONT },
+             ticks:{ color:'#CBA3C9', font: FONT, callback: v => '£'+v+'M' } }
+      }
+    }
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   Navigation + lazy chart init
+═══════════════════════════════════════════════ */
+const SLIDES = document.querySelectorAll('.slide');
+const TOTAL  = SLIDES.length;
+let cur = 0;
+
+const BUILDERS = {
+  1: buildProblem,
+  2: buildHC,
+  3: () => buildScenBar('c-bal', 'accelerated'),
+  4: () => buildScenBar('c-sig', 'measured'),
+  5: () => buildScenBar('c-fe',  'full_exit'),
+  6: buildCumulative,
+};
+const CACHE = {};
+
+function goSlide(dir) {
+  SLIDES[cur].classList.remove('active');
+  cur = Math.max(0, Math.min(TOTAL - 1, cur + dir));
+  SLIDES[cur].classList.add('active');
+
+  document.getElementById('ctr').textContent = (cur + 1) + ' / ' + TOTAL;
+  document.getElementById('btn-prev').disabled = cur === 0;
+  document.getElementById('btn-next').disabled = cur === TOTAL - 1;
+
+  if (BUILDERS[cur] && !CACHE[cur]) {
+    requestAnimationFrame(() => { CACHE[cur] = BUILDERS[cur](); });
+  } else if (CACHE[cur]) {
+    requestAnimationFrame(() => CACHE[cur].resize());
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); goSlide(1);  }
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   { e.preventDefault(); goSlide(-1); }
+});
+</script>
+</body>
+</html>
