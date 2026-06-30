@@ -804,6 +804,11 @@
   <div class="scenario-label">Reference</div>
   <div class="slide-title">Partners by Client</div>
   <div class="slide-desc">All partners in the register grouped by active client assignment. Partners on multiple clients appear in each group. Decision colour: <span style="color:#4CAF7D;font-weight:700">Keep</span> &nbsp;·&nbsp; <span style="color:#F0B429;font-weight:700">Backfill</span> &nbsp;·&nbsp; <span style="color:#FF7070;font-weight:700">Roll off</span> &nbsp;·&nbsp; <span style="color:#CBA3C9;font-weight:700">Client Pays</span> &nbsp;·&nbsp; <span style="color:#DE1C80;font-weight:700">Hire</span></div>
+  <div style="display:flex;align-items:center;gap:12px;margin:8px 0 12px">
+    <span style="font-size:10px;color:var(--muted)">Decision changes auto-save to this browser.</span>
+    <span id="dec-saved" style="font-size:10px;color:#4CAF7D;font-weight:700;opacity:0;transition:opacity .3s">Saved ✓</span>
+    <button onclick="resetDecisions()" style="margin-left:auto;background:none;border:1px solid var(--border);color:var(--muted);padding:4px 12px;border-radius:4px;font-size:10px;font-weight:600;font-family:inherit;cursor:pointer">Reset to defaults</button>
+  </div>
   <div id="client-heatmap" style="margin-bottom:4px"></div>
   <div id="by-client-content" style="margin-top:20px"></div>
 </div>
@@ -1127,6 +1132,46 @@
     return `<span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:2px 7px;border-radius:3px;display:inline-block;${s}">${dec || 'TBC'}</span>`;
   }
 
+  let SAVED_DECISIONS = {};
+  try { const _s = localStorage.getItem('hot-partner-dec'); if (_s) SAVED_DECISIONS = JSON.parse(_s); } catch(e) {}
+
+  function effectiveDec(p) {
+    return p.name in SAVED_DECISIONS ? SAVED_DECISIONS[p.name] : p.dec;
+  }
+
+  function setDec(name, val) {
+    SAVED_DECISIONS[name] = val || null;
+    localStorage.setItem('hot-partner-dec', JSON.stringify(SAVED_DECISIONS));
+    renderByClient(); renderClientHeatmap();
+    const el = document.getElementById('dec-saved');
+    if (el) { el.style.opacity = '1'; clearTimeout(el._t); el._t = setTimeout(() => el.style.opacity = '0', 2000); }
+  }
+
+  function resetDecisions() {
+    SAVED_DECISIONS = {};
+    localStorage.removeItem('hot-partner-dec');
+    renderByClient(); renderClientHeatmap();
+  }
+
+  function decSelect(p) {
+    const dec = effectiveDec(p);
+    const map = {
+      'Keep':           'background:rgba(76,175,125,0.2);color:#4CAF7D',
+      'Roll off':       'background:rgba(255,112,112,0.2);color:#FF7070',
+      "Don't renew":    'background:rgba(255,112,112,0.2);color:#FF7070',
+      'Backfill w/ FTE':'background:rgba(240,180,41,0.2);color:#F0B429',
+      'Client Pays':    'background:rgba(146,80,143,0.2);color:#CBA3C9',
+      'Hire':           'background:rgba(222,28,128,0.2);color:#DE1C80',
+      'Pending':        'background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.45)',
+    };
+    const s = (dec && map[dec]) || 'background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.25)';
+    const opts = ['Keep', 'Roll off', "Don't renew", 'Backfill w/ FTE', 'Client Pays', 'Hire', 'Pending', ''].map(o =>
+      `<option value="${o}"${(dec || '') === o ? ' selected' : ''}>${o || 'TBC'}</option>`
+    ).join('');
+    const safeName = p.name.replace(/"/g, '&quot;');
+    return `<select data-pname="${safeName}" onchange="setDec(this.dataset.pname,this.value)" style="${s};border:1px solid rgba(255,255,255,0.12);border-radius:3px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:2px 5px;cursor:pointer;font-family:inherit;outline:none;min-width:96px">${opts}</select>`;
+  }
+
   const SKIP_PROJECT = /^\s*(internal kraken|\[archived\])/i;
 
   function extractProjectClients(project) {
@@ -1153,7 +1198,7 @@
     PARTNERS.forEach(p => {
       (p.clients || []).forEach(c => {
         pTotal[c] = (pTotal[c] || 0) + 1;
-        if (EXIT_DEC.has(p.dec)) pExit[c] = (pExit[c] || 0) + 1;
+        if (EXIT_DEC.has(effectiveDec(p))) pExit[c] = (pExit[c] || 0) + 1;
       });
     });
 
@@ -1248,7 +1293,7 @@
           <tbody>${partners.map(p => `<tr>
             <td>${p.name}</td>
             <td style="color:var(--muted);font-size:11px">${p.role || '—'}</td>
-            <td>${decBadge(p.dec)}</td>
+            <td>${decSelect(p)}</td>
             <td style="font-size:11px;color:rgba(245,236,226,0.65);white-space:normal">${p.project || '—'}</td>
           </tr>`).join('')}</tbody>
         </table>
